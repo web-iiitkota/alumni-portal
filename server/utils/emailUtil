@@ -1,0 +1,45 @@
+// backend/utils/emailUtil.js
+const nodemailer = require('nodemailer');
+require('dotenv').config();
+
+// Create a transporter object using SMTP transport
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
+// Function to send email
+const sendEmail = (personalEmail, name, instituteId, password) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: `${personalEmail}`,
+    subject: 'Welcome to the Alumni Cell! Your Login Credentials Inside',
+    text: `Dear ${name},
+
+We are excited to welcome you to the IIIT Kota Alumni Cell. We are currently working on a dedicated Alumni Cell website that will help you stay connected with fellow alumni. Below are your login credentials, which you will use once the website is ready.
+
+Username: ${instituteId}
+Password: ${password}
+
+Once the website is live, you will be able to log in using these credentials to explore features, connect with alumni, and stay updated on events.
+
+If you have any questions, feel free to contact us at alumni@iiitkota.ac.in.
+
+Best regards,
+
+Chetna Sharma, PhD
+Associate Dean, Alumni and Industry Outreach
+Assistant Professor, ECE Department
+Indian Institute of Information Technology, Kota
+(An Institute of National Importance established by MoE, Govt of India)
+Email: chetna.ece@iiitkota.ac.in
+Contact No.: 9549650234`,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+
+module.exports = { sendEmail };

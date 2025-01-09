@@ -1,0 +1,34 @@
+[
+	{
+		"code": 1,
+		"heading": "Innovative Tech Symposium 2024",
+		"description": "Join us for an insightful symposium exploring the latest innovations in technology. Network with industry leaders and gain knowledge on emerging trends shaping the future.",
+		"eventImages": ["../assets/15.webp", "../assets/14.webp"],
+		"details": "<p>The 'Alumni Insights' event, organized by the Alumni Cell of IIIT Kota in collaboration with IIIT Kernel, took place on November 9th at the IIIT Kota Auditorium. The event focused on the theme 'Navigating the Placement Pathways' and provided students with crucial insights into preparing for their professional careers.</p><br /><p>The speaker, Vibhor Rawal, an alumnus of IIIT Kota and a Software Development Engineer at Google, shared his career journey and provided advice on building a diverse skill set, creating strong resumes, and practicing for interviews. He emphasized the importance of coding, problem-solving, teamwork, and system design.</p><br /><p>The event also featured a Q&A session where students had the opportunity to ask questions on topics like competitive programming, robotics, and internship opportunities. The session concluded with Dr. Chetna Sharma, Associate Dean of the Alumni Cell, honoring Vibhor Rawal with a memento. The event equipped students with the tools and knowledge needed to succeed in their future careers.</p><br />",
+		"date": "2024-01-15"
+	},
+	{
+		"code": 2,
+		"heading": "Annual Developer Summit",
+		"description": "Meet fellow developers and industry experts at the Annual Developer Summit, featuring hands-on coding sessions, tech talks, and opportunities for skill enhancement.",
+		"eventImages": ["../assets/14.webp", "../assets/15.webp"],
+		"details": "Details about the Annual Developer Summit.",
+		"date": "2024-02-20"
+	},
+	{
+		"code": 3,
+		"heading": "AI & Machine Learning Workshop",
+		"description": "An in-depth workshop focusing on practical applications of AI and Machine Learning. Learn from experts and collaborate on real-world projects in this dynamic session.",
+		"eventImages": ["../assets/15.webp", "../assets/16.webp"],
+		"details": "Details about the AI & Machine Learning Workshop.",
+		"date": "2024-03-10"
+	},
+	{
+		"code": 4,
+		"heading": "Digital Transformation Expo",
+		"description": "Discover the latest advancements in digital transformation at this expo. From automation to cybersecurity, explore the tools driving change in today's business landscape.",
+		"eventImages": ["../assets/16.webp", "../assets/2.webp"],
+		"details": "Details about the Digital Transformation Expo.",
+		"date": "2024-04-05"
+	}
+]

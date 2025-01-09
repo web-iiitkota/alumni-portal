@@ -1,0 +1,62 @@
+[
+  {
+    "name": "John Doe",
+    "description": "John Doe is a distinguished alumnus of our institution, having graduated with honors in Computer Science. He is currently working as a Senior Software Engineer at a leading tech company. John has contributed to several open-source projects and is passionate about mentoring young developers.",
+    "imageUrl": "https://via.placeholder.com/150",
+    "bd": "Bachelor of Technology in Computer Science, 2015"
+  },
+  {
+    "name": "Jane Smith",
+    "description": "Jane Smith is a renowned data scientist with a Master's degree in Data Analytics. She has published numerous research papers in top-tier journals and is currently leading a team of data scientists at a Fortune 500 company. Jane is also an advocate for women in STEM.",
+    "imageUrl": "https://via.placeholder.com/150",
+    "bd": "Master of Science in Data Analytics, 2017"
+  },
+  {
+    "name": "Michael Johnson",
+    "description": "Michael Johnson is a successful entrepreneur and the founder of a leading e-commerce platform. He graduated with a degree in Business Administration and has since built a multi-million-dollar company. Michael is also a philanthropist, supporting education initiatives in underprivileged communities.",
+    "imageUrl": "https://via.placeholder.com/150",
+    "bd": "Bachelor of Business Administration, 2012"
+  },
+  {
+    "name": "Emily Davis",
+    "description": "Emily Davis is a celebrated architect with a degree in Architecture and Urban Planning. She has designed several iconic buildings around the world and is known for her sustainable design practices. Emily is also a visiting faculty member at our institution.",
+    "imageUrl": "https://via.placeholder.com/150",
+    "bd": "Bachelor of Architecture, 2014"
+  },
+  {
+    "name": "David Brown",
+    "description": "David Brown is a leading mechanical engineer with a specialization in renewable energy systems. He has worked on several high-profile projects aimed at reducing carbon emissions. David is also a keynote speaker at international conferences on sustainability.",
+    "imageUrl": "https://via.placeholder.com/150",
+    "bd": "Bachelor of Technology in Mechanical Engineering, 2016"
+  },
+  {
+    "name": "Sarah Wilson",
+    "description": "Sarah Wilson is a prominent journalist and news anchor with a degree in Mass Communication. She has covered major global events and is known for her in-depth reporting. Sarah is also the author of a best-selling book on media ethics.",
+    "imageUrl": "https://via.placeholder.com/150",
+    "bd": "Bachelor of Arts in Mass Communication, 2013"
+  },
+  {
+    "name": "Robert Taylor",
+    "description": "Robert Taylor is a respected academic and professor of Economics. He has authored several textbooks and research papers on macroeconomics. Robert is also a consultant for international organizations on economic policy.",
+    "imageUrl": "https://via.placeholder.com/150",
+    "bd": "PhD in Economics, 2011"
+  },
+  {
+    "name": "Laura Martinez",
+    "description": "Laura Martinez is a talented graphic designer and creative director. She has worked with top brands to create impactful visual campaigns. Laura is also the founder of a design studio that supports emerging artists.",
+    "imageUrl": "https://via.placeholder.com/150",
+    "bd": "Bachelor of Fine Arts in Graphic Design, 2018"
+  },
+  {
+    "name": "James Anderson",
+    "description": "James Anderson is a cybersecurity expert with a degree in Information Technology. He has led security teams at major corporations and is a certified ethical hacker. James is also a trainer for cybersecurity professionals.",
+    "imageUrl": "https://via.placeholder.com/150",
+    "bd": "Bachelor of Technology in Information Technology, 2015"
+  },
+  {
+    "name": "Olivia Garcia",
+    "description": "Olivia Garcia is a renowned psychologist with a specialization in cognitive behavioral therapy. She has helped countless individuals overcome mental health challenges. Olivia is also a published author and public speaker.",
+    "imageUrl": "https://via.placeholder.com/150",
+    "bd": "PhD in Psychology, 2014"
+  }
+]
