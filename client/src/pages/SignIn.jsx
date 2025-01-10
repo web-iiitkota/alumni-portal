@@ -28,7 +28,7 @@ function SignIn() {
     try {
       const response = await axios.post(
         // "http://localhost:5000/api/auth/signin", // Update with your API endpoint
-        "https://alumportal-iiitkotaofficial.onrender.com/api/auth/signin", // Update with your API endpoint
+        "https://alumni-api.iiitkota.in/api/auth/signin", // Update with your API endpoint
         formData,
         {
           headers: {
