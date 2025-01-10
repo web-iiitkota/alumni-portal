@@ -40,25 +40,25 @@ const Footer = () => {
           <div className="w-full h-[27px] max-w-492:h-[150px] mt-12 text-sm flex max-w-492:flex-col gap-16 max-w-492:gap-2 border-b border-slate-700 pb-[3rem]">
             <button
               onClick={() => navigate("/about")}
-              className="text-[#38B6FF]"
+              className="text-[#38B6FF] text-left"
             >
               ABOUT <ArrowRightAltIcon />
             </button>
             <button
               onClick={() => navigate("/alumni/job-postings")}
-              className="text-[#38B6FF]"
+              className="text-[#38B6FF] text-left"
             >
               JOBS <ArrowRightAltIcon />
             </button>
             <button
               onClick={() => navigate("/news")}
-              className="text-[#38B6FF]"
+              className="text-[#38B6FF] text-left"
             >
               NEWS <ArrowRightAltIcon />
             </button>
             <button
               onClick={() => navigate("/events")}
-              className="text-[#38B6FF]"
+              className="text-[#38B6FF] text-left"
             >
               EVENTS <ArrowRightAltIcon />
             </button>
@@ -66,25 +66,25 @@ const Footer = () => {
           <div className="w-full h-[27px] max-w-492:h-[150px] mt-8 max-w-980:mb-8 text-sm flex max-w-492:flex-col gap-16 max-w-492:gap-2 border-b border-slate-700 pb-[3rem]">
             <button
               onClick={() => navigate("/gallery")}
-              className="text-[#38B6FF]"
+              className="text-[#38B6FF] text-left"
             >
               GALLERY <ArrowRightAltIcon />
             </button>
             <button
               onClick={() => navigate("/contact")}
-              className="text-[#38B6FF]"
+              className="text-[#38B6FF] text-left"
             >
               CONTACT US <ArrowRightAltIcon />
             </button>
             <button
               onClick={() => navigate("/directory")}
-              className="text-[#38B6FF]"
+              className="text-[#38B6FF] text-left"
             >
               DIRECTORY <ArrowRightAltIcon />
             </button>
             <button
               onClick={() => navigate("/sitemap")}
-              className="text-[#38B6FF]"
+              className="text-[#38B6FF] text-left"
             >
               SITEMAP <ArrowRightAltIcon />
             </button>
