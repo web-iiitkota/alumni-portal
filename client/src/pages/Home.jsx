@@ -31,7 +31,10 @@ const Home = () => {
 					const target = +counter.getAttribute("data-target");
 					const countElement = counter.querySelector(".count");
 
-					new CountUp(countElement, 0, target, 0, 2.5).start();
+					const countUp = new CountUp(countElement, 0, target, 0, 2.5, {
+						suffix: counter.getAttribute("data-suffix") || ""
+					});
+					countUp.start();
 					observer.unobserve(counter);
 				}
 			});
@@ -90,31 +93,32 @@ const Home = () => {
 			{/* Stats Section */}
 			<div className="w-full h-[10rem] lg:h-[15rem] bg-[#19194D] lg:p-4">
 				<div className="w-full h-full flex flex-row gap-2">
-					<div
+				<div
 						className="counter w-1/3 h-full flex flex-col gap-2 justify-center items-center text-white"
-						data-target="1500"
+						data-target="8"
 					>
 						<p className="count text-3xl lg:text-5xl font-bold">0</p>
-						<p className="text-center text-lg lg:text-xl text-[#38B6FF]">
-							Total Alumni
+						<p className="text-center text-sm lg:text-xl text-[#38B6FF]">
+							Events Conducted
 						</p>
 					</div>
 					<div
 						className="counter w-1/3 h-full flex flex-col gap-2 justify-center items-center text-white"
-						data-target="14"
+						data-target="30"
+						data-suffix="+"
 					>
 						<p className="count text-3xl lg:text-5xl font-bold">0</p>
-						<p className="text-center text-lg lg:text-xl text-[#38B6FF]">
-							Placements (in LPA)
-						</p>
-					</div>
-					<div
-						className="counter w-1/3 h-full flex flex-col gap-2 justify-center items-center text-white"
-						data-target="72000"
-					>
-						<p className="count text-3xl lg:text-5xl font-bold">0</p>
-						<p className="text-center text-lg lg:text-xl text-[#38B6FF]">
+						<p className="text-center text-sm lg:text-xl text-[#38B6FF]">
 							Alumni Registered
+						</p>
+					</div>
+					<div
+						className="counter w-1/3 h-full flex flex-col gap-2 justify-center items-center text-white"
+						data-target="8"
+					>
+						<p className="count text-3xl lg:text-5xl font-bold">0</p>
+						<p className="text-center text-sm lg:text-xl text-[#38B6FF]">
+							Batches Graduated
 						</p>
 					</div>
 				</div>
