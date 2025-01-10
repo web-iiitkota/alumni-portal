@@ -35,7 +35,7 @@ const carouselHome = () => {
     <div className="relative">
       <div
         ref={sliderRef}
-        className="keen-slider lg:h-[78vh] md:h-[65vh] sm:h-[55vh] h-[40vh] mt-[8.375rem] max-w-980:mt-[90px] max-w-492:mt-[58px]"
+        className="keen-slider lg:h-[78vh] md:h-[65vh] sm:h-[55vh] h-[30vh] mt-[8.375rem] max-w-980:mt-[90px] max-w-492:mt-[58px]"
       >
         <div className="keen-slider__slide flex justify-center items-center">
           <img src={C1} alt="" className=" object-fill w-full h-full" />
