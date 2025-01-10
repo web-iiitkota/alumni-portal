@@ -24,12 +24,16 @@ const Testimonials = () => {
       text: "It was my honour to visit my alma mater as a speaker. Spending four memorable years as a student was crucial. Visiting the new campus at Kota was a great experience. The alumni cell team did an amazing job with queries, travel arrangements, and hospitality. I loved talking with juniors and answering their questions.",
     },
     {
-      name: "Alice Brown",
-      text: "It was wonderful to see how much everyone has grown and achieved since our graduation!",
+      name: "Gaurav Luhariwala",
+      text: "Returning to the college was a delightful experience. Seeing the campus for the first time brought back fond memories. The alumni team members, Hiteshwar and Partik, along with faculty head - Chetna ma'am, were exceptionally gracious, ensuring our stay was comfortable and memorable. Their dedication made our visit as alumni truly special.",
     },
     {
-      name: "Michael Johnson",
-      text: "The event was well-organized, and I made valuable connections that will benefit my career.",
+      name: "Shreyansh",
+      text: "The arrangements for the ‘Startup 101’ talk were top-notch, providing insightful discussions on entrepreneurship fundamentals. Our travel arrangements were exceptionally smooth, allowing us to focus entirely on reconnecting with the college community. We are grateful for the meticulous planning and warm hospitality extended to us during our visit",
+    },
+    {
+      name: "Yashash Jain",
+      text: "It was my honour to visit my alma mater as a speaker. Spending four memorable years as a student was crucial. Visiting the new campus at Kota was a great experience. The alumni cell team did an amazing job with queries, travel arrangements, and hospitality. I loved talking with juniors and answering their questions.",
     },
   ];
 
