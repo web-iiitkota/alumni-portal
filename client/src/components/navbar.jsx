@@ -50,7 +50,7 @@ const Navbar = () => {
       const fetchUser = async () => {
         try {
           const response = await axios.get(
-            "https://alumportal-iiitkotaofficial.onrender.com/api/profile/me",
+            "https://alumni-api.iiitkota.in/api/profile/me",
             {
               headers: { Authorization: `Bearer ${token}` },
             }
