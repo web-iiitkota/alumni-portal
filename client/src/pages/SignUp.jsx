@@ -90,7 +90,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        "https://alumportal-iiitkotaofficial.onrender.com/api/auth/signup",
+        "https://alumni-api.iiitkota.in/api/auth/signup",
         formDataObj,
         {
           headers: {
