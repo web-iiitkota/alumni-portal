@@ -15,7 +15,7 @@ function ForgotPassword() {
     try {
       const response = await axios.post(
         // "http://localhost:5000/api/password/forgot-password",
-        "https://alumportal-iiitkotaofficial.onrender.com/api/password/forgot-password",
+        "https://alumni-api.iiitkota.in/api/password/forgot-password",
         { email },
         { headers: { "Content-Type": "application/json" } }
       );
