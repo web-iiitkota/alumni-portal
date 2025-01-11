@@ -218,7 +218,7 @@ const Profile = () => {
       <Navbar />
 
       {/* Edit Profile Modal */}
-      <Dialog open={isModalOpen} onClose={closeModal} fullScreen={window.innerWidth < 768}>
+      <Dialog open={isModalOpen} onClose={closeModal} fullWidth maxWidth="md">
         <DialogTitle>Edit Profile</DialogTitle>
         <DialogContent>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:w-2/3 mx-auto">
@@ -426,7 +426,7 @@ const Profile = () => {
       </Dialog>
 
       {/* Share Profile Modal */}
-      <Dialog open={isShareModalOpen} onClose={closeShareModal} fullScreen={window.innerWidth < 768}>
+      <Dialog open={isShareModalOpen} onClose={closeShareModal} fullWidth maxWidth="md">
         <DialogTitle>Share Profile</DialogTitle>
         <DialogContent>
           <TextField
@@ -462,7 +462,7 @@ const Profile = () => {
       </Dialog>
 
       {/* Delete Profile Modal */}
-      <Dialog open={isDeleteModalOpen} onClose={closeDeleteModal} fullScreen={window.innerWidth < 768}>
+      <Dialog open={isDeleteModalOpen} onClose={closeDeleteModal} fullWidth maxWidth="md">
         <DialogTitle>Delete Profile</DialogTitle>
         <DialogContent>
           <p>Are you sure you want to delete your profile? This action is irreversible.</p>
@@ -478,7 +478,7 @@ const Profile = () => {
       </Dialog>
 
       {/* Delete Profile Picture Modal */}
-      <Dialog open={isDeleteProfilePictureModalOpen} onClose={closeDeleteProfilePictureModal} fullScreen={window.innerWidth < 768}>
+      <Dialog open={isDeleteProfilePictureModalOpen} onClose={closeDeleteProfilePictureModal} fullWidth maxWidth="md">
         <DialogTitle>Delete Profile Picture</DialogTitle>
         <DialogContent>
           <p>Are you sure you want to delete your profile picture? This action cannot be undone.</p>
