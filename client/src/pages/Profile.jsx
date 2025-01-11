@@ -221,7 +221,7 @@ const Profile = () => {
       <Dialog open={isModalOpen} onClose={closeModal} fullScreen={window.innerWidth < 768}>
         <DialogTitle>Edit Profile</DialogTitle>
         <DialogContent>
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:w-2/3 mx-auto">
             <TextField
               margin="dense"
               label="Name"
