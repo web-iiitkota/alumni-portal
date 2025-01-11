@@ -117,7 +117,7 @@ const ContactUs = () => {
 							<h2 className="text-4xl font-bold mb-8">How can we help you?</h2>
 							<div className="flex items-center text-xl mb-3">
 								<PhoneIcon fontSize="large" />{" "}
-								<span className="ml-3">54615136421</span>
+								<span className="ml-3">9549650234</span>
 							</div>
 							<div className="flex items-center text-xl mb-3">
 								<EmailIcon fontSize="large" />{" "}
