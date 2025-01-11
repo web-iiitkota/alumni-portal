@@ -218,10 +218,10 @@ const Profile = () => {
       <Navbar />
 
       {/* Edit Profile Modal */}
-      <Dialog open={isModalOpen} onClose={closeModal}>
+      <Dialog open={isModalOpen} onClose={closeModal} fullScreen={window.innerWidth < 768}>
         <DialogTitle>Edit Profile</DialogTitle>
         <DialogContent>
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4">
             <TextField
               margin="dense"
               label="Name"
@@ -377,9 +377,8 @@ const Profile = () => {
               fullWidth
               multiline
               rows={4}
-              className="col-span-2"
             />
-            <div className="col-span-2">
+            <div>
               <label htmlFor="profilePictureUpload" className="block text-sm font-medium text-gray-700">
                 Upload Profile Picture
               </label>
@@ -393,7 +392,7 @@ const Profile = () => {
               />
             </div>
             {user.profilePicture && (
-              <div className="col-span-2">
+              <div>
                 <Button
                   onClick={openDeleteProfilePictureModal}
                   color="secondary"
@@ -404,7 +403,7 @@ const Profile = () => {
                 </Button>
               </div>
             )}
-            <div className="col-span-2">
+            <div>
               <Button
                 onClick={openDeleteModal}
                 color="secondary"
@@ -427,7 +426,7 @@ const Profile = () => {
       </Dialog>
 
       {/* Share Profile Modal */}
-      <Dialog open={isShareModalOpen} onClose={closeShareModal}>
+      <Dialog open={isShareModalOpen} onClose={closeShareModal} fullScreen={window.innerWidth < 768}>
         <DialogTitle>Share Profile</DialogTitle>
         <DialogContent>
           <TextField
@@ -463,7 +462,7 @@ const Profile = () => {
       </Dialog>
 
       {/* Delete Profile Modal */}
-      <Dialog open={isDeleteModalOpen} onClose={closeDeleteModal}>
+      <Dialog open={isDeleteModalOpen} onClose={closeDeleteModal} fullScreen={window.innerWidth < 768}>
         <DialogTitle>Delete Profile</DialogTitle>
         <DialogContent>
           <p>Are you sure you want to delete your profile? This action is irreversible.</p>
@@ -479,7 +478,7 @@ const Profile = () => {
       </Dialog>
 
       {/* Delete Profile Picture Modal */}
-      <Dialog open={isDeleteProfilePictureModalOpen} onClose={closeDeleteProfilePictureModal}>
+      <Dialog open={isDeleteProfilePictureModalOpen} onClose={closeDeleteProfilePictureModal} fullScreen={window.innerWidth < 768}>
         <DialogTitle>Delete Profile Picture</DialogTitle>
         <DialogContent>
           <p>Are you sure you want to delete your profile picture? This action cannot be undone.</p>
