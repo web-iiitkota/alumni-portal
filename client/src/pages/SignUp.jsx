@@ -90,7 +90,8 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        "https://alumni-api.iiitkota.in/api/auth/signup",
+        "https://alumportal-iiitkotaofficial.onrender.com/api/auth/signup",
+        // "http://localhost:5000/api/auth/signup",
         formDataObj,
         {
           headers: {
@@ -143,6 +144,10 @@ const SignUp = () => {
       }
       setLoading(false);
     }
+  };
+
+  const handleLogoClick = () => {
+    window.location.href = "https://alumni.iiitkota.ac.in";
   };
 
   const divs = [
@@ -422,7 +427,7 @@ const SignUp = () => {
       <Toaster position="top-right" />
       <div className="w-[95%] md:w-[85%] max-w-7xl bg-white rounded-2xl shadow-2xl flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 p-8 flex flex-col justify-center items-center bg-gradient-to-br from-[#0E407C] to-[#19194D] rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none">
-          <img src={Logo} className="w-1/2 mb-6" alt="IIIT Kota Logo" />
+          <img src={Logo} className="w-1/2 mb-6" alt="IIIT Kota Logo" onClick={handleLogoClick} style={{ cursor: "pointer" }} />
           <p className="text-white text-center">
             Already have an account?{" "}
             <Link to="/signin" className="text-blue-300 hover:underline">
