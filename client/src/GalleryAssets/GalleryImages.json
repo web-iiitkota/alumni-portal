@@ -1,121 +1,63 @@
 [
     {
-      "groupName": "Art and Design Society - 2022 Cohort",
-      "urls": [
-        "../assets/iiitkotalogo.png",
-        "../assets/16.webp",
-        "../assets/14.webp",
-        "../assets/15.webp"
-      ]
+        "groupName": "Research Trajectory",
+        "urls": [
+            "../assets/research_trajectory_1.jpg",
+            "../assets/research_trajectory_2.jpg",
+            "../assets/research_trajectory_3.jpg",
+            "../assets/research_trajectory_4.jpg"
+        ]
     },
     {
-      "groupName": "Engineering Club - Class of 2022",
-      "urls": [
-        "../assets/iiitkotalogo.png",
-        "../assets/16.webp",
-        "../assets/14.webp",
-        "../assets/15.webp",
-        "../assets/15.webp",
-        "../assets/15.webp"
-      ]
+        "groupName": "Placement Pathway: Guiding Students to Big Tech",
+        "urls": [
+            "../assets/placement_pathway_1.jpg",
+            "../assets/placement_pathway_2.jpg",
+            "../assets/placement_pathway_3.jpg"
+        ]
     },
     {
-      "groupName": "Environmental Science - Graduating Class of 2021",
-      "urls": [
-        "../assets/iiitkotalogo.png",
-        "../assets/16.webp",
-        "../assets/14.webp",
-        "../assets/15.webp",
-        "../assets/15.webp",
-        "../assets/15.webp"
-      ]
+        "groupName": "LinkedIn Linkup Challenge: Fostering Connections and Career Growth",
+        "urls": [
+            "../assets/linkedin_linkup_challenge_2.jpg",
+            "../assets/linkedin_linkup_challenge_1.jpg",
+            "../assets/linkedin_linkup_challenge_3.jpg",
+            "../assets/research_trajectory_4.jpg"
+        ]
     },
     {
-      "groupName": "Business Administration - Class of 2021",
-      "urls": [
-        "../assets/iiitkotalogo.png",
-        "../assets/16.webp",
-        "../assets/14.webp",
-        "../assets/15.webp",
-        "../assets/15.webp",
-        "../assets/15.webp"
-      ]
+        "groupName": "IIM Unveiled – Expert Talk",
+        "urls": [
+            "../assets/iim_unvieled_2.jpg",
+            "../assets/iim_unvieled_1.jpg",
+            "../assets/iim_unvieled_3.jpg"
+        ]
     },
     {
-      "groupName": "Computer Science Graduates - 2020",
-      "urls": [
-        "../assets/iiitkotalogo.png",
-        "../assets/16.webp",
-        "../assets/14.webp",
-        "../assets/15.webp",
-        "../assets/15.webp",
-        "../assets/15.webp"
-      ]
+        "groupName": "DISHA: An Insightful Speaker Session",
+        "urls": [
+            "../assets/disha_1.jpg",
+            "../assets/disha_2.jpg",
+            "../assets/disha_3.jpg",
+            "../assets/disha_4.jpg"
+        ]
     },
     {
-      "groupName": "Mathematics Alumni - Batch of 20200",
-      "urls": [
-        "../assets/iiitkotalogo.png",
-        "../assets/16.webp",
-        "../assets/14.webp",
-        "../assets/15.webp",
-        "../assets/15.webp",
-        "../assets/15.webp"
-      ]
+        "groupName": "Placement Insights",
+        "urls": [
+            "../assets/research_trajectory_1.jpg",
+            "../assets/research_trajectory_2.jpg",
+            "../assets/research_trajectory_3.jpg",
+            "../assets/research_trajectory_4.jpg"
+        ]
     },
     {
-      "groupName": "Mathematics Alumni - Batch of 20201",
-      "urls": [
-        "../assets/iiitkotalogo.png",
-        "../assets/16.webp",
-        "../assets/14.webp",
-        "../assets/15.webp",
-        "../assets/15.webp",
-        "../assets/15.webp"
-      ]
-    },
-    {
-      "groupName": "Mathematics Alumni - Batch of 20202",
-      "urls": [
-        "../assets/iiitkotalogo.png",
-        "../assets/16.webp",
-        "../assets/14.webp",
-        "../assets/15.webp",
-        "../assets/15.webp",
-        "../assets/15.webp"
-      ]
-    },
-    {
-      "groupName": "Mathematics Alumni - Batch of 20203",
-      "urls": [
-        "../assets/iiitkotalogo.png",
-        "../assets/16.webp",
-        "../assets/14.webp",
-        "../assets/15.webp",
-        "../assets/15.webp",
-        "../assets/15.webp"
-      ]
-    },
-    {
-      "groupName": "Mathematics Alumni - Batch of 20204",
-      "urls": [
-        "../assets/iiitkotalogo.png",
-        "../assets/16.webp",
-        "../assets/14.webp",
-        "../assets/15.webp",
-        "../assets/15.webp",
-        "../assets/15.webp"
-      ]
-    },
-    {
-      "groupName": "Mathematics Alumni - Batch of 20205",
-      "urls": [
-        "../assets/iiitkotalogo.png",
-        "../assets/16.webp",
-        "../assets/14.webp",
-        "../assets/15.webp",
-        "../assets/15.webp",
-        "../assets/15.webp"
-      ]
+        "groupName": "Startups 101: Exposure & Opportunities",
+        "urls": [
+            "../assets/research_trajectory_1.jpg",
+            "../assets/research_trajectory_2.jpg",
+            "../assets/research_trajectory_3.jpg",
+            "../assets/research_trajectory_4.jpg"
+        ]
     }
 ]
