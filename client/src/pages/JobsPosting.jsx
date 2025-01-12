@@ -58,7 +58,7 @@ const JobsPosting = () => {
 			const fetchUser = async () => {
 				try {
 					const response = await axios.get(
-						"https://alumni-api.iiitkota.in/api/profile/me",
+						"https://alumportal-iiitkotaofficial.onrender.com/api/profile/me",
 						{
 							headers: { Authorization: `Bearer ${token}` },
 						}
@@ -75,8 +75,14 @@ const JobsPosting = () => {
 	}, [token]);
 
 	useEffect(() => {
-		setFilteredJobs(isJobView ? jobsData.jobCards : jobsData.internCards);
-		setInitialJobs(isJobView ? jobsData.jobCards : jobsData.internCards);
+		const jobCards = isJobView ? jobsData.jobCards : jobsData.internCards;
+		if (jobCards.length === 1 && !jobCards[0].id) {
+			setFilteredJobs([]);
+			setInitialJobs([]);
+		} else {
+			setFilteredJobs(jobCards);
+			setInitialJobs(jobCards);
+		}
 	}, [isJobView]);
 
 	useEffect(() => {
