@@ -7,10 +7,18 @@ const NewsArticlesHome = () => {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [newsArticles, setNewsArticles] = useState([]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1024); // Check if mobile initially
 
   useEffect(() => {
     setEvents(eventData);
     setNewsArticles(newsData);
+
+    // Update isMobile state on window resize
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleEventClick = (link) => {
@@ -85,62 +93,55 @@ const NewsArticlesHome = () => {
         </div>
 
         {/* News Articles Container */}
-        <div className="w-full h-[calc(100%-4rem)] lg:overflow-y-auto">
-          <div className="flex flex-col">
-            {newsArticles.slice(0, 4).map((article, index) => (
-              <div
-                key={index}
-                className="w-full h-auto p-4 my-2 border border-gray-200 rounded-lg shadow-sm bg-white transform transition-transform duration-300 hover:shadow-md cursor-pointer animate-fade-in"
-              >
-                <div className="w-full flex flex-col justify-center">
-                  <h4 className="text-lg font-bold text-[#1A202C]">
-                    {article.title}
-                  </h4>
-                  <p className="text-sm text-gray-600">
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html:
-                          article.content.slice(
-                            0,
-                            Math.min(article.content.length, 120)
-                          ) + "...",
-                      }}
-                    />
-                  </p>
-                </div>
-              </div>
-            ))}
-            {/* Additional articles for larger screens */}
-            <div className="lg:block hidden">
-              {newsArticles.slice(4).map((article, index) => (
-                <div
-                  key={index + 4}
-                  className="w-full h-auto p-4 my-2 border border-gray-200 rounded-lg shadow-sm bg-white transform transition-transform duration-300 hover:shadow-md cursor-pointer animate-fade-in"
-                >
-                  <div className="w-full flex flex-col justify-center">
-                    <h4 className="text-lg font-bold text-[#1A202C]">
-                      {article.title}
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      <div
-                        dangerouslySetInnerHTML={{
-                          __html:
-                            article.content.slice(
-                              0,
-                              Math.min(article.content.length, 120)
-                            ) + "...",
-                        }}
-                      />
-                    </p>
+        <div className="w-full h-[calc(100%-4rem)] lg:overflow-hidden relative">
+          <div
+            className="news-scroll-container"
+            onMouseEnter={() => {
+              const container = document.querySelector(".news-scroll-container");
+              if (container) {
+                container.style.animationPlayState = "paused";
+              }
+            }}
+            onMouseLeave={() => {
+              const container = document.querySelector(".news-scroll-container");
+              if (container) {
+                container.style.animationPlayState = "running";
+              }
+            }}
+          >
+            <div className="flex flex-col">
+              {/* Render only top 4-5 articles on mobile */}
+              {(isMobile ? newsArticles.slice(0, 5) : [...newsArticles, ...newsArticles]).map(
+                (article, index) => (
+                  <div
+                    key={index}
+                    className="w-full h-auto p-4 my-2 border border-gray-200 rounded-lg shadow-sm bg-white transform transition-transform duration-300 hover:shadow-md cursor-pointer animate-fade-in"
+                  >
+                    <div className="w-full flex flex-col justify-center">
+                      <h4 className="text-lg font-bold text-[#1A202C]">
+                        {article.title}
+                      </h4>
+                      <p className="text-sm text-gray-600">
+                        <div
+                          dangerouslySetInnerHTML={{
+                            __html:
+                              article.content.slice(
+                                0,
+                                Math.min(article.content.length, 120)
+                              ) + "...",
+                          }}
+                        />
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              )}
             </div>
           </div>
         </div>
       </div>
 
-      {/* Inline CSS for the fade-in animation */}
+      {/* Inline CSS for the fade-in animation and scrolling */}
       <style>
         {`
           @keyframes fade-in {
@@ -149,6 +150,26 @@ const NewsArticlesHome = () => {
           }
           .animate-fade-in {
             animation: fade-in 0.5s ease-out;
+          }
+
+          @keyframes scroll-news {
+            0% {
+              transform: translateY(0);
+            }
+            100% {
+              transform: translateY(-50%); /* Scrolls only half the height for seamless looping */
+            }
+          }
+
+          /* Apply animation only on larger screens */
+          @media (min-width: 1024px) {
+            .news-scroll-container {
+              animation: scroll-news 20s linear infinite; /* Adjust duration for scroll speed */
+            }
+
+            .news-scroll-container:hover {
+              animation-play-state: paused;
+            }
           }
         `}
       </style>
