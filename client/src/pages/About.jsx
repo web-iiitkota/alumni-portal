@@ -6,6 +6,7 @@ import Hiteshwar from "../assets/hiteshwar_kk.jpeg";
 import Kratin from "../assets/kratin_agarwal_img.jpeg";
 import Chetna from "../assets/chetna_ma'am.jpeg";
 import Partik from "../assets/partik_malasi.jpeg";
+import Dean from "../../public/assets/dean.png";
 
 const profiles = [
   {
@@ -124,19 +125,28 @@ const About = () => {
               Our Team
             </h2>
 
-            {/* Associate Dean Subheading and Card */}
+            {/* Dean and Associate Dean Cards on the Same Level */}
             <div className="flex justify-center items-center flex-col">
               <h3 className="text-2xl md:text-3xl font-semibold text-gray-700 mt-6">
-                Associate Dean
+                Leadership
               </h3>
               <p className="text-lg md:text-xl font-semibold text-gray-700">
                 (Alumni and Industry Outreach)
               </p>
             </div>
-            <div className="mb-12 w-full flex justify-center items-center">
+            <div className="w-full flex justify-center items-center flex-wrap gap-8 mb-12">
+              {/* Dean's Card */}
+              <ProfileCard
+                name="Dr. Manish Vashistha"
+                occupation="Dean, Alumni Cell"
+                image={Dean} // Using the same image as Associate Dean for now
+                linkedin="https://www.linkedin.com/in/example-dean/" // Placeholder
+                email="dean@iiitkota.ac.in" // Placeholder
+              />
+              {/* Associate Dean's Card */}
               <ProfileCard
                 name="Dr. Chetna Sharma"
-                occupation="Assistant Professor, ECE"
+                occupation="Associate Dean, Alumni Cell"
                 image={Chetna}
                 linkedin="https://www.linkedin.com/in/chetna-sharma-phd-8ba8a337/"
                 email="chetna.ece@iiitkota.ac.in"
