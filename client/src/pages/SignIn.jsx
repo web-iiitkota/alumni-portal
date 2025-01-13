@@ -10,6 +10,7 @@ function SignIn() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
   const navigate = useNavigate(); // Hook for navigation
 
   const handleChange = (e) => {
@@ -28,7 +29,7 @@ function SignIn() {
     try {
       const response = await axios.post(
         // "http://localhost:5000/api/auth/signin", // Update with your API endpoint
-        "https://alumni-api.iiitkota.in/api/auth/signin", // Update with your API endpoint
+        "https://alumportal-iiitkotaofficial.onrender.com/api/auth/signin", // Update with your API endpoint
         formData,
         {
           headers: {
@@ -95,9 +96,9 @@ function SignIn() {
               className="w-full px-4 py-3 border border-[#0E407C] rounded-md focus:outline-none focus:ring-1 focus:ring-[#0E407C]"
             />
           </div>
-          <div className="mb-6 flex items-center">
+          <div className="mb-6 flex items-center relative">
             <input
-              type="password"
+              type={showPassword ? "text" : "password"} // Toggle input type based on state
               name="password"
               value={formData.password}
               onChange={handleChange}
@@ -105,6 +106,13 @@ function SignIn() {
               required
               className="w-full px-4 py-3 border border-[#0E407C] rounded-md focus:outline-none focus:ring-1 focus:ring-[#0E407C]"
             />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+            >
+              {showPassword ? "Hide" : "Show"}
+            </button>
           </div>
           <div className="text-right mb-4">
             <span 
