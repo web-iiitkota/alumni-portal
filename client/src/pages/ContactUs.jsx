@@ -141,7 +141,7 @@ const ContactUs = () => {
 									variant="outlined"
 								/>
 								<TextField
-									label="Batch"
+									label="Branch"
 									name="batch" 
 									fullWidth
 									variant="outlined"
