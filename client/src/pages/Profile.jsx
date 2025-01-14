@@ -50,6 +50,7 @@ const Profile = () => {
     linkedin: "",
     achievements: "",
     profilePicture: "",
+    role: "", // Added role field
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -127,6 +128,7 @@ const Profile = () => {
       formData.append('graduationYear', user.graduationYear);
       formData.append('linkedin', user.linkedin);
       formData.append('achievements', user.achievements);
+      formData.append('role', user.role); // Added role field
 
       if (selectedFile) {
         formData.append('profilePicture', selectedFile);
@@ -377,6 +379,21 @@ const Profile = () => {
               fullWidth
               multiline
               rows={4}
+            />
+            <TextField
+              margin="dense"
+              label="Role"
+              name="role"
+              value={user.role}
+              onChange={handleChange}
+              fullWidth
+              InputProps={{
+                style: {
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                },
+              }}
             />
             <div>
               <label htmlFor="profilePictureUpload" className="block text-sm font-medium text-gray-700">
