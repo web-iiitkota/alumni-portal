@@ -59,7 +59,7 @@ const NewsArticlesHome = () => {
           {eventData.slice(1, 4).map((event, index) => (
             <div
               key={index}
-              className="w-full h-32 border border-gray-200 rounded-lg shadow-sm overflow-hidden flex lg:flex-row-reverse flex-col items-center bg-white transform transition-transform duration-300 hover:shadow-md cursor-pointer"
+              className="w-full h-40 border border-gray-200 rounded-lg shadow-sm overflow-hidden flex lg:flex-row-reverse flex-col items-center bg-white transform transition-transform duration-300 hover:shadow-md cursor-pointer"
               onClick={() => handleEventCardClick(event)}
             >
               <img
