@@ -16,6 +16,8 @@ import EventIcon from "@mui/icons-material/Event";
 import SchoolIcon from "@mui/icons-material/School";
 import { useNavigate } from "react-router-dom";
 
+import Dean from "../../public/assets/dean.png";
+
 const Home = () => {
 	const scrollableDivRef = useRef(null); // Create a ref for the scrollable div
 	const [showButton, setShowButton] = useState(false); // State to track button visibility
@@ -32,7 +34,7 @@ const Home = () => {
 					const countElement = counter.querySelector(".count");
 
 					const countUp = new CountUp(countElement, 0, target, 0, 2.5, {
-						suffix: counter.getAttribute("data-suffix") || ""
+						suffix: counter.getAttribute("data-suffix") || "",
 					});
 					countUp.start();
 					observer.unobserve(counter);
@@ -93,7 +95,7 @@ const Home = () => {
 			{/* Stats Section */}
 			<div className="w-full h-[10rem] lg:h-[15rem] bg-[#19194D] lg:p-4">
 				<div className="w-full h-full flex flex-row gap-2">
-				<div
+					<div
 						className="counter w-1/3 h-full flex flex-col gap-2 justify-center items-center text-white"
 						data-target="8"
 					>
@@ -130,30 +132,32 @@ const Home = () => {
 					<div className="w-full md:w-1/2 flex flex-col justify-center items-center md:items-start space-y-6">
 						<div className="flex flex-col items-center md:items-start">
 							<img
-								src={iiitkotalogo}
+								src={Dean}
 								alt="Director"
 								className="w-32 h-32 rounded-full object-cover shadow-lg mb-4"
 							/>
 							<h2 className="text-3xl font-bold text-[#19194D] text-center md:text-left">
-								Director's Message
+								Dean's Message
 							</h2>
 						</div>
 						<p className="w-[90%] lg:w-[80%] text-base lg:text-lg text-[#4A5568] leading-relaxed mb-8 text-justify">
-							Welcome to our institute! Here, we strive to foster a culture of
-							innovation and excellence. Our goal is to empower students with
-							the skills and knowledge necessary to succeed in today’s
-							competitive world. We look forward to guiding you on this journey.
-							Welcome to our institute! Here, we strive to foster a culture of
-							innovation and excellence. Our goal is to empower students with
-							the skills and knowledge necessary to succeed in today’s
-							competitive world. We look forward to guiding you on this journey.
+							A Warm Greeting to All Alumni, Students, and Well-Wishers, It
+							brings me great joy to address the esteemed IIIT Kota community
+							through this platform dedicated to fostering enduring connections
+							and collaboration among our alumni, students, and faculty. As the
+							Dean of IIIT Kota, I have had the privilege of witnessing the
+							incredible strides our institute has made over the years, largely
+							fueled by the accomplishments and dedication of our alumni. Our
+							alumni have consistently demonstrated excellence, innovation, and
+							leadership in diverse domains...{" "}
+							<a href="/deans-message" className="text-[#19194D]/90 hover:underline">Read More</a>
 						</p>
 						<div className="text-center md:text-left">
 							<p className="text-lg font-semibold text-[#19194D]">
-								Prof. Narayan Prasad Padhy
+								Dr. Manish Vashistha
 							</p>
 							<p className="text-lg text-gray-700 font-medium">
-								Mentor Director, IIIT Kota
+								Dean, Alumni and Industry Outreach
 							</p>
 						</div>
 					</div>
