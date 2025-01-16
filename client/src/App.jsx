@@ -3,7 +3,8 @@ import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
-import SignUp from './pages/SignUp'
+import SignUp from './pages/SignUp';
+import DeansMessage from './pages/Deans_message';
 import Directory from './pages/Directory';
 import Profile from './pages/Profile';
 import ForgotPassword from './pages/ForgotPassword';
@@ -45,6 +46,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
+            <Route path="/deans-message" element={<DeansMessage />} />
             <Route path="/directory" element={<Directory />} />
             <Route path="/profile/:id" element={<Profile />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
