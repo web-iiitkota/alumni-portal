@@ -137,8 +137,8 @@ const About = () => {
             <div className="w-full flex justify-center items-center flex-wrap gap-8 mb-12">
               {/* Dean's Card */}
               <ProfileCard
-                name="Dr. Manish Vashishtha"
-                occupation="Dean, Alumni Cell"
+                name="Dr. Manish Vashistha"
+                occupation="Dean, Alumni and Industry Outreach"
                 image={Dean} // Using the same image as Associate Dean for now
                 linkedin="https://www.linkedin.com/in/example-dean/" // Placeholder
                 email="dean@iiitkota.ac.in" // Placeholder
@@ -146,7 +146,7 @@ const About = () => {
               {/* Associate Dean's Card */}
               <ProfileCard
                 name="Dr. Chetna Sharma"
-                occupation="Associate Dean, Alumni Cell"
+                occupation="Associate Dean, Alumni and Industry Outreach"
                 image={Chetna}
                 linkedin="https://www.linkedin.com/in/chetna-sharma-phd-8ba8a337/"
                 email="chetna.ece@iiitkota.ac.in"
