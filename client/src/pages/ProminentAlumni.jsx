@@ -112,7 +112,7 @@ const ProminentAlumni = () => {
             <img
               src={alumni.imageUrl}
               alt={alumni.name}
-              className="w-full h-48 object-cover rounded-lg mb-4"
+              className="w-full h-72 object-cover rounded-lg mb-4"
             />
             <Typography
               id={`modal-title-${index}`}
