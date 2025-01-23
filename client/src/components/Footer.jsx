@@ -114,11 +114,21 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-sm text-white/90">© 2025 Alumni Cell, IIIT Kota</div>
           <div className="flex space-x-6">
-            {/* <XIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" /> */}
-            {/* <FacebookIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" /> */}
-            <InstagramIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" />
-            <LinkedInIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" />
-            {/* <YoutubeIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" /> */}
+            {/* <a href="https://www.x.com" target="_blank" rel="noopener noreferrer" aria-label="X">
+              <XIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" />
+            </a> */}
+            {/* <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+              <FacebookIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" />
+            </a> */}
+            <a href="https://www.instagram.com/alumnicell.iiitkota?igsh=cXlwNGxhcnNvdGc3" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+              <InstagramIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" />
+            </a>
+            <a href="https://www.linkedin.com/in/alumnicell-iiitkota/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <LinkedInIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" />
+            </a>
+            {/* <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <YoutubeIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" />
+            </a> */}
           </div>
         </div>
       </div>
