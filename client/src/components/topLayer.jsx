@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import HomeIcon from "@mui/icons-material/Home";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import XIcon from "@mui/icons-material/X";
+// import FacebookIcon from "@mui/icons-material/Facebook";
+// import XIcon from "@mui/icons-material/X";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import PersonIcon from "@mui/icons-material/Person";
-import YoutubeIcon from "@mui/icons-material/YouTube";
-import LogoutIcon from "@mui/icons-material/Logout"; // Import LogoutIcon
+// import YoutubeIcon from "@mui/icons-material/YouTube";
+import LogoutIcon from "@mui/icons-material/Logout"; 
 import Headroom from "react-headroom";
 import Avatar from "../assets/avatar.png"
 import axios from "axios";
-import { Modal, Box, Button, Typography } from "@mui/material";
+import { Modal, Box } from "@mui/material";
 
 const TopLayer = () => {
 	const [user, setUser] = useState(null);
@@ -26,7 +26,7 @@ const TopLayer = () => {
 			const fetchUser = async () => {
 				try {
 					const response = await axios.get(
-						"https://alumni-api.iiitkota.in/api/profile/me",
+						"https://alumportal-iiitkotaofficial.onrender.com/api/profile/me",
 						// "http://localhost:5000/api/profile/me",
 						{
 							headers: { Authorization: `Bearer ${token}` },
@@ -57,30 +57,42 @@ const TopLayer = () => {
 		<Headroom>
 			<div className="relative w-full h-[1.5rem] bg-[#1A1C4E] flex px-16 max-w-980:hidden">
 				<div className="h-full w-1/2 flex gap-4 justify-start items-center">
-					<HomeIcon
-						className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
-						style={{ fontSize: "1.2rem" }}
-					/>
-					<FacebookIcon
-						className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
-						style={{ fontSize: "1.2rem" }}
-					/>
-					<XIcon
-						className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
-						style={{ fontSize: "1.2rem" }}
-					/>
-					<InstagramIcon
-						className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
-						style={{ fontSize: "1.2rem" }}
-					/>
-					<LinkedInIcon
-						className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
-						style={{ fontSize: "1.2rem" }}
-					/>
-					<YoutubeIcon
-						className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
-						style={{ fontSize: "1.2rem" }}
-					/>
+					<a href="/" aria-label="Home">
+						<HomeIcon
+							className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
+							style={{ fontSize: "1.2rem" }}
+						/>
+					</a>
+					{/* <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+						<FacebookIcon
+							className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
+							style={{ fontSize: "1.2rem" }}
+						/>
+					</a> */}
+					{/* <a href="https://www.x.com" target="_blank" rel="noopener noreferrer" aria-label="X">
+						<XIcon
+							className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
+							style={{ fontSize: "1.2rem" }}
+						/>
+					</a> */}
+					<a href="https://www.instagram.com/alumnicell.iiitkota?igsh=cXlwNGxhcnNvdGc3" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+						<InstagramIcon
+							className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
+							style={{ fontSize: "1.2rem" }}
+						/>
+					</a>
+					<a href="https://www.linkedin.com/in/alumnicell-iiitkota/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+						<LinkedInIcon
+							className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
+							style={{ fontSize: "1.2rem" }}
+						/>
+					</a>
+					{/* <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+						<YoutubeIcon
+							className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
+							style={{ fontSize: "1.2rem" }}
+						/>
+					</a> */}
 				</div>
 				<div className="h-full w-1/2 flex justify-end items-center gap-2">
 					{isLoggedIn && user ? (
