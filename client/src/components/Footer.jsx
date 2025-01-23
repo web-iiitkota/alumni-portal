@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import Logo from "../assets/iiitkotalogo.png";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import XIcon from "@mui/icons-material/X";
+// import FacebookIcon from "@mui/icons-material/Facebook";
+// import XIcon from "@mui/icons-material/X";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import YoutubeIcon from "@mui/icons-material/YouTube";
+// import YoutubeIcon from "@mui/icons-material/YouTube";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import EmailIcon from "@mui/icons-material/Email";
@@ -114,11 +114,11 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-sm text-white/90">© 2025 Alumni Cell, IIIT Kota</div>
           <div className="flex space-x-6">
-            <XIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" />
-            <FacebookIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" />
+            {/* <XIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" /> */}
+            {/* <FacebookIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" /> */}
             <InstagramIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" />
             <LinkedInIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" />
-            <YoutubeIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" />
+            {/* <YoutubeIcon className="text-white hover:text-[#38B6FF] transition-colors duration-300 cursor-pointer" /> */}
           </div>
         </div>
       </div>
