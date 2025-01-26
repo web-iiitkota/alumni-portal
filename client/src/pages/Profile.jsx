@@ -608,8 +608,8 @@ const Profile = () => {
             <div className="h-[2rem] w-full flex gap-2">
               <BusinessIcon />
               <p>
-                Currently a <span className="font-semibold">{user.role}</span>{" "}
-                at <span className="font-semibold">{user.currentCompany}</span>
+                <span className="font-semibold">{user.role}</span>{" "}
+                - <span className="font-semibold">{user.currentCompany}</span>
               </p>
             </div>
             <div className="h-[2rem] w-full gap-2 flex justify-start items-center">
