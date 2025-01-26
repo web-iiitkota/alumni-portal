@@ -14,7 +14,8 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
-import VisibilityIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
@@ -49,7 +50,38 @@ const SignUp = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // Update the form data
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+
+    // If the instituteId field is being updated
+    if (name === "instituteId") {
+      // Extract the year and branch from the instituteId
+      const year = value.substring(0, 4); // First 4 digits represent the year
+      const branchCode = value.substring(4, 8); // Next 4 characters represent the branch code (kucp or kuec)
+
+      // Determine the branch based on the branch code
+      let branch = "";
+      if (branchCode === "kucp") {
+        branch = "CSE";
+      } else if (branchCode === "kuec") {
+        branch = "ECE";
+      }
+
+      // Calculate the graduation year (4 years after the start year)
+      const graduationYear = parseInt(year) + 4;
+
+      // Update the branch and graduationYear fields
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        branch: branch,
+        graduationYear: graduationYear.toString(),
+      }));
+    }
   };
 
   const handleFileChange = (event) => {
@@ -59,8 +91,7 @@ const SignUp = () => {
   };
 
   const validateFormData = () => {
-    const emailRegex = /^\d{4}(ku(cp|ec))\d{4}@iiitkota\.ac\.in$/;
-    const instituteIdRegex = /^\d{4}(ku(cp|ec))\d{4}$/;
+    const instituteIdRegex = /^\d{4}(kucp|kuec)\d{4}$/;
 
     if (!instituteIdRegex.test(formData.instituteId)) {
       alert("Invalid institute ID format.");
@@ -90,8 +121,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        "https://alumportal-iiitkotaofficial.onrender.com/api/auth/signup",
-        // "http://localhost:5000/api/auth/signup",
+        "https://alumni.iiitkota.in/api/auth/signup",
         formDataObj,
         {
           headers: {
@@ -190,7 +220,8 @@ const SignUp = () => {
           value={formData.branch}
           onChange={handleChange}
           required
-          className="w-full md:w-4/5 px-4 py-3 border border-[#0E407C] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#0E407C]"
+          disabled
+          className="w-full md:w-4/5 px-4 py-3 border border-[#0E407C] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#0E407C] bg-gray-100 cursor-not-allowed"
         >
           <option value="" disabled>
             Select your Branch
@@ -207,7 +238,8 @@ const SignUp = () => {
           value={formData.graduationYear}
           onChange={handleChange}
           required
-          className="w-full md:w-4/5 px-4 py-3 border border-[#0E407C] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#0E407C]"
+          disabled
+          className="w-full md:w-4/5 px-4 py-3 border border-[#0E407C] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#0E407C] bg-gray-100 cursor-not-allowed"
         >
           <option value="" disabled>
             Select Graduation Year
@@ -427,7 +459,13 @@ const SignUp = () => {
       <Toaster position="top-right" />
       <div className="w-[95%] md:w-[85%] max-w-7xl bg-white rounded-2xl shadow-2xl flex flex-col md:flex-row">
         <div className="w-full md:w-1/2 p-8 flex flex-col justify-center items-center bg-gradient-to-br from-[#0E407C] to-[#19194D] rounded-t-2xl md:rounded-l-2xl md:rounded-tr-none">
-          <img src={Logo} className="w-1/2 mb-6" alt="IIIT Kota Logo" onClick={handleLogoClick} style={{ cursor: "pointer" }} />
+          <img
+            src={Logo}
+            className="w-1/2 mb-6"
+            alt="IIIT Kota Logo"
+            onClick={handleLogoClick}
+            style={{ cursor: "pointer" }}
+          />
           <p className="text-white text-center">
             Already have an account?{" "}
             <Link to="/signin" className="text-blue-300 hover:underline">
@@ -436,7 +474,10 @@ const SignUp = () => {
           </p>
         </div>
         <div className="w-full md:w-1/2 p-8">
-          <form className="w-full h-full flex flex-col justify-between" onSubmit={handleSubmit}>
+          <form
+            className="w-full h-full flex flex-col justify-between"
+            onSubmit={handleSubmit}
+          >
             {divs[currentDiv]}
             <div className="flex justify-between mt-8">
               {currentDiv > 0 && (
