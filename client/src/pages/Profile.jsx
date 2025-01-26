@@ -267,6 +267,7 @@ const Profile = () => {
               name="instituteId"
               value={user.instituteId}
               onChange={handleChange}
+              disabled
               fullWidth
             />
             <TextField
