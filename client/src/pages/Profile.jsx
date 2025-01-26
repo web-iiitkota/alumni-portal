@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode"; // Ensure jwtDecode is installed
+import { jwtDecode } from "jwt-decode";
 import SignInPrompt from "./SignInPrompt.jsx";
 import Navbar from "../components/navbar.jsx";
 import Footer from "../components/Footer.jsx";
@@ -15,8 +15,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Select,
-  MenuItem,
 } from "@mui/material";
 import {
   Settings as SettingsIcon,
@@ -50,7 +48,7 @@ const Profile = () => {
     linkedin: "",
     achievements: "",
     profilePicture: "",
-    role: "", // Added role field
+    role: "", 
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -110,7 +108,38 @@ const Profile = () => {
   const profileUrl = `${window.location.origin}/profile/${user._id}`;
 
   const handleChange = (e) => {
-    setUser({ ...user, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    // Update the form data
+    setUser((prevUser) => ({
+      ...prevUser,
+      [name]: value,
+    }));
+
+    // If the instituteId field is being updated
+    if (name === "instituteId") {
+      // Extract the year and branch from the instituteId
+      const startYear = value.substring(0, 4); // First 4 digits represent the start year
+      const branchCode = value.substring(4, 8); // Next 4 characters represent the branch code (kucp or kuec)
+
+      // Determine the branch based on the branch code
+      let branch = "";
+      if (branchCode === "kucp") {
+        branch = "CSE";
+      } else if (branchCode === "kuec") {
+        branch = "ECE";
+      }
+
+      // Calculate the graduation year (4 years after the start year)
+      const graduationYear = parseInt(startYear) + 4;
+
+      // Update the branch and graduationYear fields
+      setUser((prevUser) => ({
+        ...prevUser,
+        branch: branch,
+        graduationYear: graduationYear.toString(),
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -231,112 +260,27 @@ const Profile = () => {
               value={user.name}
               onChange={handleChange}
               fullWidth
-              InputProps={{
-                style: {
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                },
-              }}
             />
-            <Select
+            <TextField
+              margin="dense"
+              label="Institute ID"
+              name="instituteId"
+              value={user.instituteId}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
               margin="dense"
               label="Branch"
               name="branch"
               value={user.branch}
               onChange={handleChange}
               fullWidth
-            >
-              <MenuItem value="CSE">CSE</MenuItem>
-              <MenuItem value="ECE">ECE</MenuItem>
-            </Select>
-            <TextField
-              margin="dense"
-              label="City"
-              name="city"
-              value={user.city}
-              onChange={handleChange}
-              fullWidth
+              disabled
               InputProps={{
                 style: {
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                },
-              }}
-            />
-            <TextField
-              margin="dense"
-              label="State"
-              name="state"
-              value={user.state}
-              onChange={handleChange}
-              fullWidth
-              InputProps={{
-                style: {
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                },
-              }}
-            />
-            <TextField
-              margin="dense"
-              label="Country"
-              name="country"
-              value={user.country}
-              onChange={handleChange}
-              fullWidth
-              InputProps={{
-                style: {
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                },
-              }}
-            />
-            <TextField
-              margin="dense"
-              label="Past Companies"
-              name="pastCompanies"
-              value={user.pastCompanies}
-              onChange={handleChange}
-              fullWidth
-              InputProps={{
-                style: {
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                },
-              }}
-            />
-            <TextField
-              margin="dense"
-              label="Current Company"
-              name="currentCompany"
-              value={user.currentCompany}
-              onChange={handleChange}
-              fullWidth
-              InputProps={{
-                style: {
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                },
-              }}
-            />
-            <TextField
-              margin="dense"
-              label="Email ID"
-              name="personalEmail"
-              value={user.personalEmail}
-              onChange={handleChange}
-              fullWidth
-              InputProps={{
-                style: {
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
+                  backgroundColor: "#f5f5f5",
+                  cursor: "not-allowed",
                 },
               }}
             />
@@ -347,13 +291,61 @@ const Profile = () => {
               value={user.graduationYear}
               onChange={handleChange}
               fullWidth
+              disabled
               InputProps={{
                 style: {
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
+                  backgroundColor: "#f5f5f5",
+                  cursor: "not-allowed",
                 },
               }}
+            />
+            <TextField
+              margin="dense"
+              label="City"
+              name="city"
+              value={user.city}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              label="State"
+              name="state"
+              value={user.state}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              label="Country"
+              name="country"
+              value={user.country}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              label="Past Companies"
+              name="pastCompanies"
+              value={user.pastCompanies}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              label="Current Company"
+              name="currentCompany"
+              value={user.currentCompany}
+              onChange={handleChange}
+              fullWidth
+            />
+            <TextField
+              margin="dense"
+              label="Email ID"
+              name="personalEmail"
+              value={user.personalEmail}
+              onChange={handleChange}
+              fullWidth
             />
             <TextField
               margin="dense"
@@ -362,13 +354,6 @@ const Profile = () => {
               value={user.linkedin}
               onChange={handleChange}
               fullWidth
-              InputProps={{
-                style: {
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                },
-              }}
             />
             <TextField
               margin="dense"
@@ -387,13 +372,6 @@ const Profile = () => {
               value={user.role}
               onChange={handleChange}
               fullWidth
-              InputProps={{
-                style: {
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                },
-              }}
             />
             <div>
               <label htmlFor="profilePictureUpload" className="block text-sm font-medium text-gray-700">
@@ -426,7 +404,7 @@ const Profile = () => {
                 color="secondary"
                 style={{ backgroundColor: "#f44336", color: "#fff" }}
                 fullWidth
-              >
+                >
                 Delete Profile
               </Button>
             </div>
