@@ -44,6 +44,7 @@ const Profile = () => {
     pastCompanies: "",
     currentCompany: "",
     personalEmail: "",
+    phoneNumber: "",
     graduationYear: "",
     linkedin: "",
     achievements: "",
@@ -154,6 +155,7 @@ const Profile = () => {
       formData.append('pastCompanies', user.pastCompanies);
       formData.append('currentCompany', user.currentCompany);
       formData.append('personalEmail', user.personalEmail);
+      formData.append('phoneNumber', user.phoneNumber);
       formData.append('graduationYear', user.graduationYear);
       formData.append('linkedin', user.linkedin);
       formData.append('achievements', user.achievements);
@@ -345,6 +347,14 @@ const Profile = () => {
               label="Email ID"
               name="personalEmail"
               value={user.personalEmail}
+              onChange={handleChange}
+              fullWidth
+            />
+             <TextField
+              margin="dense"
+              label="Phone Number"
+              name="phoneNumber"
+              value={user.phoneNumber}
               onChange={handleChange}
               fullWidth
             />
