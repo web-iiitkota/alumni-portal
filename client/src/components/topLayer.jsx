@@ -56,10 +56,12 @@ const TopLayer = () => {
 		<Headroom>
 			<div className="relative w-full h-[1.5rem] bg-[#1A1C4E] flex px-16 max-w-980:hidden">
 				<div className="h-full w-1/2 flex gap-4 justify-start items-center">
-					<HomeIcon
-						className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
-						style={{ fontSize: "1.2rem" }}
-					/>
+					<a href="/" aria-label="Home">
+						<HomeIcon
+							className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
+							style={{ fontSize: "1.2rem" }}
+						/>
+					</a>
 				</div>
 				<div className="h-full w-1/2 flex justify-end items-center gap-2">
 					{isLoggedIn && user ? (
