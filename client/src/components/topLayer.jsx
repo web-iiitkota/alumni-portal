@@ -3,6 +3,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import LogoutIcon from "@mui/icons-material/Logout"; 
 import Headroom from "react-headroom";
 import Avatar from "../assets/avatar.png"
+import PersonIcon from "@mui/icons-material/Person";
 import axios from "axios";
 import { Modal, Box } from "@mui/material";
 
