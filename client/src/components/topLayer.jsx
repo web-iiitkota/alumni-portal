@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import HomeIcon from "@mui/icons-material/Home";
-import LogoutIcon from "@mui/icons-material/Logout"; 
+import FacebookIcon from "@mui/icons-material/Facebook";
+import XIcon from "@mui/icons-material/X";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import PersonIcon from "@mui/icons-material/Person";
+import YoutubeIcon from "@mui/icons-material/YouTube";
+import LogoutIcon from "@mui/icons-material/Logout";
 import Headroom from "react-headroom";
 import Avatar from "../assets/avatar.png"
-import PersonIcon from "@mui/icons-material/Person";
 import axios from "axios";
-import { Modal, Box } from "@mui/material";
+import { Modal, Box, Button, Typography } from "@mui/material";
 
 const TopLayer = () => {
 	const [user, setUser] = useState(null);
@@ -21,7 +26,7 @@ const TopLayer = () => {
 			const fetchUser = async () => {
 				try {
 					const response = await axios.get(
-						"https://alumportal-iiitkotaofficial.onrender.com/api/profile/me",
+						"https://alumni-api.iiitkota.in/api/profile/me",
 						{
 							headers: { Authorization: `Bearer ${token}` },
 						}
@@ -51,12 +56,10 @@ const TopLayer = () => {
 		<Headroom>
 			<div className="relative w-full h-[1.5rem] bg-[#1A1C4E] flex px-16 max-w-980:hidden">
 				<div className="h-full w-1/2 flex gap-4 justify-start items-center">
-					<a href="/" aria-label="Home">
-						<HomeIcon
-							className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
-							style={{ fontSize: "1.2rem" }}
-						/>
-					</a>
+					<HomeIcon
+						className="text-white text-xs hover:cursor-pointer hover:text-[#38B6FF] transition"
+						style={{ fontSize: "1.2rem" }}
+					/>
 				</div>
 				<div className="h-full w-1/2 flex justify-end items-center gap-2">
 					{isLoggedIn && user ? (
@@ -123,7 +126,7 @@ const TopLayer = () => {
 				<Box className="bg-white p-6 rounded shadow-lg w-80 mx-auto mt-24"
 					sx={{
 						position: 'absolute',
-						top: '35%', // Adjusted from 50% to 45%
+						top: '35%',
 						left: '50%',
 						transform: 'translate(-50%, -50%)',
 					}}
