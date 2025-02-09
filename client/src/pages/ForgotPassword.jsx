@@ -4,24 +4,32 @@ import { toast, Toaster } from "react-hot-toast";
 import axios from "axios";
 
 function ForgotPassword() {
-  const [email, setEmail] = useState("");
+  const [input, setInput] = useState(""); // Accepts either instituteId or email format
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  const extractInstituteId = (inputValue) => {
+    // If input is already in the format "instituteId@iiitkota.ac.in", extract only instituteId
+    return inputValue.includes("@iiitkota.ac.in")
+      ? inputValue.split("@")[0] // Extract "2022kucp1077" from "2022kucp1077@iiitkota.ac.in"
+      : inputValue; // Otherwise, return as is
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+    const instituteId = extractInstituteId(input); // Ensure we only send instituteId
+
     try {
-      const response = await axios.post(
-        // "http://localhost:5000/api/password/forgot-password",
+      await axios.post(
         "https://alumni-api.iiitkota.in/api/password/forgot-password",
-        { email },
+        { instituteId }, // Sending only the extracted instituteId
         { headers: { "Content-Type": "application/json" } }
       );
 
       setLoading(false);
-      toast.success("Password reset email sent successfully!");
+      toast.success("Password reset email sent successfully to your institute email!");
       setTimeout(() => {
         navigate('/signin');
       }, 3000); // Redirect to sign-in page after 3 seconds
@@ -43,30 +51,30 @@ function ForgotPassword() {
         <form className="flex flex-col" onSubmit={handleSubmit}>
           <div className="mb-4 flex items-center">
             <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your registered email"
+              type="text"
+              name="instituteId"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Enter your Institute ID (e.g., 2022kucp1077 or 2022kucp1077@iiitkota.ac.in)"
               required
               className="w-full px-4 py-3 border border-[#0E407C] rounded-md focus:outline-none focus:ring-1 focus:ring-[#0E407C]"
             />
           </div>
           <div className="w-full h-auto flex justify-center items-center">
-          <button
-            type="submit"
-            className="px-4 py-3 bg-[#0E407C] hover:bg-[#19194D] text-white rounded-md shadow-xl w-full flex items-center justify-center transition-colors"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <span className="inline-block w-4 h-4 border-2 border-t-2 border-gray-200 border-t-blue-500 rounded-full animate-spin mr-2" />{" "}
-                Sending...
-              </>
-            ) : (
-              "Send Reset Link"
-            )}
-          </button>
+            <button
+              type="submit"
+              className="px-4 py-3 bg-[#0E407C] hover:bg-[#19194D] text-white rounded-md shadow-xl w-full flex items-center justify-center transition-colors"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span className="inline-block w-4 h-4 border-2 border-t-2 border-gray-200 border-t-blue-500 rounded-full animate-spin mr-2" />{" "}
+                  Sending...
+                </>
+              ) : (
+                "Send Reset Link"
+              )}
+            </button>
           </div>
         </form>
       </div>
