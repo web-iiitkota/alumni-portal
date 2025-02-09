@@ -55,7 +55,7 @@ function ForgotPassword() {
               name="instituteId"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Enter your Institute ID (e.g., 2022kucp1077 or 2022kucp1077@iiitkota.ac.in)"
+              placeholder="Institute ID (e.g., 2020kucp1077 or 2020kucp1077@iiitkota.ac.in)"
               required
               className="w-full px-4 py-3 border border-[#0E407C] rounded-md focus:outline-none focus:ring-1 focus:ring-[#0E407C]"
             />
