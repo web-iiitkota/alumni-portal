@@ -37,7 +37,7 @@ function ResetPassword() {
   return (
     <div className="w-screen h-screen flex justify-center items-center bg-[#1A1C4E]">
       <div><Toaster position="top-right"/></div>
-      <div className="md:w-[85%] md:h-[85%] w-[95%] h-auto max-w-md bg-white rounded-2xl shadow-2xl p-8">
+      <div className="md:w-[85%] h-auto w-[95%] max-w-md bg-white rounded-2xl shadow-2xl p-8">
         <h2 className="text-3xl font-semibold text-center text-[#32325D] mb-6">
           Reset Password
         </h2>
