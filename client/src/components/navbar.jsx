@@ -68,7 +68,7 @@ const Navbar = () => {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    localStorage.removeItem("token");
+    localStorage.removeItem('token');
     setIsLoggedIn(false);
     setUser(null);
     toggleMobileMenu();
