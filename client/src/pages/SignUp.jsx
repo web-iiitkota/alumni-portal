@@ -298,7 +298,7 @@ const SignUp = () => {
             name="city"
             value={formData.city}
             onChange={handleChange}
-            placeholder="City / Town*"
+            placeholder="Current city / Town*"
             required
           />
           <input
