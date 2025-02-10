@@ -612,17 +612,14 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        {/* Conditionally render the Achievements section if achievement data exists */}
-        {user.achievements && user.achievements.trim() !== "" && (
-          <div className="md:w-1/3 md:h-full w-full h-1/3 rounded-xl shadow-2xl bg-white flex flex-col">
-            <div className="w-full h-[20%] border-b border-blue-950 p-2 flex items-center gap-4 text-blue-950 font-semibold text-2xl">
-              <EmojiEventsIcon /> Achievements
-            </div>
-            <div className="w-full h-[80%] p-4 flex flex-col gap-4 text-blue-950 overflow-scroll scrollbar-hide">
-              {user.achievements}
-            </div>
+        <div className="md:w-1/3 md:h-full w-full h-1/3 rounded-xl shadow-2xl bg-white flex flex-col">
+          <div className="w-full h-[20%] border-b border-blue-950 p-2 flex items-center gap-4 text-blue-950 font-semibold text-2xl">
+            <EmojiEventsIcon /> Achievements
           </div>
-        )}
+          <div className="w-full h-[80%] p-4 flex flex-col gap-4 text-blue-950 overflow-scroll scrollbar-hide">
+            {user.achievements && user.achievements.trim() !== "" ? user.achievements : "None yet"}
+          </div>
+        </div>
       </div>
       <Footer />
     </div>
