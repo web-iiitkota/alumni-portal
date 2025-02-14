@@ -98,6 +98,7 @@ const SignUp = () => {
       return false;
     }
 
+    // if the user is passing out in 2026 or later, give him an alert message saying he cannot
     if (parseInt(formData.graduationYear) >= 2026) {
       alert("Registration is not allowed for students graduating in 2026 or later.");
       return false;
