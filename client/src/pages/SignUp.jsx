@@ -98,8 +98,8 @@ const SignUp = () => {
       return false;
     }
 
-    if (parseInt(formData.graduationYear) >= 2025) {
-      alert("Registration is not allowed for students graduating in 2025 or later.");
+    if (parseInt(formData.graduationYear) >= 2026) {
+      alert("Registration is not allowed for students graduating in 2026 or later.");
       return false;
     }
 
