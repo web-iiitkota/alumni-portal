@@ -63,9 +63,27 @@ const Profile = () => {
 
   useEffect(() => {
     if (token) {
-      const decodedToken = jwtDecode(token);
+      let decodedToken;
+      try {
+        decodedToken = jwtDecode(token);
+      } catch (error) {
+        console.error("Invalid token:", error);
+        localStorage.removeItem("token");
+        navigate("/signin");
+        return;
+      }
+
+      // Ensure the token contains both the user's id and institute id
+      if (!decodedToken.id || !decodedToken.instituteId) {
+        console.error("Token missing required fields");
+        localStorage.removeItem("token");
+        navigate("/signin");
+        return;
+      }
+
       const userIdFromToken = decodedToken.id;
 
+      // If the route param id matches the token's id, redirect to /profile/me
       if (id === userIdFromToken) {
         navigate("/profile/me");
         return;
