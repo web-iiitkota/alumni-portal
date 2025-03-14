@@ -22,32 +22,39 @@ const Directory = () => {
 	const [loading, setLoading] = useState(true);
 	const [token, setToken] = useState(localStorage.getItem("token")); // Get JWT token
 
+	//pagination  variables
+	const [currentPage, setCurrentPage] = useState(1);
+	const [itemsPerPage] = useState(30); // You can make this configurable
+	const [totalPages, setTotalPages] = useState(1);
+	const [totalCount, setTotalCount] = useState(0);
+	const [appliedFilters, setAppliedFilters] = useState({});
+
 	useEffect(() => {
 		const fetchAlumni = async () => {
-			try {
-				const response = await axios.get(
-					"https://alumni-api.iiitkota.in/api/alumni"
-					// "http://localhost:5000/api/alumni"
-				);
-				// console.log("Fetched Alumni Data:", response.data); // Log data
-				setAlumni(response.data);
-				setFilteredAlumni(response.data); // Set initial filtered list
-
-				// Extract unique graduation years and sort them
-				const years = [
-					...new Set(response.data.map((alumnus) => alumnus.graduationYear)),
-				];
-				years.sort((a, b) => a - b); // Sort years in ascending order
-				setGraduationYears(years);
-			} catch (error) {
-				console.error("Error fetching alumni data:", error);
-			} finally {
-				setLoading(false);
-			}
+		  try {
+			const response = await axios.get(
+			  "https://alumni-api.iiitkota.in/api/alumni",
+			  {
+				params: {
+				  page: currentPage,
+				  limit: itemsPerPage,
+				  ...appliedFilters
+				}
+			  }
+			);
+			setAlumni(response.data.alumni);
+			setTotalCount(response.data.totalCount);
+			setTotalPages(response.data.totalPages);
+			setGraduationYears(response.data.graduationYears);
+		  } catch (error) {
+			console.error("Error fetching alumni data:", error);
+		  } finally {
+			setLoading(false);
+		  }
 		};
-
+	  
 		fetchAlumni();
-	}, [token]);
+	  }, [currentPage, itemsPerPage, appliedFilters, token]);
 
 	const handleFilterChange = (e) => {
 		setFilters({
@@ -57,53 +64,24 @@ const Directory = () => {
 	};
 
 	const handleSubmit = (e) => {
-		e.preventDefault(); // Prevent default form submission
-		const filtered = alumni.filter((alumnus) => {
-			return (
-				(filters.name
-					? alumnus.name.toLowerCase().includes(filters.name.toLowerCase())
-					: true) &&
-				(filters.instituteId
-					? alumnus.instituteId
-							.toLowerCase()
-							.includes(filters.instituteId.toLowerCase())
-					: true) &&
-				(filters.graduationYear
-					? alumnus.graduationYear === filters.graduationYear
-					: true) &&
-				(filters.company
-					? alumnus.currentCompany
-							.toLowerCase()
-							.includes(filters.company.toLowerCase())
-					: true) &&
-				(filters.role
-					? alumnus.role.toLowerCase().includes(filters.role.toLowerCase())
-					: true) &&
-				(filters.branch
-					? alumnus.branch.toLowerCase().includes(filters.branch.toLowerCase())
-					: true) &&
-				(filters.city
-					? alumnus.city.toLowerCase().includes(filters.city.toLowerCase())
-					: true)
-			);
-		});
-		setFilteredAlumni(filtered);
-		setShowFilterModal(false);
-		console.log("Filters applied:", filters);
-	};
-
-	const handleReset = () => {
+		e.preventDefault();
+		setAppliedFilters(filters);
+		setCurrentPage(1); // Reset to first page when filters change
+	  };
+	  
+	  const handleReset = () => {
 		setFilters({
-			name: "",
-			instituteId: "",
-			graduationYear: "",
-			company: "",
-			role: "",
-			branch: "",
-			city: "",
+		  name: "",
+		  instituteId: "",
+		  graduationYear: "",
+		  company: "",
+		  role: "",
+		  branch: "",
+		  city: "",
 		});
-		setFilteredAlumni(alumni); // Reset the filtered list to show all alumni
-	};
+		setAppliedFilters({});
+		setCurrentPage(1);
+	  };
 
 	const toggleFilterModal = () => {
 		setShowFilterModal(!showFilterModal); // Toggle filter modal visibility
@@ -204,13 +182,36 @@ const Directory = () => {
 						</form>
 					</div>
 					<div className="xl:w-[80%] w-full flex flex-col gap-2 h-full pb-1">
-						<div className="w-full h-auto bg-white p-4 shadow-md rounded-lg flex justify-between items-center">
+						<div className="w-full h-auto bg-white p-4 shadow-md rounded-lg flex items-center">
 							<p className="text-lg font-semibold text-gray-800">
-								Found {filteredAlumni.length} alumni
+								Found {totalCount} alumni
 							</p>
+							<div className="hidden xl:flex gap-2 ml-auto">
+								{!loading && totalCount > 0 && (
+									<>
+										<button
+											onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+											disabled={currentPage === 1}
+											className="px-3 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+										>
+											Previous
+										</button>
+										<span className="text-gray-700">
+											Page {currentPage} of {totalPages}
+										</span>
+										<button
+											onClick={() => setCurrentPage(prev => prev + 1)}
+											disabled={currentPage === totalPages}
+											className="px-3 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+										>
+											Next
+										</button>
+										</>
+								)}
+							</div>
 							<button
 								onClick={toggleFilterModal}
-								className="bg-blue-950 text-white font-semibold py-2 px-4 rounded-lg hover:bg-[#19194D] xl:hidden"
+								className="ml-auto bg-blue-950 text-white font-semibold py-2 px-4 rounded-lg hover:bg-[#19194D] xl:hidden"
 							>
 								Toggle Filters
 							</button>
@@ -314,25 +315,39 @@ const Directory = () => {
 							</div>
 						)}
 						<div className="w-full h-full overflow-y-scroll scrollbar-hide flex flex-wrap gap-4 justify-center">
-							{loading ? (
-								<div className="h-full w-full flex justify-center items-center bg-white rounded-tr-md rounded-tl-md">
-									<div className="flex flex-col items-center">
-										<div className="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500"></div>
-										<p className="text-gray-700 mt-4">Loading...</p>
-									</div>
-								</div>
-							) : filteredAlumni.length == 0 ? (
+							{alumni.length === 0 ? (
 								<div className="h-full w-full flex justify-center items-center bg-white rounded-tr-md rounded-tl-md">
 									<p>No alumni found</p>
 								</div>
-							) : (
+								) : (
 								<div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-min">
-									{filteredAlumni.map((alumnus) => (
-										<AlumniCard key={alumnus._id} alumniData={alumnus} />
+									{alumni.map((alumnus) => (
+									<AlumniCard key={alumnus._id} alumniData={alumnus} />
 									))}
 								</div>
 							)}
 						</div>
+						{!loading && totalCount > 0 && (
+							<div className="flex justify-center gap-4 mt-2 pb-2 xl:hidden">
+								<button
+								onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+								disabled={currentPage === 1}
+								className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+								>
+								Previous
+								</button>
+								<span className="px-4 py-2 text-gray-700">
+								Page {currentPage} of {totalPages}
+								</span>
+								<button
+								onClick={() => setCurrentPage(prev => prev + 1)}
+								disabled={currentPage === totalPages}
+								className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+								>
+								Next
+								</button>
+							</div>
+						)}
 					</div>
 				</div>
 			</div>
