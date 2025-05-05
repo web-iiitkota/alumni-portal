@@ -106,7 +106,7 @@ const Home = () => {
 					</div>
 					<div
 						className="counter w-1/3 h-full flex flex-col gap-2 justify-center items-center text-white"
-						data-target="60"
+						data-target="100"
 						data-suffix="+"
 					>
 						<p className="count text-3xl lg:text-5xl font-bold">0</p>
