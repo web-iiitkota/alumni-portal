@@ -4,6 +4,8 @@ import Navbar from "../components/navbar.jsx";
 import Footer from "../components/Footer";
 import AlumniCard from "../components/AlumniCard.jsx";
 import SignInPrompt from "./SignInPrompt"; // Import the SignInPrompt component
+import AlumniVisualizations from "../components/AlumniVisualizations";
+import AnalyticsIcon from '@mui/icons-material/Analytics';
 
 const Directory = () => {
 	const [alumni, setAlumni] = useState([]);
@@ -19,6 +21,7 @@ const Directory = () => {
 	const [filteredAlumni, setFilteredAlumni] = useState([]);
 	const [graduationYears, setGraduationYears] = useState([]);
 	const [showFilterModal, setShowFilterModal] = useState(false);
+	const [showVisualizationModal, setShowVisualizationModal] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [token, setToken] = useState(localStorage.getItem("token")); // Get JWT token
 
@@ -34,6 +37,7 @@ const Directory = () => {
 		  try {
 			const response = await axios.get(
 			  "https://alumni-api.iiitkota.in/api/alumni",
+			// "http://localhost:5000/api/alumni",
 			  {
 				params: {
 				  page: currentPage,
@@ -206,15 +210,24 @@ const Directory = () => {
 										>
 											Next
 										</button>
-										</>
+									</>
 								)}
 							</div>
-							<button
-								onClick={toggleFilterModal}
-								className="ml-auto bg-blue-950 text-white font-semibold py-2 px-4 rounded-lg hover:bg-[#19194D] xl:hidden"
-							>
-								Toggle Filters
-							</button>
+							<div className="flex gap-2 ml-auto">
+								<button
+									onClick={() => setShowVisualizationModal(true)}
+									className="flex items-center gap-2 bg-blue-950 text-white font-semibold py-2 px-4 rounded-lg hover:bg-[#19194D] transition-all duration-300"
+								>
+									<AnalyticsIcon />
+									<span className="hidden sm:inline">View Analytics</span>
+								</button>
+								<button
+									onClick={toggleFilterModal}
+									className="bg-blue-950 text-white font-semibold py-2 px-4 rounded-lg hover:bg-[#19194D] xl:hidden"
+								>
+									Toggle Filters
+								</button>
+							</div>
 						</div>
 
 						{showFilterModal && (
@@ -352,6 +365,13 @@ const Directory = () => {
 				</div>
 			</div>
 			{/* <Footer /> */}
+
+			{/* Visualization Modal */}
+			<AlumniVisualizations
+				isOpen={showVisualizationModal}
+				onClose={() => setShowVisualizationModal(false)}
+				alumniData={alumni}
+			/>
 		</div>
 	);
 };
