@@ -254,7 +254,7 @@ const SignUp = () => {
           <option value="" disabled>
             Select Graduation Year
           </option>
-          {Array.from({ length: 8 }, (_, i) => 2017 + i).map((year) => (
+          {Array.from({ length: 9 }, (_, i) => 2017 + i).map((year) => (
             <option key={year} value={year}>
               {year}
             </option>
