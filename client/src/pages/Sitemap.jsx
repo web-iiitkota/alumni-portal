@@ -8,7 +8,6 @@ const Sitemap = () => {
     { path: "/signin", name: "Sign In" },
     { path: "/signup", name: "Sign Up" },
     { path: "/directory", name: "Directory" },
-    { path: "/profile/:id", name: "Profile" },
     { path: "/about", name: "About" },
     { path: "/alumni/gallery", name: "Gallery" },
     { path: "/alumni/prominent-alumni", name: "Prominent Alumni" },
@@ -16,9 +15,6 @@ const Sitemap = () => {
     { path: "/alumni/contact", name: "Contact Us" },
     { path: "/events", name: "Events" },
     { path: "/news", name: "News" },
-    { path: "/news/:newsId", name: "News Details" },
-    { path: "/alumni/job-postings/:id", name: "Job Details" },
-    { path: "/events/:title", name: "Event Details" },
     { path: "*", name: "Not Found" },
   ];
 
