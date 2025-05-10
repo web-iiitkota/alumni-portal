@@ -11,7 +11,19 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-// Function to send email
+// Function to send verification email
+const sendVerificationEmail = (to, subject, html) => {
+  const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to,
+    subject,
+    html,
+  };
+
+  return transporter.sendMail(mailOptions);
+};
+
+// Function to send welcome email
 const sendEmail = (personalEmail, name, instituteId, password) => {
   const mailOptions = {
     from: process.env.EMAIL_USER,
@@ -42,4 +54,4 @@ Contact No.: 9549650234`,
   return transporter.sendMail(mailOptions);
 };
 
-module.exports = { sendEmail };
+module.exports = { sendEmail, sendVerificationEmail };
