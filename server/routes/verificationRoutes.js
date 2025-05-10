@@ -3,12 +3,12 @@ const router = express.Router();
 const crypto = require('crypto');
 const VerificationCode = require('../models/VerificationCode');
 const User = require('../models/User');
-const { sendEmail } = require('../utils/emailUtil');
+const { sendVerificationEmail } = require('../utils/emailUtil');
 
 // Request verification code
 router.post('/request-code', async (req, res) => {
   try {
-    const { instituteId, personalEmail } = req.body;
+    const { instituteId } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ instituteId });
@@ -32,6 +32,9 @@ router.post('/request-code', async (req, res) => {
       { upsert: true, new: true }
     );
 
+    // Construct institute email address
+    const instituteEmail = `${instituteId}@iiitkota.ac.in`;
+
     // Send verification email
     const emailSubject = isExistingUser 
       ? 'Verify Your IIIT Kota Alumni Account Update'
@@ -45,7 +48,7 @@ router.post('/request-code', async (req, res) => {
       ${isExistingUser ? '<p>This verification is for updating your existing account.</p>' : ''}
     `;
 
-    await sendEmail(personalEmail, emailSubject, emailText);
+    await sendVerificationEmail(instituteEmail, emailSubject, emailText);
 
     res.status(200).json({ 
       message: 'Verification code sent successfully',

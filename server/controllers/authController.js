@@ -27,15 +27,20 @@ exports.signUp = async (req, res) => {
   } = req.body;
 
   try {
+    console.log('Checking verification for instituteId:', instituteId);
+    
     // Check if email is verified
     const verification = await VerificationCode.findOne({ 
       instituteId,
       isVerified: true
     });
 
+    console.log('Verification result:', verification);
+
     if (!verification) {
       return res.status(400).json({ 
-        message: "Please verify your email before registration" 
+        message: "Please verify your email before registration",
+        details: "No verified verification code found for this institute ID"
       });
     }
 
@@ -104,8 +109,15 @@ exports.signUp = async (req, res) => {
     // Delete the verification code after successful registration
     await VerificationCode.findOneAndDelete({ instituteId });
 
-    // Send welcome email
-    await sendEmail(instituteId, name, password);
+    // Send welcome email to institute email
+    try {
+      const instituteEmail = `${instituteId}@iiitkota.ac.in`;
+      await sendEmail(instituteEmail, name, instituteId, password);
+      console.log('Welcome email sent successfully to:', instituteEmail);
+    } catch (emailError) {
+      console.error('Error sending welcome email:', emailError);
+      // Don't fail the registration if email fails
+    }
 
     res.status(201).json({ message: "User registered successfully and email sent to institute email" });
 

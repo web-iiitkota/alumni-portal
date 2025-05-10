@@ -139,18 +139,24 @@ const SignUp = () => {
 
     try {
       const endpoint = isExistingUser 
-        ? "https://alumni-api.iiitkota.in/api/auth/update-profile"
+        ? "https://alumni-api.iiitkota.in/api/profile/me"
         : "https://alumni-api.iiitkota.in/api/auth/signup";
 
-      const response = await axios.post(
-        endpoint,
-        formDataObj,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      console.log('Submitting form with data:', {
+        isExistingUser,
+        isEmailVerified,
+        instituteId: formData.instituteId
+      });
+
+      const response = await axios({
+        method: isExistingUser ? 'put' : 'post',
+        url: endpoint,
+        data: formDataObj,
+        headers: {
+          "Content-Type": "multipart/form-data",
+          ...(isExistingUser && { Authorization: `Bearer ${localStorage.getItem('token')}` })
+        },
+      });
 
       setFormData({
         name: "",
@@ -183,20 +189,17 @@ const SignUp = () => {
         navigate("/signin");
       }, 3000);
     } catch (error) {
-      console.error("There was an error:", error);
-
-      if (
-        error.response &&
-        error.response.status === 400 &&
-        error.response.data.message
-      ) {
-        toast.error(error.response.data.message);
-      } else {
-        toast.error(
-          "There was an error. Please try again later."
-        );
-      }
+      console.error("Registration error:", error.response?.data || error);
       setLoading(false);
+
+      if (error.response?.data?.message) {
+        toast.error(error.response.data.message);
+        if (error.response.data.details) {
+          console.log('Error details:', error.response.data.details);
+        }
+      } else {
+        toast.error("There was an error. Please try again later.");
+      }
     }
   };
 
