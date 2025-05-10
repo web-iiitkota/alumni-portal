@@ -20,11 +20,14 @@ import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import EmailVerification from '../components/EmailVerification';
 
 const SignUp = () => {
   const [currentDiv, setCurrentDiv] = useState(0);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isEmailVerified, setIsEmailVerified] = useState(false);
+  const [isExistingUser, setIsExistingUser] = useState(false);
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
@@ -118,6 +121,11 @@ const SignUp = () => {
       return;
     }
 
+    if (!isEmailVerified) {
+      toast.error('Please verify your email before registration');
+      return;
+    }
+
     setLoading(true);
 
     const formDataObj = new FormData();
@@ -130,8 +138,12 @@ const SignUp = () => {
     }
 
     try {
+      const endpoint = isExistingUser 
+        ? "https://alumni-api.iiitkota.in/api/auth/update-profile"
+        : "https://alumni-api.iiitkota.in/api/auth/signup";
+
       const response = await axios.post(
-        "https://alumni-api.iiitkota.in/api/auth/signup",
+        endpoint,
         formDataObj,
         {
           headers: {
@@ -162,14 +174,16 @@ const SignUp = () => {
       setFileName("No file chosen");
       setCurrentDiv(0);
       setLoading(false);
+      setIsEmailVerified(false);
+      setIsExistingUser(false);
 
-      toast.success("Registration Successful");
+      toast.success(isExistingUser ? "Profile updated successfully" : "Registration Successful");
 
       setTimeout(() => {
         navigate("/signin");
       }, 3000);
     } catch (error) {
-      console.error("There was an error registering the user:", error);
+      console.error("There was an error:", error);
 
       if (
         error.response &&
@@ -179,7 +193,7 @@ const SignUp = () => {
         toast.error(error.response.data.message);
       } else {
         toast.error(
-          "There was an error registering the user. Please try again later."
+          "There was an error. Please try again later."
         );
       }
       setLoading(false);
@@ -189,6 +203,22 @@ const SignUp = () => {
   const handleLogoClick = () => {
     window.location.href = "https://alumni.iiitkota.ac.in";
   };
+
+  const verificationDiv = (
+    <div className="h-full w-full flex flex-col justify-center max-md:items-center">
+      <h2 className="text-3xl text-center md:text-start font-bold text-[#19194D] mb-6">
+        Email Verification <span className="text-sm text-gray-500">(Required)</span>
+      </h2>
+      <EmailVerification
+        instituteId={formData.instituteId}
+        personalEmail={formData.personalEmail}
+        onVerificationComplete={(isExisting) => {
+          setIsEmailVerified(true);
+          setIsExistingUser(isExisting);
+        }}
+      />
+    </div>
+  );
 
   const divs = [
     // Page 1
@@ -262,6 +292,7 @@ const SignUp = () => {
         </select>
       </div>
     </div>,
+    verificationDiv,
     // Page 2
     <div className="h-full w-full flex flex-col justify-center max-md:items-center">
       <h2 className="text-3xl text-center md:text-start font-bold text-[#19194D] mb-6">

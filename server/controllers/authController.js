@@ -5,6 +5,7 @@ const { JWT_SECRET } = require("../config/config");
 const cloudinary = require("../config/cloudinary.js");
 const streamifier = require("streamifier");
 const { sendEmail } = require('../utils/emailUtil');
+const VerificationCode = require('../models/VerificationCode');
 
 exports.signUp = async (req, res) => {
   const {
@@ -26,6 +27,18 @@ exports.signUp = async (req, res) => {
   } = req.body;
 
   try {
+    // Check if email is verified
+    const verification = await VerificationCode.findOne({ 
+      instituteId,
+      isVerified: true
+    });
+
+    if (!verification) {
+      return res.status(400).json({ 
+        message: "Please verify your email before registration" 
+      });
+    }
+
     // Check if a user with the same email exists
     const existingUserByEmail = await User.findOne({ personalEmail });
     if (existingUserByEmail) {
@@ -62,8 +75,8 @@ exports.signUp = async (req, res) => {
     }
 
     // Hash the password before saving
-    const salt = await bcrypt.genSalt(10); // Generate a salt
-    const hashedPassword = await bcrypt.hash(password, salt); // Hash the password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     // Save user data to the database
     const user = new User({
@@ -81,17 +94,20 @@ exports.signUp = async (req, res) => {
       role,
       linkedin,
       achievements,
-      password: hashedPassword, // Save the hashed password
+      password: hashedPassword,
       profilePicture: profilePictureUrl,
-      profilePicturePublicId, // Add the public ID here
+      profilePicturePublicId,
     });
 
     await user.save();
 
-    // Send email with login details
-    await sendEmail(personalEmail, name, instituteId, password);
+    // Delete the verification code after successful registration
+    await VerificationCode.findOneAndDelete({ instituteId });
 
-    res.status(201).json({ message: "User registered successfully and email sent" });
+    // Send welcome email
+    await sendEmail(instituteId, name, password);
+
+    res.status(201).json({ message: "User registered successfully and email sent to institute email" });
 
   } catch (error) {
     console.error(error.message);
