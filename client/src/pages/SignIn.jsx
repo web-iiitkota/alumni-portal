@@ -14,7 +14,10 @@ function SignIn() {
   const navigate = useNavigate(); // Hook for navigation
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    // Convert instituteId to lowercase, leave other fields unchanged
+    const processedValue = name === 'instituteId' ? value.toLowerCase() : value;
+    setFormData({ ...formData, [name]: processedValue });
   };
 
   const handleSubmit = async (e) => {
@@ -91,7 +94,7 @@ function SignIn() {
               name="instituteId"
               value={formData.instituteId}
               onChange={handleChange}
-              placeholder="Institute ID"
+              placeholder="Institute ID (e.g. 2020kucp1077)"
               required
               className="w-full px-4 py-3 border border-[#0E407C] rounded-md focus:outline-none focus:ring-1 focus:ring-[#0E407C]"
             />

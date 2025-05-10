@@ -202,7 +202,7 @@ const Directory = () => {
 						<div className="w-full h-auto bg-white p-4 shadow-md rounded-lg flex flex-col gap-3">
 							<div className="flex items-center">
 								<p className="text-lg font-semibold text-gray-800">
-									Found {totalCount} alumni
+									{totalCount} alumni
 								</p>
 								<div className="hidden xl:flex gap-2 ml-auto">
 									{!loading && totalCount > 0 && (

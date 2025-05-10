@@ -52,17 +52,20 @@ const SignUp = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
+    // Convert instituteId to lowercase, leave other fields unchanged
+    const processedValue = name === 'instituteId' ? value.toLowerCase() : value;
+
     // Update the form data
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value,
+      [name]: processedValue,
     }));
 
     // If the instituteId field is being updated
     if (name === "instituteId") {
       // Extract the year and branch from the instituteId
-      const year = value.substring(0, 4); // First 4 digits represent the year
-      const branchCode = value.substring(4, 8); // Next 4 characters represent the branch code (kucp or kuec)
+      const year = processedValue.substring(0, 4); // First 4 digits represent the year
+      const branchCode = processedValue.substring(4, 8); // Next 4 characters represent the branch code (kucp or kuec)
 
       // Determine the branch based on the branch code
       let branch = "";
