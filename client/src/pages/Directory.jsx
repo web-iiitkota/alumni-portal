@@ -6,6 +6,7 @@ import AlumniCard from "../components/AlumniCard.jsx";
 import SignInPrompt from "./SignInPrompt"; // Import the SignInPrompt component
 import AlumniVisualizations from "../components/AlumniVisualizations";
 import AnalyticsIcon from '@mui/icons-material/Analytics';
+import CloseIcon from '@mui/icons-material/Close';
 
 const Directory = () => {
 	const [alumni, setAlumni] = useState([]);
@@ -89,6 +90,18 @@ const Directory = () => {
 
 	const toggleFilterModal = () => {
 		setShowFilterModal(!showFilterModal); // Toggle filter modal visibility
+	};
+
+	const handleRemoveGraduationYearFilter = () => {
+		setFilters(prev => ({
+			...prev,
+			graduationYear: ""
+		}));
+		setAppliedFilters(prev => ({
+			...prev,
+			graduationYear: ""
+		}));
+		setCurrentPage(1);
 	};
 
 	return (
@@ -186,48 +199,67 @@ const Directory = () => {
 						</form>
 					</div>
 					<div className="xl:w-[80%] w-full flex flex-col gap-2 h-full pb-1">
-						<div className="w-full h-auto bg-white p-4 shadow-md rounded-lg flex items-center">
-							<p className="text-lg font-semibold text-gray-800">
-								Found {totalCount} alumni
-							</p>
-							<div className="hidden xl:flex gap-2 ml-auto">
-								{!loading && totalCount > 0 && (
-									<>
-										<button
-											onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-											disabled={currentPage === 1}
-											className="px-3 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
-										>
-											Previous
-										</button>
-										<span className="text-gray-700">
-											Page {currentPage} of {totalPages}
+						<div className="w-full h-auto bg-white p-4 shadow-md rounded-lg flex flex-col gap-3">
+							<div className="flex items-center">
+								<p className="text-lg font-semibold text-gray-800">
+									Found {totalCount} alumni
+								</p>
+								<div className="hidden xl:flex gap-2 ml-auto">
+									{!loading && totalCount > 0 && (
+										<>
+											<button
+												onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+												disabled={currentPage === 1}
+												className="px-3 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+											>
+												Previous
+											</button>
+											<span className="text-gray-700">
+												Page {currentPage} of {totalPages}
+											</span>
+											<button
+												onClick={() => setCurrentPage(prev => prev + 1)}
+												disabled={currentPage === totalPages}
+												className="px-3 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+											>
+												Next
+											</button>
+										</>
+									)}
+								</div>
+								<div className="flex gap-2 ml-auto">
+									<button
+										onClick={() => setShowVisualizationModal(true)}
+										className="flex items-center gap-2 bg-blue-950 text-white font-semibold py-2 px-4 rounded-lg hover:bg-[#19194D] transition-all duration-300"
+									>
+										<AnalyticsIcon />
+										<span className="hidden sm:inline">View Analytics</span>
+									</button>
+									<button
+										onClick={toggleFilterModal}
+										className="bg-blue-950 text-white font-semibold py-2 px-4 rounded-lg hover:bg-[#19194D] xl:hidden"
+									>
+										Toggle Filters
+									</button>
+								</div>
+							</div>
+							
+							{/* Selected Filter Chip */}
+							{appliedFilters.graduationYear && (
+								<div className="flex items-center gap-2">
+									<div className="flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-full">
+										<span className="text-sm font-medium text-blue-950">
+											Graduation Year: {appliedFilters.graduationYear}
 										</span>
 										<button
-											onClick={() => setCurrentPage(prev => prev + 1)}
-											disabled={currentPage === totalPages}
-											className="px-3 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+											onClick={handleRemoveGraduationYearFilter}
+											className="text-blue-950 hover:text-blue-700 transition-colors"
 										>
-											Next
+											<CloseIcon fontSize="small" />
 										</button>
-									</>
-								)}
-							</div>
-							<div className="flex gap-2 ml-auto">
-								<button
-									onClick={() => setShowVisualizationModal(true)}
-									className="flex items-center gap-2 bg-blue-950 text-white font-semibold py-2 px-4 rounded-lg hover:bg-[#19194D] transition-all duration-300"
-								>
-									<AnalyticsIcon />
-									<span className="hidden sm:inline">View Analytics</span>
-								</button>
-								<button
-									onClick={toggleFilterModal}
-									className="bg-blue-950 text-white font-semibold py-2 px-4 rounded-lg hover:bg-[#19194D] xl:hidden"
-								>
-									Toggle Filters
-								</button>
-							</div>
+									</div>
+								</div>
+							)}
 						</div>
 
 						{showFilterModal && (
