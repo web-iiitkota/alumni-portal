@@ -7,6 +7,7 @@ import SignInPrompt from "./SignInPrompt"; // Import the SignInPrompt component
 import AlumniVisualizations from "../components/AlumniVisualizations";
 import AnalyticsIcon from '@mui/icons-material/Analytics';
 import CloseIcon from '@mui/icons-material/Close';
+import Loader from "../components/Loader";
 
 const Directory = () => {
 	const [alumni, setAlumni] = useState([]);
@@ -360,11 +361,13 @@ const Directory = () => {
 							</div>
 						)}
 						<div className="w-full h-full overflow-y-scroll scrollbar-hide flex flex-wrap gap-4 justify-center">
-							{alumni.length === 0 ? (
+							{loading ? (
+								<Loader />
+							) : alumni.length === 0 ? (
 								<div className="h-full w-full flex justify-center items-center bg-white rounded-tr-md rounded-tl-md">
 									<p>No alumni found</p>
 								</div>
-								) : (
+							) : (
 								<div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-min">
 									{alumni.map((alumnus) => (
 									<AlumniCard key={alumnus._id} alumniData={alumnus} />
