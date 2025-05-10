@@ -76,7 +76,8 @@ const SignUp = () => {
       }
 
       // Calculate the graduation year (4 years after the start year)
-      const graduationYear = parseInt(year) + 4;
+      const startYear = parseInt(year);
+      const graduationYear = startYear + 4;
 
       // Update the branch and graduationYear fields
       setFormData((prevFormData) => ({
