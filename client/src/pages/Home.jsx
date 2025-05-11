@@ -101,12 +101,12 @@ const Home = () => {
 					>
 						<p className="count text-3xl lg:text-5xl font-bold">0</p>
 						<p className="text-center text-sm lg:text-xl text-[#38B6FF]">
-							Events Conducted
+							Events
 						</p>
 					</div>
 					<div
 						className="counter w-1/3 h-full flex flex-col gap-2 justify-center items-center text-white"
-						data-target="150"
+						data-target="200"
 						data-suffix="+"
 					>
 						<p className="count text-3xl lg:text-5xl font-bold">0</p>
@@ -120,7 +120,7 @@ const Home = () => {
 					>
 						<p className="count text-3xl lg:text-5xl font-bold">0</p>
 						<p className="text-center text-sm lg:text-xl text-[#38B6FF]">
-							Batches Graduated
+							Batches
 						</p>
 					</div>
 				</div>
