@@ -8,7 +8,7 @@ import PersonIcon from "@mui/icons-material/Person";
 import YoutubeIcon from "@mui/icons-material/YouTube";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Headroom from "react-headroom";
-import Avatar from "../assets/avatar.png"
+import Avatar from "../assets/avatar.png";
 import axios from "axios";
 import { Modal, Box, Button, Typography } from "@mui/material";
 
@@ -22,6 +22,27 @@ const TopLayer = () => {
 
 	useEffect(() => {
 		if (token) {
+			let decodedToken;
+			try {
+				// Decode the token
+				decodedToken = jwtDecode(token);
+			} catch (error) {
+				console.error("Invalid token:", error);
+				localStorage.removeItem("token");
+				setIsLoggedIn(false);
+				return;
+			}
+
+			// Check if the token is expired
+			const currentTime = Date.now() / 1000; // Current time in seconds
+			if (decodedToken.exp && decodedToken.exp < currentTime) {
+				console.error("Token has expired");
+				localStorage.removeItem("token");
+				setIsLoggedIn(false);
+				return;
+			}
+
+			// Fetch user data if the token is valid
 			setIsLoggedIn(true);
 			const fetchUser = async () => {
 				try {
@@ -33,6 +54,7 @@ const TopLayer = () => {
 					);
 					setUser(response.data);
 				} catch (error) {
+					console.error("Error fetching user data:", error.message);
 					setError(error.message);
 				}
 			};
@@ -75,7 +97,11 @@ const TopLayer = () => {
 									/>
 								) : (
 									<div className="bg-gray-400 w-full h-full">
-										<img src={Avatar} alt="" className="w-full h-full object-fill" />
+										<img
+											src={Avatar}
+											alt=""
+											className="w-full h-full object-fill"
+										/>
 									</div>
 								)}
 							</div>
@@ -125,12 +151,13 @@ const TopLayer = () => {
 				aria-labelledby="logout-modal-title"
 				aria-describedby="logout-modal-description"
 			>
-				<Box className="bg-white p-6 rounded shadow-lg w-80 mx-auto mt-24"
+				<Box
+					className="bg-white p-6 rounded shadow-lg w-80 mx-auto mt-24"
 					sx={{
-						position: 'absolute',
-						top: '35%',
-						left: '50%',
-						transform: 'translate(-50%, -50%)',
+						position: "absolute",
+						top: "35%",
+						left: "50%",
+						transform: "translate(-50%, -50%)",
 					}}
 				>
 					<h2 id="logout-modal-title" className="text-lg font-semibold mb-4">
