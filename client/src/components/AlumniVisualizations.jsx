@@ -83,6 +83,22 @@ const AlumniVisualizations = ({ isOpen, onClose }) => {
 							(processedData.role[alumnus.role] || 0) + 1;
 					});
 
+					// Helper function to get the top N entries
+					const getTopEntries = (data, limit) => {
+						return Object.entries(data)
+							.sort((a, b) => b[1] - a[1]) // Sort by count in descending order
+							.slice(0, limit) // Take the top N entries
+							.reduce((acc, [key, value]) => {
+								acc[key] = value;
+								return acc;
+							}, {});
+					};
+
+					// Limit data to top entries
+					processedData.city = getTopEntries(processedData.city, 25); // Top 25 cities
+					processedData.company = getTopEntries(processedData.company, 25); // Top 25 companies
+					processedData.role = getTopEntries(processedData.role, 15); // Top 15 roles
+
 					setChartData(processedData);
 				} catch (err) {
 					console.error("Error fetching analytics data:", err);
