@@ -5,8 +5,8 @@ import Footer from "../components/Footer";
 import AlumniCard from "../components/AlumniCard.jsx";
 import SignInPrompt from "./SignInPrompt"; // Import the SignInPrompt component
 import AlumniVisualizations from "../components/AlumniVisualizations";
-import AnalyticsIcon from '@mui/icons-material/Analytics';
-import CloseIcon from '@mui/icons-material/Close';
+import AnalyticsIcon from "@mui/icons-material/Analytics";
+import CloseIcon from "@mui/icons-material/Close";
 import Loader from "../components/Loader";
 
 const Directory = () => {
@@ -36,31 +36,31 @@ const Directory = () => {
 
 	useEffect(() => {
 		const fetchAlumni = async () => {
-		  try {
-			const response = await axios.get(
-			  "https://alumni-api.iiitkota.in/api/alumni",
-			// "http://localhost:5000/api/alumni",
-			  {
-				params: {
-				  page: currentPage,
-				  limit: itemsPerPage,
-				  ...appliedFilters
-				}
-			  }
-			);
-			setAlumni(response.data.alumni);
-			setTotalCount(response.data.totalCount);
-			setTotalPages(response.data.totalPages);
-			setGraduationYears(response.data.graduationYears);
-		  } catch (error) {
-			console.error("Error fetching alumni data:", error);
-		  } finally {
-			setLoading(false);
-		  }
+			try {
+				const response = await axios.get(
+					"https://alumni-api.iiitkota.in/api/alumni",
+					// "http://localhost:5000/api/alumni",
+					{
+						params: {
+							page: currentPage,
+							limit: itemsPerPage,
+							...appliedFilters,
+						},
+					}
+				);
+				setAlumni(response.data.alumni);
+				setTotalCount(response.data.totalCount);
+				setTotalPages(response.data.totalPages);
+				setGraduationYears(response.data.graduationYears);
+			} catch (error) {
+				console.error("Error fetching alumni data:", error);
+			} finally {
+				setLoading(false);
+			}
 		};
-	  
+
 		fetchAlumni();
-	  }, [currentPage, itemsPerPage, appliedFilters, token]);
+	}, [currentPage, itemsPerPage, appliedFilters, token]);
 
 	const handleFilterChange = (e) => {
 		setFilters({
@@ -73,34 +73,34 @@ const Directory = () => {
 		e.preventDefault();
 		setAppliedFilters(filters);
 		setCurrentPage(1); // Reset to first page when filters change
-	  };
-	  
-	  const handleReset = () => {
+	};
+
+	const handleReset = () => {
 		setFilters({
-		  name: "",
-		  instituteId: "",
-		  graduationYear: "",
-		  company: "",
-		  role: "",
-		  branch: "",
-		  city: "",
+			name: "",
+			instituteId: "",
+			graduationYear: "",
+			company: "",
+			role: "",
+			branch: "",
+			city: "",
 		});
 		setAppliedFilters({});
 		setCurrentPage(1);
-	  };
+	};
 
 	const toggleFilterModal = () => {
 		setShowFilterModal(!showFilterModal); // Toggle filter modal visibility
 	};
 
 	const handleRemoveGraduationYearFilter = () => {
-		setFilters(prev => ({
+		setFilters((prev) => ({
 			...prev,
-			graduationYear: ""
+			graduationYear: "",
 		}));
-		setAppliedFilters(prev => ({
+		setAppliedFilters((prev) => ({
 			...prev,
-			graduationYear: ""
+			graduationYear: "",
 		}));
 		setCurrentPage(1);
 	};
@@ -209,7 +209,9 @@ const Directory = () => {
 									{!loading && totalCount > 0 && (
 										<>
 											<button
-												onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+												onClick={() =>
+													setCurrentPage((prev) => Math.max(1, prev - 1))
+												}
 												disabled={currentPage === 1}
 												className="px-3 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
 											>
@@ -219,7 +221,7 @@ const Directory = () => {
 												Page {currentPage} of {totalPages}
 											</span>
 											<button
-												onClick={() => setCurrentPage(prev => prev + 1)}
+												onClick={() => setCurrentPage((prev) => prev + 1)}
 												disabled={currentPage === totalPages}
 												className="px-3 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
 											>
@@ -244,7 +246,7 @@ const Directory = () => {
 									</button>
 								</div>
 							</div>
-							
+
 							{/* Selected Filter Chip */}
 							{appliedFilters.graduationYear && (
 								<div className="flex items-center gap-2">
@@ -370,7 +372,7 @@ const Directory = () => {
 							) : (
 								<div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-min">
 									{alumni.map((alumnus) => (
-									<AlumniCard key={alumnus._id} alumniData={alumnus} />
+										<AlumniCard key={alumnus._id} alumniData={alumnus} />
 									))}
 								</div>
 							)}
@@ -378,21 +380,23 @@ const Directory = () => {
 						{!loading && totalCount > 0 && (
 							<div className="flex justify-center gap-4 mt-2 pb-2 xl:hidden">
 								<button
-								onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-								disabled={currentPage === 1}
-								className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+									onClick={() =>
+										setCurrentPage((prev) => Math.max(1, prev - 1))
+									}
+									disabled={currentPage === 1}
+									className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
 								>
-								Previous
+									Previous
 								</button>
 								<span className="px-4 py-2 text-gray-700">
-								Page {currentPage} of {totalPages}
+									Page {currentPage} of {totalPages}
 								</span>
 								<button
-								onClick={() => setCurrentPage(prev => prev + 1)}
-								disabled={currentPage === totalPages}
-								className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+									onClick={() => setCurrentPage((prev) => prev + 1)}
+									disabled={currentPage === totalPages}
+									className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
 								>
-								Next
+									Next
 								</button>
 							</div>
 						)}
@@ -400,12 +404,9 @@ const Directory = () => {
 				</div>
 			</div>
 			{/* <Footer /> */}
-
-			{/* Visualization Modal */}
 			<AlumniVisualizations
 				isOpen={showVisualizationModal}
 				onClose={() => setShowVisualizationModal(false)}
-				alumniData={alumni}
 			/>
 		</div>
 	);

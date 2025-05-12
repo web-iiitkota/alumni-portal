@@ -55,4 +55,18 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/all', async (req, res) => {
+  try {
+    // Fetch all alumni data without pagination
+    const alumni = await Alumni.find({})
+      .select('branch graduationYear role currentCompany city');
+
+    // Send the entire alumni data as a response
+    res.json({ alumni });
+  } catch (error) {
+    console.error('Error fetching all alumni:', error);
+    res.status(500).json({ error: 'Failed to fetch all alumni data' });
+  }
+});
+
 module.exports = router;

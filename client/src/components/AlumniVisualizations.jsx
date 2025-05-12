@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Modal, Box, Typography, IconButton, Tabs, Tab } from '@mui/material';
-import { Bar, Pie, Line } from 'react-chartjs-2';
+import { Modal, Box, Typography, IconButton, Tabs, Tab, CircularProgress } from '@mui/material';
+import { Bar, Pie } from 'react-chartjs-2';
+import axios from 'axios';
 import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
   BarElement,
   ArcElement,
   Title,
@@ -15,12 +14,10 @@ import {
 } from 'chart.js';
 import CloseIcon from '@mui/icons-material/Close';
 
-// Register ChartJS components
+// Register Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
-  PointElement,
-  LineElement,
   BarElement,
   ArcElement,
   Title,
@@ -28,56 +25,66 @@ ChartJS.register(
   Legend
 );
 
-const AlumniVisualizations = ({ isOpen, onClose, alumniData }) => {
+const AlumniVisualizations = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const [chartData, setChartData] = useState({
-    graduationYear: {},
-    branch: {},
-    city: {},
-    company: {},
-    role: {},
-  });
+  const [chartData, setChartData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (alumniData && alumniData.length > 0) {
-      // Process data for charts
-      const processedData = {
-        graduationYear: {},
-        branch: {},
-        city: {},
-        company: {},
-        role: {},
-      };
+    const fetchAndProcessData = async () => {
+      if (isOpen) {
+        try {
+          setLoading(true);
+          setError(null);
+          
+          // Fetch all alumni data from the new endpoint
+          const response = await axios.get('https://alumni-api.iiitkota.in/api/alumni/all');
+          const alumniData = response.data;
 
-      alumniData.forEach((alumni) => {
-        // Count graduation years
-        processedData.graduationYear[alumni.graduationYear] = 
-          (processedData.graduationYear[alumni.graduationYear] || 0) + 1;
-        
-        // Count branches
-        processedData.branch[alumni.branch] = 
-          (processedData.branch[alumni.branch] || 0) + 1;
-        
-        // Count cities
-        processedData.city[alumni.city] = 
-          (processedData.city[alumni.city] || 0) + 1;
-        
-        // Count companies
-        processedData.company[alumni.currentCompany] = 
-          (processedData.company[alumni.currentCompany] || 0) + 1;
-        
-        // Count roles
-        processedData.role[alumni.role] = 
-          (processedData.role[alumni.role] || 0) + 1;
-      });
+          // Process data for visualizations
+          const processedData = {
+            graduationYear: {},
+            branch: {},
+            city: {},
+            company: {},
+            role: {},
+          };
 
-      setChartData(processedData);
-    }
-  }, [alumniData]);
+          alumniData.forEach((alumnus) => {
+            // Count graduation years
+            processedData.graduationYear[alumnus.graduationYear] = 
+              (processedData.graduationYear[alumnus.graduationYear] || 0) + 1;
+            
+            // Count branches
+            processedData.branch[alumnus.branch] = 
+              (processedData.branch[alumnus.branch] || 0) + 1;
+            
+            // Count cities
+            processedData.city[alumnus.city] = 
+              (processedData.city[alumnus.city] || 0) + 1;
+            
+            // Count companies
+            processedData.company[alumnus.currentCompany] = 
+              (processedData.company[alumnus.currentCompany] || 0) + 1;
+            
+            // Count roles
+            processedData.role[alumnus.role] = 
+              (processedData.role[alumnus.role] || 0) + 1;
+          });
 
-  const handleTabChange = (event, newValue) => {
-    setActiveTab(newValue);
-  };
+          setChartData(processedData);
+        } catch (err) {
+          console.error('Error fetching analytics data:', err);
+          setError('Failed to load analytics data. Please try again later.');
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchAndProcessData();
+  }, [isOpen]);
 
   const createChartData = (data, label, backgroundColor) => {
     const labels = Object.keys(data).sort();
@@ -85,15 +92,13 @@ const AlumniVisualizations = ({ isOpen, onClose, alumniData }) => {
 
     return {
       labels,
-      datasets: [
-        {
-          label,
-          data: values,
-          backgroundColor,
-          borderColor: backgroundColor,
-          borderWidth: 1,
-        },
-      ],
+      datasets: [{
+        label,
+        data: values,
+        backgroundColor,
+        borderColor: backgroundColor,
+        borderWidth: 1,
+      }],
     };
   };
 
@@ -108,6 +113,8 @@ const AlumniVisualizations = ({ isOpen, onClose, alumniData }) => {
   };
 
   const renderChart = () => {
+    if (!chartData) return null;
+
     switch (activeTab) {
       case 0: // Graduation Year
         return (
@@ -228,33 +235,75 @@ const AlumniVisualizations = ({ isOpen, onClose, alumniData }) => {
           <CloseIcon />
         </IconButton>
 
-        <Typography
-          id="visualization-modal-title"
-          variant="h5"
-          component="h2"
-          sx={{ mb: 3, color: '#1A202C', fontWeight: 'bold' }}
-        >
-          Alumni Data Visualizations
-        </Typography>
+        {loading ? (
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            minHeight: '400px'
+          }}>
+            <CircularProgress />
+            <Typography variant="body1" sx={{ mt: 2 }}>
+              Loading Analytics...
+            </Typography>
+          </Box>
+        ) : error ? (
+          <Box sx={{ 
+            display: 'flex', 
+            flexDirection: 'column', 
+            alignItems: 'center', 
+            justifyContent: 'center', 
+            minHeight: '400px',
+            textAlign: 'center'
+          }}>
+            <Typography variant="h6" color="error" sx={{ mb: 2 }}>
+              {error}
+            </Typography>
+            <Typography variant="body2">
+              Please check your internet connection and try again.
+            </Typography>
+          </Box>
+        ) : (
+          <>
+            <Typography
+              variant="h5"
+              component="h2"
+              sx={{ 
+                mb: 3, 
+                color: '#1A202C', 
+                fontWeight: 'bold',
+                textAlign: 'center'
+              }}
+            >
+              Alumni Analytics Dashboard
+            </Typography>
 
-        <Tabs
-          value={activeTab}
-          onChange={handleTabChange}
-          variant="scrollable"
-          scrollButtons="auto"
-          sx={{ mb: 3 }}
-        >
-          <Tab label="Graduation Year" />
-          <Tab label="Branch" />
-          <Tab label="City" />
-          <Tab label="Company" />
-          <Tab label="Role" />
-        </Tabs>
+            <Tabs
+              value={activeTab}
+              onChange={(event, newValue) => setActiveTab(newValue)}
+              variant="scrollable"
+              scrollButtons="auto"
+              sx={{ 
+                mb: 3,
+                '& .MuiTabs-indicator': {
+                  backgroundColor: '#19194D',
+                }
+              }}
+            >
+              <Tab label="Graduation Year" />
+              <Tab label="Branch" />
+              <Tab label="City" />
+              <Tab label="Company" />
+              <Tab label="Role" />
+            </Tabs>
 
-        {renderChart()}
+            {chartData && renderChart()}
+          </>
+        )}
       </Box>
     </Modal>
   );
 };
 
-export default AlumniVisualizations; 
+export default AlumniVisualizations;
