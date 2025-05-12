@@ -85,7 +85,7 @@ const AlumniCard = ({ alumniData }) => {
 
   return (
     <>
-      <div className="bg-white h-48 p-4 rounded-lg shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out flex gap-4">
+      <div className="bg-white h-48 p-4 rounded-lg shadow-lg transition-shadow duration-300 ease-in-out flex gap-4">
         <div className='w-1/3 flex flex-col items-center justify-center'>
           <div className='w-24 h-24 border border-teal-500 rounded-full overflow-hidden flex items-center justify-center cursor-pointer shadow-md' onClick={() => openModal(alumniData.profilePicture || Avatar)}>
             <img src={getLowQualityImageUrl(alumniData.profilePicture)} alt="Profile" className='w-full h-full object-cover' />
