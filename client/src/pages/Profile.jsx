@@ -62,55 +62,65 @@ const Profile = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (token) {
-      let decodedToken;
-      try {
-        decodedToken = jwtDecode(token);
-      } catch (error) {
-        console.error("Invalid token:", error);
-        localStorage.removeItem("token");
-        navigate("/signin");
-        return;
-      }
-
-      // Ensure the token contains both the user's id and institute id
-      if (!decodedToken.id || !decodedToken.instituteId) {
-        console.error("Token missing required fields");
-        localStorage.removeItem("token");
-        navigate("/signin");
-        return;
-      }
-
-      const userIdFromToken = decodedToken.id;
-
-      // If the route param id matches the token's id, redirect to /profile/me
-      if (id === userIdFromToken) {
-        navigate("/profile/me");
-        return;
-      }
-
-      const fetchUser = async () => {
-        try {
-          const endpoint = id === "me" ? `/profile/me` : `/profile/${id}`;
-          const response = await axios.get(
-            `https://alumni-api.iiitkota.in/api${endpoint}`,
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
-          setUser(response.data);
-          setLoading(false);
-        } catch (error) {
-          setError(error.message);
-          setLoading(false);
-        }
-      };
-
-      fetchUser();
-    } else {
-      setLoading(false);
+  if (token) {
+    let decodedToken;
+    try {
+      // Decode the token
+      decodedToken = jwtDecode(token);
+    } catch (error) {
+      console.error("Invalid token:", error);
+      localStorage.removeItem("token");
+      navigate("/signin");
+      return;
     }
-  }, [id, token, navigate]);
+
+    // Check if the token is expired
+    const currentTime = Date.now() / 1000; // Current time in seconds
+    if (decodedToken.exp && decodedToken.exp < currentTime) {
+      console.error("Token has expired");
+      localStorage.removeItem("token");
+      navigate("/signin");
+      return;
+    }
+
+    // Ensure the token contains both the user's id and institute id
+    if (!decodedToken.id || !decodedToken.instituteId) {
+      console.error("Token missing required fields");
+      localStorage.removeItem("token");
+      navigate("/signin");
+      return;
+    }
+
+    const userIdFromToken = decodedToken.id;
+
+    // If the route param id matches the token's id, redirect to /profile/me
+    if (id === userIdFromToken) {
+      navigate("/profile/me");
+      return;
+    }
+
+    const fetchUser = async () => {
+      try {
+        const endpoint = id === "me" ? `/profile/me` : `/profile/${id}`;
+        const response = await axios.get(
+          `https://alumni-api.iiitkota.in/api${endpoint}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setUser(response.data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  } else {
+    setLoading(false);
+  }
+}, [id, token, navigate]);
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
