@@ -9,22 +9,26 @@ const profileRoute = require("./routes/profileRoute"); // Ensure this is the cor
 const passwordRoutes = require("./routes/passwordRoutes"); // Import the password routes
 const verificationRoutes = require("./routes/verificationRoutes"); // Add this line
 
+const adminPanel = require("./routes/adminPanel")
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI; // MongoDB URI from .env
 
 app.use(express.json());
 const corsOptions = {
-	origin: [
-		'https://alumni.iiitkota.ac.in',
-		'https://www.alumni.iiitkota.ac.in',
-		'http://alumni.iiitkota.ac.in',
-		'http://www.alumni.iiitkota.ac.in',
-		'https://*.alumni.iiitkota.ac.in',
-		'http://*.alumni.iiitkota.ac.in'
-	],
-	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-	credentials: true,
+	// origin: [
+	// 	'https://alumni.iiitkota.ac.in',
+	// 	'https://www.alumni.iiitkota.ac.in',
+	// 	'http://alumni.iiitkota.ac.in',
+	// 	'http://www.alumni.iiitkota.ac.in',
+	// 	'https://*.alumni.iiitkota.ac.in',
+	// 	'http://*.alumni.iiitkota.ac.in',
+	// 	'http://localhost:5173/'
+	// ],
+	origin:"*",
+	// methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+	// credentials: true,
 	optionsSuccessStatus: 200
 };
 
@@ -57,6 +61,10 @@ app.use("/api/profile", profileRoute);
 app.use("/api/password", passwordRoutes); // Add the password routes
 app.use("/api/verification", verificationRoutes); // Add this line
 app.use("/api/register", require("./routes/register"));
+
+
+
+app.use("/api/admin", adminPanel)
 
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);

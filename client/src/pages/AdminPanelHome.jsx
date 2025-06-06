@@ -1,0 +1,457 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+import axios from "axios";
+
+
+function AlumniList() {
+
+    const [alumni, setAlumni] = useState([])
+    const [filters, setFilters] = useState({
+        name: "",
+        instituteId: "",
+        graduationYear: "",
+        company: "",
+        role: "",
+        branch: "",
+        city: "",
+    })
+
+    const [currentPage, setCurrentPage] = useState(14);
+    let [itemsPerPage, setItemsPerPage] = useState(20);
+    let [totalPages, setTotalPages] = useState(1);
+    let [totalCount, setTotalCount] = useState(0);
+    let [loading, setLoading] = useState(1);
+
+    let [appliedFilters, setAppliedFilters] = useState({});
+
+    const fetchAlumni = async () => {
+        try {
+            const response = await axios.get(
+                // "https://alumni-api.iiitkota.in/api/admin/alumni",
+                "http://localhost:5000/api/admin/alumni",
+                {
+                    params: {
+                        page: currentPage,
+                        limit: itemsPerPage,
+                        ...appliedFilters,
+
+                    }
+                }
+            );
+
+            setAlumni(response.data.alumni);
+            setTotalCount(response.data.totalCount);
+            setTotalPages(response.data.totalPages);
+
+            setLoading(true)
+
+        } catch (error) {
+            console.error("Error fetching alumni data: ", error);
+        } finally {
+            setLoading(false);
+        }
+
+
+    };
+
+    useEffect(() => {
+
+        fetchAlumni();
+    }, [currentPage, itemsPerPage, appliedFilters])
+
+
+    const handleFilterChange = (field, value) => {
+        setFilters((prev) => ({ ...prev, [field]: value }));
+    };
+
+    const handleFilterSubmit = (e) => {
+        e.preventDefault();
+        setAppliedFilters({ ...filters }); // Trigger useEffect to re-fetch
+        setCurrentPage(1); // Reset to page 1
+    };
+
+
+    const [editingId, setEditingId] = useState(null);
+    const [formData, setFormData] = useState({});
+
+    const handleEdit = (alumnus) => {
+        setEditingId(alumnus._id);
+        setFormData({ ...alumnus });
+    };
+
+    const handleChange = (field, value) => {
+        setFormData((prev) => ({ ...prev, [field]: value }));
+    };
+
+    const handleSave = async () => {
+        try {
+            let response = await axios.put(`http://localhost:5000/api/admin/alumni/${editingId}`, formData);
+
+            setAlumni((prev) =>
+                prev.map((a) => (a._id === editingId ? formData : a))
+            );
+
+            setEditingId(null);
+
+            console.log("updated", response.data)
+        } catch (error) {
+            console.error("Failed to update alumnus:", error);
+        }
+    };
+
+    const handleDelete = async (id) => {
+        try {
+            if (!window.confirm("Are you sure you want to delete this alumnus?")) return;
+
+            await axios.delete(`http://localhost:5000/api/admin/alumni/${id}`);
+
+            setAlumni((prev) => prev.filter((a) => a._id !== id));
+        } catch (error) {
+            console.error("Failed to delete alumnus:", error);
+        }
+    };
+
+    return (
+        <div className=" " >
+
+
+            {/* Search & Filters */}
+            <div className="  flex flex-wrap gap-2 px-4 mt-6 mb-3 items-center text-sm">
+                <input
+                    placeholder="Name"
+                    className="border p-1 rounded"
+                    value={filters.name}
+                    onChange={(e) => setFilters({ ...filters, name: e.target.value })}
+                />
+                <input
+                    placeholder="Institute ID"
+                    className="border p-1 rounded"
+                    value={filters.instituteId}
+                    onChange={(e) => setFilters({ ...filters, instituteId: e.target.value })}
+                />
+                <input
+                    placeholder="Graduation Year"
+                    className="border p-1 rounded"
+                    value={filters.graduationYear}
+                    onChange={(e) => setFilters({ ...filters, graduationYear: e.target.value })}
+                />
+                <input
+                    placeholder="Company"
+                    className="border p-1 rounded"
+                    value={filters.company}
+                    onChange={(e) => setFilters({ ...filters, company: e.target.value })}
+                />
+                <input
+                    placeholder="Role"
+                    className="border p-1 rounded"
+                    value={filters.role}
+                    onChange={(e) => setFilters({ ...filters, role: e.target.value })}
+                />
+                <input
+                    placeholder="Branch"
+                    className="border p-1 rounded"
+                    value={filters.branch}
+                    onChange={(e) => setFilters({ ...filters, branch: e.target.value })}
+                />
+                <input
+                    placeholder="City"
+                    className="border p-1 rounded"
+                    value={filters.city}
+                    onChange={(e) => setFilters({ ...filters, city: e.target.value })}
+                />
+                <button
+                    onClick={() => {
+                        setAppliedFilters(
+                            Object.fromEntries(
+                                Object.entries(filters).filter(([_, v]) => v !== "")
+                            )
+                        );
+                        setCurrentPage(1); // reset to first page when searching
+                    }}
+                    className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                    Search
+                </button>
+
+                <button
+                    onClick={() => {
+                        setFilters({
+                            name: "",
+                            instituteId: "",
+                            graduationYear: "",
+                            company: "",
+                            role: "",
+                            branch: "",
+                            city: "",
+                        });
+                        setAppliedFilters({});
+                        setCurrentPage(1);
+                    }}
+                    className="px-3 py-1 bg-gray-400 text-white rounded hover:bg-gray-500"
+                >
+                    Clear
+                </button>
+            </div>
+
+
+            <div className="flex items-center" >
+
+                <div className="text-sm flex items-center">
+                    <button
+                        className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 mx-2 disabled:opacity-50"
+                        onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                        disabled={currentPage === 1}
+                    >
+                        Prev
+                    </button>
+
+                    <p>Page {currentPage} of {totalPages}</p>
+
+                    <button
+                        className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 mx-2 disabled:opacity-50"
+                        onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                    >
+                        Next
+                    </button>
+                </div>
+
+
+                <div className="flex   px-4 text-sm items-center gap-2 mb-2">
+                    <label htmlFor="itemsPerPage">Rows per page:</label>
+                    <select
+                        id="itemsPerPage"
+                        value={itemsPerPage}
+                        onChange={(e) => {
+                            setItemsPerPage(Number(e.target.value));
+                            setCurrentPage(1); // reset to first page on change
+                        }}
+                        className="border p-1 rounded"
+                    >
+                        {[10, 20, 30, 50].map((num) => (
+                            <option key={num} value={num}>{num}</option>
+                        ))}
+                    </select>
+                </div>
+            </div>
+
+
+
+            <div className="mt-5 mb-1 ml-[120px] flex text-sm font-medium" >
+                <p className="min-w-[120px] max-w-[120px]" >Name</p>
+                <p className="min-w-[120px] max-w-[120px]">Linkedin</p>
+                <p className="min-w-[100px] max-w-[100px]" >Institute Id</p>
+                <p className="min-w-[60px] max-w-[60px]"  >Branch</p>
+                <p className="min-w-[60px] max-w-[60px]">Grad. Yr</p>
+                <p className="min-w-[120px] max-w-[120px]" >Role</p>
+                <p className="min-w-[120px] max-w-[120px]" >Current Company</p>
+                <p className="min-w-[90px] max-w-[90px]" >City</p>
+                <p className="min-w-[120px] max-w-[120px]">Email</p>
+                <p className="min-w-[90px] max-w-[90px]" >Phone. No.</p>
+                <p className="min-w-[100px] max-w-[100px]"  >Past Company</p>
+                <p className="min-w-[90px] max-w-[90px]" >State</p>
+                <p className="min-w-[90px] max-w-[90px]">Country</p>
+                <p>Achievements</p>
+
+            </div>
+
+            <div> laod: {loading}</div>
+
+            <div className={ loading ? "opacity-70" : "opacity-100" } >
+                {alumni.map((alumnus) => (
+                    <div key={alumnus._id} className="flex   items-center text-sm"  >
+
+                        {/* Left side buttons */}
+                        {editingId === alumnus._id ? (
+                            <button
+                                onClick={handleSave}
+                                className="bg-green-500 text-white w-[50px] px-[5px] py-[1px] rounded-[4px]"
+                            >
+                                Save
+                            </button>
+                        ) : (
+                            <button
+                                onClick={() => handleEdit(alumnus)}
+                                className="bg-blue-500 text-white w-[50px] px-[5px] py-[1px] rounded-[4px] "
+                            >
+                                Edit
+                            </button>
+                        )}
+
+                        <button
+                            onClick={() => handleDelete(alumnus._id)}
+                            className="bg-red-600 text-white px-2 mx-2 rounded w-[50px] px-[5px] py-[1px] rounded-[4px]"
+                        >
+                            Delete
+                        </button>
+
+                        {/* Editable/display fields */}
+
+                        {editingId === alumnus._id ? (
+                            <input
+                                className="p-[2px] bg-[#fcfcfc] border border-[#e2e2e2] min-w-[120px] max-w-[120px]"
+                                value={formData.name}
+                                onChange={(e) => handleChange("name", e.target.value)}
+                            />
+                        ) : (
+                            <p className="p-[2px] bg-[#fcfcfc] border border-[#e2e2e2] min-w-[120px] max-w-[120px]">{alumnus.name}</p>
+                        )}
+
+                        {editingId === alumnus._id ? (
+                            <input
+                                className="p-[2px] bg-[#fcfcfc] border border-[#e2e2e2] min-w-[120px] max-w-[120px] overflow-x-scroll"
+                                value={formData.linkedin}
+                                onChange={(e) => handleChange("linkedin", e.target.value)}
+                            />
+                        ) : (
+                            <p className="p-[2px] bg-[#fcfcfc] border border-[#e2e2e2] min-w-[120px] max-w-[120px] line-clamp-1 overflow-hidden">{alumnus.linkedin}</p>
+                        )}
+
+                        {editingId === alumnus._id ? (
+                            <input className="min-w-[100px] max-w-[100px] p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]"
+                                value={formData.instituteId}
+                                onChange={(e) => handleChange("instituteId", e.target.value)}
+                            />
+                        ) : (
+                            <p className="min-w-[100px] max-w-[100px] p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]" >{alumnus.instituteId}</p>
+                        )}
+
+                        {editingId === alumnus._id ? (
+                            <input className="p-[2px] bg-[#fcfcfc] border border-[#e2e2e2] min-w-[60px] max-w-[60px]"
+                                value={formData.branch}
+                                onChange={(e) => handleChange("branch", e.target.value)}
+                            />
+                        ) : (
+                            <p className="p-[2px] bg-[#fcfcfc] border border-[#e2e2e2] min-w-[60px] max-w-[60px]">{alumnus.branch}</p>
+                        )}
+
+                        {editingId === alumnus._id ? (
+                            <input className="p-[2px] bg-[#fcfcfc] border border-[#e2e2e2] min-w-[60px] max-w-[60px]"
+                                value={formData.graduationYear}
+                                onChange={(e) => handleChange("graduationYear", e.target.value)}
+                            />
+                        ) : (
+                            <p className="p-[2px] bg-[#fcfcfc] border border-[#e2e2e2] min-w-[60px] max-w-[60px]" >{alumnus.graduationYear}</p>
+                        )}
+
+                        {editingId === alumnus._id ? (
+                            <input
+                                className="min-w-[120px] max-w-[120px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]"
+                                value={formData.role}
+                                onChange={(e) => handleChange("role", e.target.value)}
+                            />
+                        ) : (
+                            <p className="min-w-[120px] max-w-[120px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]">{alumnus.role}</p>
+                        )}
+
+                        {editingId === alumnus._id ? (
+                            <input
+                                className="min-w-[120px] max-w-[120px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]"
+                                value={formData.currentCompany}
+                                onChange={(e) => handleChange("currentCompany", e.target.value)}
+                            />
+                        ) : (
+                            <p className="min-w-[120px] max-w-[120px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]">{alumnus.currentCompany}</p>
+                        )}
+
+                        {editingId === alumnus._id ? (
+                            <input className="min-w-[90px] max-w-[90px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]"
+                                value={formData.city}
+                                onChange={(e) => handleChange("city", e.target.value)}
+                            />
+                        ) : (
+                            <p className="min-w-[90px] max-w-[90px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]" >{alumnus.city}</p>
+                        )}
+
+                        {/* New fields */}
+
+                        {editingId === alumnus._id ? (
+                            <input
+                                className="min-w-[120px] max-w-[120px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]"
+                                value={formData.personalEmail || ""}
+                                onChange={(e) => handleChange("personalEmail", e.target.value)}
+                            />
+                        ) : (
+                            <p className="min-w-[120px] max-w-[120px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]">{alumnus.personalEmail}</p>
+                        )}
+
+                        {editingId === alumnus._id ? (
+                            <input className="min-w-[90px] max-w-[90px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]"
+                                value={formData.phoneNumber || ""}
+                                onChange={(e) => handleChange("phoneNumber", e.target.value)}
+                            />
+                        ) : (
+                            <p className="min-w-[90px] max-w-[90px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]">{alumnus.phoneNumber}</p>
+                        )}
+
+                        {editingId === alumnus._id ? (
+                            <input
+                                className="min-w-[100] max-w-[100px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]"
+                                value={formData.pastCompanies || ""}
+                                onChange={(e) => handleChange("pastCompanies", e.target.value)}
+                            />
+                        ) : (
+                            <p className="min-w-[100px] max-w-[100px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]">{alumnus.pastCompanies}</p>
+                        )}
+
+
+
+                        {/* New: state */}
+                        {editingId === alumnus._id ? (
+                            <input className="min-w-[90px] max-w-[90px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]"
+                                value={formData.state || ""}
+                                onChange={(e) => handleChange("state", e.target.value)}
+                            />
+                        ) : (
+                            <p className="min-w-[90px] max-w-[90px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]" >{alumnus.state}</p>
+                        )}
+
+                        {/* New: country */}
+                        {editingId === alumnus._id ? (
+                            <input className="min-w-[90px] max-w-[90px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]"
+                                value={formData.country || ""}
+                                onChange={(e) => handleChange("country", e.target.value)}
+                            />
+                        ) : (
+                            <p className="min-w-[90px] max-w-[90px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]" >{alumnus.country}</p>
+                        )}
+
+                        {editingId === alumnus._id ? (
+                            <input
+                                className="min-w-[90px] max-w-[90px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]"
+                                value={formData.achievements || ""}
+                                onChange={(e) => handleChange("achievements", e.target.value)}
+                            />
+                        ) : (
+                            <p className="min-w-[90px] max-w-[90px] line-clamp-1 p-[2px] bg-[#fcfcfc] border border-[#e2e2e2]">{alumnus.achievements}</p>
+                        )}
+
+
+                    </div>
+                ))}
+
+            </div>
+        </div>
+    );
+}
+
+export default function AdminPanelHome() {
+
+
+
+
+    return (
+        <div className="w-full h-full  custom-scrollbar bg-gray-100" >
+            <h1 className="text-center " >Admin Panel</h1>
+            <div className="flex gap-1" >
+                <button class="px-2 h-10 3xl:h-16 bg-[#ff6600] text-white font-semibold rounded-lg hover:bg-[#ff6600] transition-all duration-300 ease-in-out">Alumni</button>
+                <button class="px-2 h-10 3xl:h-16 bg-orange-800 text-white font-semibold rounded-lg hover:bg-[#ff6600] transition-all duration-300 ease-in-out">News</button>
+                <button class="px-2 h-10 3xl:h-16 bg-orange-800 text-white font-semibold rounded-lg hover:bg-[#ff6600] transition-all duration-300 ease-in-out">Events</button>
+
+            </div>
+
+            <AlumniList />
+        </div>
+    )
+}
