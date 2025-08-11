@@ -21,8 +21,7 @@ const corsOptions = {
 		'http://alumni.iiitkota.ac.in',
 		'http://www.alumni.iiitkota.ac.in',
 		'https://*.alumni.iiitkota.ac.in',
-		'http://*.alumni.iiitkota.ac.in',
-		'https://alumportal-iiitkotaofficial.onrender.com'
+		'http://*.alumni.iiitkota.ac.in'
 	],
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 	credentials: true,
