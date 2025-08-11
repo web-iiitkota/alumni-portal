@@ -139,8 +139,10 @@ const SignUp = () => {
 
     try {
       const endpoint = isExistingUser 
-        ? "https://alumni-api.iiitkota.in/api/profile/me"
-        : "https://alumni-api.iiitkota.in/api/auth/signup";
+        // ? "https://alumni-api.iiitkota.in/api/profile/me"
+        ? "https://alumportal-iiitkotaofficial.onrender.com/api/profile/me"
+        // : "https://alumni-api.iiitkota.in/api/auth/signup";
+        : "https://alumportal-iiitkotaofficial.onrender.com/api/auth/signup";
 
       console.log('Submitting form with data:', {
         isExistingUser,

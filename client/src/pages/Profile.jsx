@@ -93,7 +93,8 @@ const Profile = () => {
         try {
           const endpoint = id === "me" ? `/profile/me` : `/profile/${id}`;
           const response = await axios.get(
-            `https://alumni-api.iiitkota.in/api${endpoint}`,
+            // `https://alumni-api.iiitkota.in/api${endpoint}`,
+            `https://alumportal-iiitkotaofficial.onrender.com/api${endpoint}`,
             {
               headers: { Authorization: `Bearer ${token}` },
             }
@@ -184,7 +185,8 @@ const Profile = () => {
       }
 
       const response = await axios.put(
-        "https://alumni-api.iiitkota.in/api/profile/me",
+        // "https://alumni-api.iiitkota.in/api/profile/me",
+        "https://alumportal-iiitkotaofficial.onrender.com/api/profile/me",
         formData,
         {
           headers: {
@@ -209,7 +211,8 @@ const Profile = () => {
   const handleDeleteProfilePicture = async () => {
     try {
       await axios.delete(
-        "https://alumni-api.iiitkota.in/api/profile/me/profilePicture",
+        // "https://alumni-api.iiitkota.in/api/profile/me/profilePicture",
+        "https://alumportal-iiitkotaofficial.onrender.com/api/profile/me/profilePicture",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -226,7 +229,8 @@ const Profile = () => {
   const handleDeleteProfile = async () => {
     try {
       await axios.delete(
-        "https://alumni-api.iiitkota.in/api/profile/me",
+        // "https://alumni-api.iiitkota.in/api/profile/me",
+        "https://alumportal-iiitkotaofficial.onrender.com/api/profile/me",
         {
           headers: { Authorization: `Bearer ${token}` },
         }

@@ -48,7 +48,8 @@ const AlumniVisualizations = ({ isOpen, onClose }) => {
 
 					// Fetch all alumni data from the new endpoint
 					const response = await axios.get(
-						"https://alumni-api.iiitkota.in/api/alumni/all"
+						// "https://alumni-api.iiitkota.in/api/alumni/all"
+						"https://alumportal-iiitkotaofficial.onrender.com/api/alumni/all"
 					);
 					const alumniData = response.data.alumni; // Access the 'alumni' key
 
