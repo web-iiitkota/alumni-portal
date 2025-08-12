@@ -58,6 +58,11 @@ app.use("/api/password", passwordRoutes); // Add the password routes
 app.use("/api/verification", verificationRoutes); // Add this line
 app.use("/api/register", require("./routes/register"));
 
+// Health check route
+app.get("/api/health", (req, res) => {
+	res.status(200).json({ status: "ok" });
+});
+
 app.listen(PORT, () => {
 	console.log(`Server running on port ${PORT}`);
 });
