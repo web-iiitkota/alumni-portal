@@ -16,7 +16,7 @@ function ResetPassword() {
     try {
       await axios.post(
         // `http://localhost:5000/api/password/reset-password/${token}`,
-        `https://alumni-api.iiitkota.in/api/password/reset-password/${token}`,
+        `https://alumni-api.iiitkota.ac.in/api/password/reset-password/${token}`,
         { password },
         { headers: { "Content-Type": "application/json" } }
       );
