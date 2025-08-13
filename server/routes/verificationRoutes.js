@@ -33,7 +33,7 @@ router.post('/request-code', async (req, res) => {
     );
 
     // Construct institute email address
-    const instituteEmail = `${instituteId}@iiitkota.ac.in`;
+    const instituteEmail = `${instituteId.split("@")[0]}@iiitkota.ac.in`;
 
     // Send verification email
     const emailSubject = isExistingUser 
