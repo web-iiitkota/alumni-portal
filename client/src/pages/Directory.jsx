@@ -38,7 +38,7 @@ const Directory = () => {
 		const fetchAlumni = async () => {
 			try {
 				const response = await axios.get(
-					"https://alumni-api.iiitkota.in/api/alumni",
+					"https://alumni-api.iiitkota.ac.in/api/alumni",
 					// "http://localhost:5000/api/alumni",
 					{
 						params: {

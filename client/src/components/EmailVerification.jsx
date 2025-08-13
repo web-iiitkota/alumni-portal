@@ -11,7 +11,7 @@ const EmailVerification = ({ instituteId, personalEmail, onVerificationComplete 
   const handleRequestCode = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('https://alumni-api.iiitkota.in/api/verification/request-code', {
+      const response = await axios.post('https://alumni-api.iiitkota.ac.in/api/verification/request-code', {
         instituteId,
         personalEmail
       });
@@ -28,7 +28,7 @@ const EmailVerification = ({ instituteId, personalEmail, onVerificationComplete 
   const handleVerifyCode = async () => {
     try {
       setLoading(true);
-      const response = await axios.post('https://alumni-api.iiitkota.in/api/verification/verify-code', {
+      const response = await axios.post('https://alumni-api.iiitkota.ac.in/api/verification/verify-code', {
         instituteId,
         code: verificationCode
       });
