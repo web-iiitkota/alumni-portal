@@ -10,7 +10,7 @@ const passwordRoutes = require("./routes/passwordRoutes"); // Import the passwor
 const verificationRoutes = require("./routes/verificationRoutes"); // Add this line
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 7034;
 const MONGODB_URI = process.env.MONGODB_URI; // MongoDB URI from .env
 
 app.use(express.json());
@@ -21,7 +21,9 @@ const corsOptions = {
 		'http://alumni.iiitkota.ac.in',
 		'http://www.alumni.iiitkota.ac.in',
 		'https://*.alumni.iiitkota.ac.in',
-		'http://*.alumni.iiitkota.ac.in'
+		'http://*.alumni.iiitkota.ac.in',
+		'http://*.iiitkota.ac.in',
+		'https://*.iiitkota.ac.in',
 	],
 	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 	credentials: true,
@@ -42,10 +44,7 @@ app.use(cors(corsOptions));
 
 // Connect to MongoDB
 mongoose
-	.connect(MONGODB_URI, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
+	.connect(MONGODB_URI)
 	.then(() => console.log("Connected to MongoDB"))
 	.catch((err) => console.error("Failed to connect to MongoDB", err));
 
