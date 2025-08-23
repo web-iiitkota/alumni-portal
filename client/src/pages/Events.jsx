@@ -7,7 +7,7 @@ import { TextField, InputAdornment, IconButton, Button, useMediaQuery } from "@m
 import Carousel from "../components/CarouselEvents.jsx"; // Import the Carousel component
 import { useNavigate } from "react-router-dom";
 import eventsData from "../data/EventData.json"; // Import the JSON data
-
+import axios from "axios"
 const Events = () => {
   const rowRefs = useRef([]);
   const [isCarouselOpen, setIsCarouselOpen] = useState(false);
@@ -19,10 +19,36 @@ const Events = () => {
 
   const isMobile = useMediaQuery("(max-width: 768px)"); // Check if the view is mobile
 
+  // useEffect(() => {
+  //   setFilteredEvents(eventsData);
+  //   setInitialEvents(eventsData);
+  // }, []);
+
+
+
   useEffect(() => {
-    setFilteredEvents(eventsData);
-    setInitialEvents(eventsData);
-  }, []);
+  const fetchEvents = async () => {
+    try {
+      const res = await axios.get("http://localhost:5000/api/admin/eventposts");
+      const rawEvents = res.data.events;
+
+      const transformed = rawEvents.map((event) => ({
+        code: event._id,                   
+        heading: event.title,                
+        description: event.description,        
+        eventImages: event.images.map((img) => `http://localhost:5000${img.path}`)  ,
+        details: event.details,              
+        date: new Date(event.date).toDateString(),  
+      }));
+      setFilteredEvents(transformed);
+      setInitialEvents(transformed);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
+  fetchEvents();
+}, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -180,7 +206,7 @@ const Events = () => {
                   {event.heading}
                 </h1>
                 <p
-                  className="mt-3 md:text-lg text-sm text-[#19194D] leading-loose overflow-y-scroll scrollbar-hide mb-4"
+                  className="mt-3 w-full md:text-lg text-sm text-[#19194D] leading-loose overflow-y-scroll scrollbar-hide mb-4"
                   dangerouslySetInnerHTML={{ __html: event.description }}
                 />
                 <div className="w-full flex justify-between items-center mt-auto md:mb-3 -mb-4">

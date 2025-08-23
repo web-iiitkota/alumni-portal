@@ -2,6 +2,10 @@ require("dotenv").config(); // Load environment variables
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require('path');
+const cookieParser = require("cookie-parser");
+
+
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const alumniRoutes = require("./routes/alumni");
@@ -26,9 +30,9 @@ const corsOptions = {
 	// 	'http://*.alumni.iiitkota.ac.in',
 	// 	'http://localhost:5173/'
 	// ],
-	origin:"*",
+	origin:"http://localhost:5173",
 	// methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-	// credentials: true,
+	credentials: true,
 	optionsSuccessStatus: 200
 };
 
@@ -44,9 +48,11 @@ app.use((req, res, next) => {
 
 app.use(cors(corsOptions));
 
+app.use(cookieParser());
+
 // Connect to MongoDB
 mongoose
-	.connect(MONGODB_URI, {
+.connect(MONGODB_URI, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	})
@@ -54,6 +60,7 @@ mongoose
 	.catch((err) => console.error("Failed to connect to MongoDB", err));
 
 // Use routes
+app.use('/uploads/events', express.static(path.join(__dirname, 'uploads/events')));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/alumni", alumniRoutes);

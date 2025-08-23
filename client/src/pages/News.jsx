@@ -1,20 +1,45 @@
-import { useEffect, useState, useRef } from "react";
+  import { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/navbar";
 import NewsCard from "../components/NewsCard";
 import Footer from "../components/Footer.jsx";
 import { TextField, InputAdornment, IconButton, Button } from "@mui/material";
 import { Search, ArrowForward } from "@mui/icons-material";
-import newsData from "../data/newsData.json";
+import axios from 'axios'
+// import newsData from "../data/newsData.json";
 
 const News = () => {
   const { newsId } = useParams();
+  const [newsData, setNewsData] = useState([])
   const [searchInput, setSearchInput] = useState("");
   const [filteredNews, setFilteredNews] = useState(newsData);
   const rowRefs = useRef([]);
   const [visibleRows, setVisibleRows] = useState({});
 
   useEffect(() => {
+
+
+    const fetchNews = async () => {
+      try{
+        const res = await axios.get("http://localhost:5000/api/admin/news");
+        const rawNews = res.data.news;
+
+        const transformed = rawNews.map((news)=>({
+          id: news._id,
+          title: news.title,
+          content: news.content,
+          postedOn: new Date(news.postedOn).toDateString(),  
+        }))
+
+        setNewsData(transformed)
+
+      } catch(error) {
+        console.error(error)
+      }
+    }
+
+
+
     if (newsId) {
       setTimeout(() => {
         const element = document.getElementById(newsId);
@@ -24,8 +49,14 @@ const News = () => {
           window.scrollTo({ top: y, behavior: "smooth" });
         }
       }, 0);
+
+
+
     }
-  }, [newsId]);
+
+    setFilteredNews(newsData)
+    fetchNews()
+  }, [newsId, newsData]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
