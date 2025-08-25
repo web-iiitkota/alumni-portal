@@ -23,7 +23,7 @@ import News from './pages/News';
 import Sitemap from './pages/Sitemap';
 import AuthRedirect from './components/AuthRedirect';
 
-import AdminPanelHome from './pages/adminPanelHome';
+import AdminPanelHome from './pages/AdminPanelHome';
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
