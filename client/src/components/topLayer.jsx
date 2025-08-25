@@ -26,7 +26,7 @@ const TopLayer = () => {
 			const fetchUser = async () => {
 				try {
 					const response = await axios.get(
-						"https://alumni-api.iiitkota.in/api/profile/me",
+						"https://alumni-api.iiitkota.ac.in/api/profile/me",
 						{
 							headers: { Authorization: `Bearer ${token}` },
 						}

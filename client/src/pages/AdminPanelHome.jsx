@@ -6,7 +6,10 @@ import { AlumniList } from "./AdminAlumni";
 axios.defaults.withCredentials = true;
 import axios from "axios";
 
- 
+// let APIHOST = "http://localhost:5000";
+let APIHOST = "https://alumni-api.iiitkota.ac.in"
+
+
 
 function TabButton({ label, isActive, onClick }) {
   return (
@@ -35,7 +38,7 @@ export default function AdminPanelHome() {
 
   const checkAuth = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/protected");
+      const res = await axios.get(`${APIHOST}/api/admin/protected`);
       setAuth(res.data.access);
     } catch {
       setAuth(false);
@@ -47,7 +50,7 @@ export default function AdminPanelHome() {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post("http://localhost:5000/api/admin/login", { key });
+      const res = await axios.post(`${APIHOST}/api/admin/login`, { key });
       if (res.data.success) {
         await checkAuth();
       } else {
@@ -60,7 +63,7 @@ export default function AdminPanelHome() {
 
 
   const handleLogout = async () => {
-    await axios.post("http://localhost:5000/api/admin/logout");
+    await axios.post(`${APIHOST}/api/admin/logout`);
     setAuth(false);
     setKey("");
   };

@@ -82,6 +82,7 @@ const Directory = () => {
 
 	useEffect(() => {
 		const controller = new AbortController();
+		
 		const fetchAlumni = async () => {
 			try {
 				setLoading(true);
@@ -100,17 +101,19 @@ const Directory = () => {
 				setTotalCount(response.data.totalCount);
 				setTotalPages(response.data.totalPages);
 				setGraduationYears(response.data.graduationYears);
-				setLoading(false);
-
+				
 			} catch (error) {
 				if (error.name !== "CanceledError") {
 					console.error("Error fetching alumni data:", error);
 				}
 				setLoading(false);
-			}  
+			}  finally{
+				
+				setLoading(false);
+			}
 		};
 
-		fetchAlumni();
+		fetchAlumni(); 
 		return () => controller.abort();
 	}, [currentPage, itemsPerPage, appliedFilters]);
 
@@ -261,6 +264,10 @@ const Directory = () => {
 							</div>
 						</form>
 					</div>
+
+
+
+
 					<div className="xl:w-[80%] w-full  flex flex-col gap-2 h-full pb-1">
 						<div className="w-full h-auto bg-white p-4 shadow-md rounded-lg flex flex-col gap-3">
 							<div className="flex items-center">
@@ -424,15 +431,16 @@ const Directory = () => {
 								</div>
 							</div>
 						)}
-						<div className="w-full h-full scrollbar-hide flex flex-wrap gap-4 justify-center">
+						<div className="w-full h-full overflow-y-scroll scrollbar-hide flex flex-wrap gap-4 justify-center">
 							{loading ? (
 								<Loader />
 							) : alumni.length === 0 ? (
 								<div className="h-full w-full flex justify-center items-center bg-white rounded-tr-md rounded-tl-md">
+								<Loader />									
 									<p>No alumni found</p>
 								</div>
 							) : (
-								<div className=  "   h-[70vh]  overflow-y-scroll  grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-min">
+								<div className=  "grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-min">
 									{alumni.map((alumnus) => (
 										<AlumniCard key={alumnus._id} alumniData={alumnus} onOpenImage={openImage} />
 									))}
@@ -440,27 +448,29 @@ const Directory = () => {
 							)}
 						</div>
 						{!loading && totalCount > 0 && (
-							<div className="flex justify-center gap-4 mt-2 pb-2 xl:hidden">
-								<button
-									onClick={() =>
-										setCurrentPage((prev) => Math.max(1, prev - 1))
-									}
-									disabled={currentPage === 1}
-									className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
-								>
-									Previous
-								</button>
-								<span className="px-4 py-2 text-gray-700">
-									Page {currentPage} of {totalPages}
-								</span>
-								<button
-									onClick={() => setCurrentPage((prev) => prev + 1)}
-									disabled={currentPage === totalPages}
-									className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
-								>
-									Next
-								</button>
-							</div>
+
+						<div className="flex   justify-center gap-4 mt-2 pb-2 xl:hidden">
+							<button
+								onClick={() =>
+									setCurrentPage((prev) => Math.max(1, prev - 1))
+								}
+								disabled={currentPage === 1}
+								className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+							>
+								Previous
+							</button>
+							<span className="px-4 py-2 text-gray-700">
+								Page {currentPage} of {totalPages}
+							</span>
+							<button
+								onClick={() => setCurrentPage((prev) => prev + 1)}
+								disabled={currentPage === totalPages}
+								className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+							>
+								Next
+							</button>
+						</div>
+						 
 						)}
 					</div>
 				</div>

@@ -8,6 +8,8 @@ import CarouselEvents from "../components/CarouselEvents";
 import axios from "axios";
 
 
+
+
 const EventDetails = () => {
 	const { title } = useParams();
 	const [event, setEvent] = useState(null);

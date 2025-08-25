@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 
 import axios from "axios";
 
+// "https://alumni-api.iiitkota.in/api/admin/alumni", 
+let APIHOST = "https://alumni-api.iiitkota.ac.in"
+// let APIHOST = "http://localhost:5000";
+
 
 
 import jsPDF from "jspdf";
@@ -20,8 +24,7 @@ function DownloadAlumniPDFButton() {
         try {
             setStatus("Fetching List");
             const response = await axios.get(
-                // "https://alumni-api.iiitkota.in/api/admin/alumni", 
-                "http://localhost:5000/api/admin/alumni", 
+                `${APIHOST}/api/admin/alumni`, 
                 {
                 params: {
                     page: 1,
@@ -123,8 +126,6 @@ function DownloadAlumniPDFButton() {
 
 
 
-
-
 export function AlumniList() {
 
     const [alumni, setAlumni] = useState([])
@@ -148,8 +149,8 @@ export function AlumniList() {
 
     const fetchAlumni = async () => {
         try {
-            const response = await axios.get(
-                API,
+            const response = await axios.get(  
+                `${APIHOST}/api/admin/alumni`, 
                 {
                     params: {
                         page: currentPage,
@@ -206,15 +207,14 @@ export function AlumniList() {
 
     const handleSave = async () => {
         try {
-            let response = await axios.put(`http://localhost:5000/api/admin/alumni/${editingId}`, formData);
+            let response = await axios.put(`${APIHOST}/api/admin/alumni/${editingId}`, formData);
 
             setAlumni((prev) =>
                 prev.map((a) => (a._id === editingId ? formData : a))
             );
 
             setEditingId(null);
-
-            console.log("updated", response.data)
+ 
         } catch (error) {
             console.error("Failed to update alumnus:", error);
         }
@@ -224,7 +224,7 @@ export function AlumniList() {
         try {
             if (!window.confirm("Are you sure you want to delete this alumnus?")) return;
 
-            await axios.delete(`http://localhost:5000/api/admin/alumni/${id}`);
+            await axios.delete(`${APIHOST}/api/admin/alumni/${id}`);
 
             setAlumni((prev) => prev.filter((a) => a._id !== id));
         } catch (error) {

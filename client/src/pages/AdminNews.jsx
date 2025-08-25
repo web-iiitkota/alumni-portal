@@ -1,6 +1,11 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 
+
+// let APIHOST = "http://localhost:5000";
+let APIHOST = "https://alumni-api.iiitkota.ac.in"
+
+
 function WordEditor({ value, onChange, className }) {
   const editorRef = useRef();
 
@@ -212,7 +217,7 @@ export function NewsList() {
 
   const handleSave = async () => {
     try {
-      let response = await axios.put(`http://localhost:5000/api/admin/news/${editingId}`, formData);
+      let response = await axios.put(`${APIHOST}/api/admin/news/${editingId}`, formData);
 
       setNews((prev) =>
         prev.map((a) => (a._id === editingId ? { ...formData, _id: a._id } : a))
@@ -220,7 +225,7 @@ export function NewsList() {
 
       setEditingId(null);
 
-      console.log("updated", response.data)
+      
     } catch (error) {
       console.error("Failed to update news: ", error)
     }
@@ -235,7 +240,7 @@ export function NewsList() {
     try {
       setLoading(true)
       const response = await axios.get(
-        "http://localhost:5000/api/admin/news",
+        `${APIHOST}/api/admin/news`,
         {
           params: {
             page: currentPage,
@@ -251,7 +256,7 @@ export function NewsList() {
       setTotalCount(response.data.totalCount)
 
     } catch (error) {
-      console.log("Error feteching news data: ", error)
+      window.alert("Error feteching news data: ", error)
     } finally {
       setLoading(false)
     }
@@ -280,18 +285,17 @@ export function NewsList() {
     try {
       setUploadStatus("Uploading...");
 
-      const response = await axios.post("http://localhost:5000/api/admin/news", newPost);
+      const response = await axios.post(`${APIHOST}/api/admin/news`, newPost);
       setNews((prev) => [response.data.news, ...prev]);
       setNewPost({ title: "", content: "", postedOn: "" });
-      setShowAddForm(false);
-      console.log("Added new post:", response.data.news);
+      setShowAddForm(false); 
 
       setUploadStatus("Event created successfully!");
       setTimeout(() => {
         setUploadStatus("")
       }, 2000)
     } catch (error) {
-      console.error("Failed to add news post:", error);
+      window.alert("Failed to add news post:", error);
       setUploadStatus("Failed to create event.");
     }
   }
@@ -303,7 +307,7 @@ export function NewsList() {
 
     try {
       if (!window.confirm("Are you sure you want to delete this event? ")) return;
-      await axios.delete(`http://localhost:5000/api/admin/news/${id}`);
+      await axios.delete(`${APIHOST}/api/admin/news/${id}`);
 
       setNews((prev) => prev.filter((a) => a._id !== id));
     } catch (error) {

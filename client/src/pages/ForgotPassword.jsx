@@ -23,7 +23,7 @@ function ForgotPassword() {
 
     try {
       await axios.post(
-        "https://alumni-api.iiitkota.in/api/password/forgot-password",
+        "https://alumni-api.iiitkota.ac.in/api/password/forgot-password",
         { instituteId }, // Sending only the extracted instituteId
         { headers: { "Content-Type": "application/json" } }
       );

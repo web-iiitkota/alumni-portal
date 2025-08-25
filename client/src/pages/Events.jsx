@@ -8,6 +8,12 @@ import Carousel from "../components/CarouselEvents.jsx"; // Import the Carousel 
 import { useNavigate } from "react-router-dom";
 import eventsData from "../data/EventData.json"; // Import the JSON data
 import axios from "axios"
+
+
+// let APIHOST = "http://localhost:5000";
+let APIHOST = "https://alumni-api.iiitkota.ac.in"
+
+
 const Events = () => {
   const rowRefs = useRef([]);
   const [isCarouselOpen, setIsCarouselOpen] = useState(false);
@@ -29,14 +35,14 @@ const Events = () => {
   useEffect(() => {
   const fetchEvents = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/admin/eventposts");
+      const res = await axios.get(`${APIHOST}/api/admin/eventposts`);
       const rawEvents = res.data.events;
 
       const transformed = rawEvents.map((event) => ({
         code: event._id,                   
         heading: event.title,                
         description: event.description,        
-        eventImages: event.images.map((img) => `http://localhost:5000${img.path}`)  ,
+        eventImages: event.images.map((img) => `${APIHOST}${img.path}`)  ,
         details: event.details,              
         date: new Date(event.date).toDateString(),  
       }));

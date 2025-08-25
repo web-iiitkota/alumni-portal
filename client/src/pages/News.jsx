@@ -8,6 +8,11 @@ import { Search, ArrowForward } from "@mui/icons-material";
 import axios from 'axios'
 // import newsData from "../data/newsData.json";
 
+
+// let APIHOST = "http://localhost:5000";
+let APIHOST = "https://alumni-api.iiitkota.ac.in"
+
+
 const News = () => {
   const { newsId } = useParams();
   const [newsData, setNewsData] = useState([])
@@ -21,7 +26,7 @@ const News = () => {
 
     const fetchNews = async () => {
       try{
-        const res = await axios.get("http://localhost:5000/api/admin/news");
+        const res = await axios.get(`${APIHOST}/api/admin/news`);
         const rawNews = res.data.news;
 
         const transformed = rawNews.map((news)=>({

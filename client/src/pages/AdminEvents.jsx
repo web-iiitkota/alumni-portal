@@ -7,6 +7,9 @@ import { ClassNames } from '@emotion/react';
 
 
 
+let APIHOST = "https://alumni-api.iiitkota.ac.in"
+
+// let APIHOST = "http://localhost:5000";
 
 function WordEditor({ value, onChange, className }) {
   const editorRef = useRef();
@@ -209,7 +212,7 @@ export function AdminEvents() {
     if (!window.confirm('Are you sure you want to delete this event?')) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/admin/eventposts/${eventId}`);
+      await axios.delete(`${APIHOST}/api/admin/eventposts/${eventId}`);
       alert('Deleted successfully');
       setEvents(events.filter(event => event._id !== eventId));
     } catch (error) {
@@ -245,7 +248,7 @@ export function AdminEvents() {
     setLoading(true);
     try {
       const params = { ...filters, page, limit: itemsPerPage };
-      const res = await axios.get("http://localhost:5000/api/admin/eventposts", { params });
+      const res = await axios.get(`${APIHOST}/api/admin/eventposts`, { params });
       setEvents(res.data.events);
       setTotalPages(Math.ceil(res.data.total / itemsPerPage));
     } catch (err) {
@@ -320,7 +323,7 @@ export function AdminEvents() {
     }
 
     try {
-      const res = await axios.put(`http://localhost:5000/api/admin/eventposts/${eventId}`, formData, {
+      const res = await axios.put(`${APIHOST}/api/admin/eventposts/${eventId}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setEditingId(false);
@@ -342,7 +345,7 @@ export function AdminEvents() {
       );
 
     } catch (error) {
-      console.log("error from saveChanges", error)
+      window.alert("error saving changes", error)
     }
 
 
@@ -403,7 +406,7 @@ export function AdminEvents() {
 
     try {
       setUploadStatus("Uploading...");
-      const res = await axios.post("http://localhost:5000/api/admin/eventposts", formPayload, {
+      const res = await axios.post(`${APIHOST}/api/admin/eventposts`, formPayload, {
         headers: { "Content-Type": "multipart/form-data" },
         onUploadProgress: (progressEvent) => {
           const total = progressEvent.total;
@@ -421,7 +424,7 @@ export function AdminEvents() {
       setTimeout(()=>{
         setUploadStatus("")
       }, 2000)
-      console.log(res.data);
+      
       setFormData({ title: "", description: "", details: "", date: "" });
       fileInputRef.current.value = '';
       setFiles([]);

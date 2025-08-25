@@ -139,14 +139,14 @@ const SignUp = () => {
 
     try {
       const endpoint = isExistingUser
-        ? "https://alumni-api.iiitkota.in/api/profile/me"
-        : "https://alumni-api.iiitkota.in/api/auth/signup";
+        ? "https://alumni-api.iiitkota.ac.in/api/profile/me"
+        : "https://alumni-api.iiitkota.ac.in/api/auth/signup";
 
-      console.log('Submitting form with data:', {
-        isExistingUser,
-        isEmailVerified,
-        instituteId: formData.instituteId
-      });
+      // console.log('Submitting form with data:', {
+      //   isExistingUser,
+      //   isEmailVerified,
+      //   instituteId: formData.instituteId
+      // });
 
       const response = await axios({
         method: isExistingUser ? 'put' : 'post',
@@ -195,7 +195,7 @@ const SignUp = () => {
       if (error.response?.data?.message) {
         toast.error(error.response.data.message);
         if (error.response.data.details) {
-          console.log('Error details:', error.response.data.details);
+          // console.log('Error details:', error.response.data.details);
         }
       } else {
         toast.error("There was an error. Please try again later.");

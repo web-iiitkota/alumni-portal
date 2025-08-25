@@ -103,7 +103,7 @@ router.post("/eventposts", verifyAdmin, upload.array("images"), async (req, res)
 
     await eventPost.save();
 
-    console.log(eventPost._id)
+    // console.log(eventPost._id)
 
     // Rename files if they were initially saved with a temp name
 
@@ -113,7 +113,7 @@ router.post("/eventposts", verifyAdmin, upload.array("images"), async (req, res)
       }
 
     } catch (error) {
-      console.log("error here bruh", error)
+      // console.log("error here bruh", error)
     }
 
     res.status(201).json(eventPost);
@@ -158,7 +158,7 @@ router.put('/eventposts/:id', verifyAdmin, upload.array('images', 5), async (req
     const { title, description, details, date, deletedImages } = req.body;
 
 
-    console.log("files:", req.files, "deleted: ",  deletedImages)
+    // console.log("files:", req.files, "deleted: ",  deletedImages)
 
     const post = await Event.findById(id);
     if (!post) return res.status(404).json({ message: 'Event post not found' });
@@ -172,7 +172,7 @@ router.put('/eventposts/:id', verifyAdmin, upload.array('images', 5), async (req
     // Delete images if requested
     if (deletedImages) {
       const toDelete = JSON.parse(deletedImages);
-        console.log("Deleting images:", toDelete);
+        // console.log("Deleting images:", toDelete);
       post.images = post.images.filter(img => {
         if (toDelete.includes(img.uid)) {
           const filePath = path.join(__dirname, '..', img.path);
@@ -231,7 +231,7 @@ router.delete('/eventposts/:id', verifyAdmin, async (req, res) => {
     console.error('Error deleting event post:', error);
     res.status(500).json({ error: 'Failed to delete event post' });
 
-    console.log(error)
+    // console.log(error)
   }
 });
 
