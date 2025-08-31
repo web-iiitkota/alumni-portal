@@ -449,22 +449,22 @@ router.put('/alumni/:id', verifyAdmin, async (req, res) => {
 
 
 // DELETE alumni by ID
-// router.delete('/alumni/:id', verifyAdmin, async (req, res) => {
-//   try {
-//     const alumnusId = req.params.id;
+router.delete('/alumni/:id', verifyAdmin, async (req, res) => {
+  try {
+    const alumnusId = req.params.id;
 
-//     const deletedAlumnus = await Alumni.findByIdAndDelete(alumnusId);
+    const deletedAlumnus = await Alumni.findByIdAndDelete(alumnusId);
 
-//     if (!deletedAlumnus) {
-//       return res.status(404).json({ error: 'Alumnus not found' });
-//     }
+    if (!deletedAlumnus) {
+      return res.status(404).json({ error: 'Alumnus not found' });
+    }
 
-//     res.json({ message: 'Alumnus deleted successfully' });
-//   } catch (error) {
-//     console.error('Error deleting alumnus:', error);
-//     res.status(500).json({ error: 'Failed to delete alumnus' });
-//   }
-// });
+    res.json({ message: 'Alumnus deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting alumnus:', error);
+    res.status(500).json({ error: 'Failed to delete alumnus' });
+  }
+});
 
 module.exports = router
 
