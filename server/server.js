@@ -29,7 +29,7 @@ const corsOptions = {
 		'https://*.alumni.iiitkota.ac.in',
 		'http://*.alumni.iiitkota.ac.in', 
 	], 
-	// methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+	methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 	credentials: true,
 	optionsSuccessStatus: 200
 };
