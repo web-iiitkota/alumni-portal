@@ -18,7 +18,7 @@ router.post('/request-code', async (req, res) => {
     const code = crypto.randomInt(100000, 999999).toString();
     
     // Set expiration time (15 minutes from now)
-    const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000); 
 
     // Save or update verification code
     await VerificationCode.findOneAndUpdate(
@@ -33,7 +33,7 @@ router.post('/request-code', async (req, res) => {
     );
 
     // Construct institute email address
-    const instituteEmail = `${instituteId}@iiitkota.ac.in`;
+    const instituteEmail = `${instituteId.split("@")[0]}@iiitkota.ac.in`;
 
     // Send verification email
     const emailSubject = isExistingUser 

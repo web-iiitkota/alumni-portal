@@ -16,7 +16,7 @@ const verificationRoutes = require("./routes/verificationRoutes"); // Add this l
 const adminPanel = require("./routes/adminPanel")
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 7034;
 const MONGODB_URI = process.env.MONGODB_URI; // MongoDB URI from .env
 
 app.use(express.json());
