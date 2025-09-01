@@ -4,20 +4,52 @@ import Navbar from "../components/navbar";
 import Footer from "../components/Footer.jsx";
 import { Box, Typography, Paper, Divider, Button } from "@mui/material";
 import CarouselEvents from "../components/CarouselEvents";
-import eventsData from "../data/EventData.json"; // Import the JSON data
+// import eventsData from "../data/EventData.json"; // Import the JSON data
+import axios from "axios";
+
+
+
 
 const EventDetails = () => {
 	const { title } = useParams();
 	const [event, setEvent] = useState(null);
+	const[ loading, setLoading] = useState(true)
 	const [isCarouselOpen, setIsCarouselOpen] = useState(false);
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const fetchEvent = () => {
-			const eventCode = parseInt(title, 10);
-			const fetchedEvent = eventsData.find(event => event.code === eventCode);
-			setEvent(fetchedEvent);
+
+		const fetchEvent = async () => {
+			try {
+				const res = await axios.get("http://localhost:5000/api/admin/eventposts");
+				const rawEvents = res.data.events;
+
+				const transformed = rawEvents.map((event) => ({
+					code: event._id,
+					heading: event.title,
+					description: event.description,
+					eventImages: event.images.map((img) => `http://localhost:5000${img.path}`),
+					details: event.details,
+					date: new Date(event.date).toDateString(),
+				}));
+
+				const eventFetched = transformed.find(event => event.code === title)
+				setEvent(eventFetched); 
+				setLoading(false)
+			} catch (error) {
+				console.error("Error fetching events:", error);
+			}
 		};
+
+
+		// this is the old fetch:
+		// const fetchEvent = () => {
+		// 	const eventCode = parseInt(title, 10);
+		// 	const fetchedEvent = eventsData.find(event => event.code === eventCode);
+		// 	setEvent(fetchedEvent);
+		// };
+
+
 		fetchEvent();
 	}, [title]);
 
@@ -35,7 +67,7 @@ const EventDetails = () => {
 		return img.width === img.height;
 	};
 
-	if (!event) {
+	if (loading) {
 		return <Typography variant="h6">Event not found</Typography>;
 	}
 
@@ -57,14 +89,14 @@ const EventDetails = () => {
 							/>
 						</Box>
 					)}
-					<Typography sx={{ fontWeight: 'bold', mb: 2, textAlign: 'center', fontSize: {xs: '1.5rem', md: '2.5rem'} }}>
+					<Typography sx={{ fontWeight: 'bold', mb: 2, textAlign: 'center', fontSize: { xs: '1.5rem', md: '2.5rem' } }}>
 						{event.heading}
 					</Typography>
 					<Divider sx={{ my: 2 }} />
 					<Typography variant="body1" sx={{ mb: 2, textAlign: { xs: 'center', sm: 'left' } }} component="div">
 						<div dangerouslySetInnerHTML={{ __html: event.details }} />
 					</Typography>
-					<Typography sx={{  mb: 2, textAlign: 'right', color: 'gray' }}>
+					<Typography sx={{ mb: 2, textAlign: 'right', color: 'gray' }}>
 						Posted on {event.date}
 					</Typography>
 					<Divider sx={{ my: 2 }} />

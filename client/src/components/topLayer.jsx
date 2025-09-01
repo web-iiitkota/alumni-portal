@@ -113,6 +113,12 @@ const TopLayer = () => {
 									<span className="hover:underline hover:cursor-pointer">
 										Register
 									</span>
+								</a>{" "}
+								/{" "}
+								<a href="/admin">
+									<span className="hover:underline hover:cursor-pointer">
+										Admin
+									</span>
 								</a>
 							</p>
 						</div>

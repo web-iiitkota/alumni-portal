@@ -8,10 +8,19 @@ import Chetna from "../assets/chetna_ma'am.jpeg";
 import Partik from "../assets/partik_malasi.jpeg";
 import Dean from "../../public/assets/dean.png";
 
+import Dhiraj from "../assets/dhirajKushwaha.png"
+import Arijit from "../assets/arijitAjayKumar.png"
+import Nitesh from "../assets/niteshDixit.png"
+import Mahak from "../assets/mahakGupta.png"
+import Prachi from "../assets/prachiGupta.png"
+
+
+
+
 const profiles = [
   {
     name: "Hiteshwar Kaushik",
-    occupation: "3rd Year CSE",
+    occupation: "4rd Year CSE",
     image: Hiteshwar,
     linkedin: "https://www.linkedin.com/in/hiteshwarkaushik/",
     github: "https://www.github.com/coderkaushik",
@@ -19,7 +28,7 @@ const profiles = [
   },
   {
     name: "Partik Malasi",
-    occupation: "3rd Year CSE",
+    occupation: "4rd Year CSE",
     image: Partik,
     linkedin: "https://www.linkedin.com/in/partik-malasi-736686249/",
     github: "https://github.com/PartikMalasi",
@@ -27,12 +36,59 @@ const profiles = [
   },
   {
     name: "Kratin Aggrawal",
-    occupation: "3rd Year CSE",
+    occupation: "4rd Year CSE",
     image: Kratin,
     linkedin: "https://www.linkedin.com/in/kratin-aggarwal-691157257/",
     github: "https://www.github.com/coderkaushik",
     email: "kratin@example.com",
   },
+
+  {
+    name:"Arijit Ajay Kumar",
+    occupation: "3rd Year",
+    image: Arijit,
+    linkedin:"https://www.linkedin.com/in/arijitajaykumar/",
+    github:"https://github.com/techAkki-CMD",
+    email:"arijitajay.kumar@gmail.com"
+  },
+
+  {
+    name:"Nitesh Dixit",
+    occupation: "3rd Year ECE",
+    image: Nitesh,
+    linkedin:"https://www.linkedin.com/in/nitesh-kumar-680525290/",
+    github:"https://github.com/FlopCoder35",
+    email:"niteshdixit8957@gmail.com"
+  },
+
+   
+  {
+    name:"Dhiraj Kushwaha",
+    occupation: "2nd Year AIDE",
+    image: Dhiraj,
+    linkedin:"https://www.linkedin.com/in/dhirajkushwaha/",
+    github:"https://github.com/dhirajkushwaha",
+    email:"dhirajk.contact@gmail.com"
+  },
+
+  {
+    name:"Mahak Gupta",
+    occupation: "2nd Year CSE",
+    image: Mahak,
+    linkedin:"https://www.linkedin.com/in/mahak-gupta-718a86323/",
+    github:"https://github.com/MahakGupta390",
+    email:"mahakgupta985@gmail"
+  },
+
+  {
+    name:"Prachi Gupta",
+    occupation: "2nd Year CSE",
+    image: Prachi,
+    linkedin:"https://www.linkedin.com/in/prachi-gupta-74122a324",
+    github:"https://github.com/Prachi-Gupta2808",
+    email:"prachig2808@gmail.com"
+  } 
+
 ];
 
 const About = () => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import axios from "axios";
 import Navbar from "../components/navbar.jsx";
 import Footer from "../components/Footer";
@@ -8,6 +8,50 @@ import AlumniVisualizations from "../components/AlumniVisualizations";
 import AnalyticsIcon from "@mui/icons-material/Analytics";
 import CloseIcon from "@mui/icons-material/Close";
 import Loader from "../components/Loader";
+
+// Shared Modal for image preview
+const ImageModal = ({ isOpen, onClose, imageSrc }) => {
+	const modalRef = useRef(null);
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (modalRef.current && !modalRef.current.contains(event.target)) {
+				onClose();
+			}
+		};
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [onClose]);
+
+	if (!isOpen) return null;
+
+	return (
+		<div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+			<div
+				ref={modalRef}
+				className="relative w-80 h-80 md:w-96 md:h-96 bg-white rounded-lg shadow-lg overflow-hidden"
+			>
+				<img src={imageSrc} alt="Full size" className="w-full h-full object-cover" loading="lazy" />
+				<button
+					onClick={onClose}
+					className="absolute top-4 right-4 bg-gray-800 text-white p-2 rounded-full"
+				>
+					<svg
+						className="w-6 h-6"
+						fill="none"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+					</svg>
+				</button>
+			</div>
+		</div>
+	);
+};
 
 const Directory = () => {
 	const [alumni, setAlumni] = useState([]);
@@ -26,6 +70,8 @@ const Directory = () => {
 	const [showVisualizationModal, setShowVisualizationModal] = useState(false);
 	const [loading, setLoading] = useState(true);
 	const [token, setToken] = useState(localStorage.getItem("token")); // Get JWT token
+	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [selectedImage, setSelectedImage] = useState("");
 
 	//pagination  variables
 	const [currentPage, setCurrentPage] = useState(1);
@@ -35,8 +81,11 @@ const Directory = () => {
 	const [appliedFilters, setAppliedFilters] = useState({});
 
 	useEffect(() => {
+		const controller = new AbortController();
+		
 		const fetchAlumni = async () => {
 			try {
+				setLoading(true);
 				const response = await axios.get(
 					"https://alumni-api.iiitkota.ac.in/api/alumni",
 					// "http://localhost:5000/api/alumni",
@@ -46,21 +95,28 @@ const Directory = () => {
 							limit: itemsPerPage,
 							...appliedFilters,
 						},
+						signal: controller.signal,
 					}
 				);
 				setAlumni(response.data.alumni);
 				setTotalCount(response.data.totalCount);
 				setTotalPages(response.data.totalPages);
 				setGraduationYears(response.data.graduationYears);
+				
 			} catch (error) {
-				console.error("Error fetching alumni data:", error);
-			} finally {
+				if (error.name !== "CanceledError") {
+					console.error("Error fetching alumni data:", error);
+				}
+				setLoading(false);
+			}  finally{
+				
 				setLoading(false);
 			}
 		};
 
-		fetchAlumni();
-	}, [currentPage, itemsPerPage, appliedFilters, token]);
+		fetchAlumni(); 
+		return () => controller.abort();
+	}, [currentPage, itemsPerPage, appliedFilters]);
 
 	const handleFilterChange = (e) => {
 		setFilters({
@@ -93,6 +149,16 @@ const Directory = () => {
 		setShowFilterModal(!showFilterModal); // Toggle filter modal visibility
 	};
 
+	const openImage = useCallback((src) => {
+		setSelectedImage(src);
+		setIsModalOpen(true);
+	}, []);
+
+	const closeImage = useCallback(() => {
+		setIsModalOpen(false);
+		setSelectedImage("");
+	}, []);
+
 	const handleRemoveGraduationYearFilter = () => {
 		setFilters((prev) => ({
 			...prev,
@@ -110,7 +176,7 @@ const Directory = () => {
 			<Navbar />
 			<div className="h-[99vh] overflow-y-scroll scrollbar-hide mt-[9rem] max-w-980:mt-[100px] max-w-492:mt-[75px] md:px-2">
 				<div className="w-full h-full flex md:gap-4">
-					<div className="xl:w-[20%] w-0 xl:h-[70vh] md:h-[85vh] lg:h-[70vh] flex flex-col gap-4 xl:mt-2">
+					<div className=" stick xl:w-[20%] w-0 xl:h-[70vh] md:h-[85vh] lg:h-[70vh] flex flex-col gap-4 xl:mt-2">
 						<div className="mb-4 xl:mb-6 hidden xl:block">
 							<div className="text-2xl 3xl:text-4xl font-bold text-gray-800">
 								Add Filters
@@ -199,7 +265,11 @@ const Directory = () => {
 							</div>
 						</form>
 					</div>
-					<div className="xl:w-[80%] w-full flex flex-col gap-2 h-full pb-1">
+
+
+
+
+					<div className="xl:w-[80%] w-full  flex flex-col gap-2 h-full pb-1">
 						<div className="w-full h-auto bg-white p-4 shadow-md rounded-lg flex flex-col gap-3">
 							<div className="flex items-center">
 								<p className="text-lg font-semibold text-gray-800">
@@ -266,7 +336,7 @@ const Directory = () => {
 						</div>
 
 						{showFilterModal && (
-							<div className="fixed inset-0 z-50 flex items-center justify-center">
+							<div className="fixed  inset-0 z-50 flex items-center justify-center">
 								<div
 									className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
 									onClick={toggleFilterModal}
@@ -367,43 +437,47 @@ const Directory = () => {
 								<Loader />
 							) : alumni.length === 0 ? (
 								<div className="h-full w-full flex justify-center items-center bg-white rounded-tr-md rounded-tl-md">
+								<Loader />									
 									<p>No alumni found</p>
 								</div>
 							) : (
-								<div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-min">
+								<div className=  "grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-min">
 									{alumni.map((alumnus) => (
-										<AlumniCard key={alumnus._id} alumniData={alumnus} />
+										<AlumniCard key={alumnus._id} alumniData={alumnus} onOpenImage={openImage} />
 									))}
 								</div>
 							)}
 						</div>
 						{!loading && totalCount > 0 && (
-							<div className="flex justify-center gap-4 mt-2 pb-2 xl:hidden">
-								<button
-									onClick={() =>
-										setCurrentPage((prev) => Math.max(1, prev - 1))
-									}
-									disabled={currentPage === 1}
-									className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
-								>
-									Previous
-								</button>
-								<span className="px-4 py-2 text-gray-700">
-									Page {currentPage} of {totalPages}
-								</span>
-								<button
-									onClick={() => setCurrentPage((prev) => prev + 1)}
-									disabled={currentPage === totalPages}
-									className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
-								>
-									Next
-								</button>
-							</div>
+
+						<div className="flex   justify-center gap-4 mt-2 pb-2 xl:hidden">
+							<button
+								onClick={() =>
+									setCurrentPage((prev) => Math.max(1, prev - 1))
+								}
+								disabled={currentPage === 1}
+								className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+							>
+								Previous
+							</button>
+							<span className="px-4 py-2 text-gray-700">
+								Page {currentPage} of {totalPages}
+							</span>
+							<button
+								onClick={() => setCurrentPage((prev) => prev + 1)}
+								disabled={currentPage === totalPages}
+								className="px-4 py-1 bg-blue-950 text-white rounded-lg disabled:opacity-50 hover:bg-[#19194D] transition-colors"
+							>
+								Next
+							</button>
+						</div>
+						 
 						)}
 					</div>
 				</div>
 			</div>
 			{/* <Footer /> */}
+			<ImageModal isOpen={isModalOpen} onClose={closeImage} imageSrc={selectedImage} />
 			<AlumniVisualizations
 				isOpen={showVisualizationModal}
 				onClose={() => setShowVisualizationModal(false)}

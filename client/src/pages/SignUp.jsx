@@ -138,15 +138,15 @@ const SignUp = () => {
     }
 
     try {
-      const endpoint = isExistingUser 
+      const endpoint = isExistingUser
         ? "https://alumni-api.iiitkota.ac.in/api/profile/me"
         : "https://alumni-api.iiitkota.ac.in/api/auth/signup";
 
-      console.log('Submitting form with data:', {
-        isExistingUser,
-        isEmailVerified,
-        instituteId: formData.instituteId
-      });
+      // console.log('Submitting form with data:', {
+      //   isExistingUser,
+      //   isEmailVerified,
+      //   instituteId: formData.instituteId
+      // });
 
       const response = await axios({
         method: isExistingUser ? 'put' : 'post',
@@ -195,7 +195,7 @@ const SignUp = () => {
       if (error.response?.data?.message) {
         toast.error(error.response.data.message);
         if (error.response.data.details) {
-          console.log('Error details:', error.response.data.details);
+          // console.log('Error details:', error.response.data.details);
         }
       } else {
         toast.error("There was an error. Please try again later.");
@@ -487,6 +487,56 @@ const SignUp = () => {
   ];
 
   const nextDiv = () => {
+
+    if (currentDiv == 0) {
+
+      if (!formData.name.trim()) {
+        toast.error('Please enter your name');
+        return;
+      }
+
+      if (!validateFormData()) {
+        return;
+      }
+
+      // if (!isEmailVerified) {
+      //   toast.error('Please verify your email before registration');
+      //   return;
+      // }
+
+    }
+
+
+    if(currentDiv == 2){
+      if (!formData.personalEmail.trim()) {
+        toast.error('Please enter your Personal Email');
+        return;
+      }
+
+      if (!formData.phoneNumber.trim()) {
+        toast.error('Please enter your Contact Number');
+        return;
+      }
+
+      if (!formData.city.trim()) {
+        toast.error('Please enter your city');
+        return;
+      }
+
+      if (!formData.state.trim()) {
+        toast.error('Please enter your state');
+        return;
+      }
+
+
+      if (!formData.country.trim()) {
+        toast.error('Please enter your country');
+        return;
+      }
+
+      
+    }
+
     if (currentDiv < divs.length - 1) {
       setCurrentDiv(currentDiv + 1);
     }

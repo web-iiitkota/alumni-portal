@@ -236,7 +236,7 @@ const JobsPosting = () => {
 					handleCloseModal();
 				},
 				(error) => {
-					console.log("FAILED...", error.text);
+					// console.log("FAILED...", error.text);
 					toast.error("Email sending failed!");
 				}
 			);
