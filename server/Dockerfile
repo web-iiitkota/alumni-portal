@@ -13,11 +13,12 @@ RUN apk add --no-cache \
 
 # Install Bun
 RUN curl -fsSL https://bun.sh/install | bash
-ENV PATH="/root/.bun/bin:${PATH}"
+ENV BUN_INSTALL="/root/.bun"
+ENV PATH="$BUN_INSTALL/bin:${PATH}"
 
-# Install dependencies using lockfile for reproducibility
-COPY package.json bun.lockb ./
-RUN bun install --frozen-lockfile
+# Install dependencies
+COPY package.json ./
+RUN bun install
 
 # Copy app source
 COPY . .
