@@ -9,7 +9,7 @@ import axios from 'axios'
 // import newsData from "../data/newsData.json";
 
 
-// let APIHOST = "http://localhost:5000";
+// let APIHOST = "http://localhost:7034";
 let APIHOST = "https://alumni-api.iiitkota.ac.in"
 
 
@@ -20,6 +20,7 @@ const News = () => {
   const [filteredNews, setFilteredNews] = useState(newsData);
   const rowRefs = useRef([]);
   const [visibleRows, setVisibleRows] = useState({});
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
 
@@ -37,9 +38,10 @@ const News = () => {
         }))
 
         setNewsData(transformed)
-
+        setLoading(false)
       } catch(error) {
         console.error(error)
+        setLoading(false)
       }
     }
 
@@ -181,7 +183,11 @@ const News = () => {
         <div className="flex flex-col items-center gap-6 px-4 pb-6">
           {filteredNews.length === 0 ? (
             <div className="w-full h-[20rem] flex justify-center items-center">
-              <p className="text-xl text-gray-500">No news found</p>
+              {
+                loading == true ? <p> Loading News... </p> :  <p className="text-xl text-gray-500">No news found</p>
+              }
+              
+              
             </div>
           ) : (
             filteredNews.map((news, index) => (

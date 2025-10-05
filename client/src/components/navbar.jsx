@@ -57,7 +57,15 @@ const Navbar = () => {
           );
           setUser(response.data);
         } catch (error) {
-          setError(error.message);
+          if (error.response && error.response.status === 401) { 
+            // console.log("Token expired or invalid. Logging out...");
+            localStorage.removeItem("token");
+            setIsLoggedIn(false);
+            setUser(null);
+            window.location.reload();
+          } else {
+            setError(error.message);
+          }
         }
       };
       fetchUser();
@@ -119,11 +127,10 @@ const Navbar = () => {
           </div>
         </div>
         <div
-          className={`w-2/3 max-w-1464:w-[90%] max-w-980:w-[20%] h-full flex ${
-            window.innerWidth <= 980
+          className={`w-2/3 max-w-1464:w-[90%] max-w-980:w-[20%] h-full flex ${window.innerWidth <= 980
               ? "justify-center items-center"
               : "justify-end items-center pr-4"
-          }`}
+            }`}
         >
           <div className="w-auto px-6 h-full flex relative group items-center text-[#19194D] max-w-980:hidden max-w-1464:ml-44">
             <button
@@ -216,14 +223,12 @@ const Navbar = () => {
 
       {/* Mobile Menu Modal */}
       <div
-        className={`fixed top-2 right-2 md:right-8 w-[96vw] md:w-[60vw] h-auto flex items-center justify-center transition-opacity duration-300 ${
-          isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+        className={`fixed top-2 right-2 md:right-8 w-[96vw] md:w-[60vw] h-auto flex items-center justify-center transition-opacity duration-300 ${isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
       >
         <div
-          className={`bg-white border-b-8 border-[#0E407C] shadow-2xl w-full h-full p-6 transition-opacity duration-300 transform ${
-            isMobileMenuOpen ? "opacity-100" : "opacity-95"
-          }`}
+          className={`bg-white border-b-8 border-[#0E407C] shadow-2xl w-full h-full p-6 transition-opacity duration-300 transform ${isMobileMenuOpen ? "opacity-100" : "opacity-95"
+            }`}
         >
           <div className="flex justify-between items-center border-b border-gray-200 text-[#172B4D] pb-4">
             <div className="w-auto h-auto flex gap-2 justify-start items-center">
@@ -264,9 +269,8 @@ const Navbar = () => {
                   </div>
                 </button>
                 <div
-                  className={`pl-6 overflow-hidden transition-max-height duration-300 ease-in-out ${
-                    activeSubMenu === "alumni" ? "max-h-48" : "max-h-0"
-                  }`}
+                  className={`pl-6 overflow-hidden transition-max-height duration-300 ease-in-out ${activeSubMenu === "alumni" ? "max-h-48" : "max-h-0"
+                    }`}
                 >
                   <ul className="space-y-2 mt-2 text-sm font-normal border-l border-gray-200">
                     <li

@@ -9,7 +9,7 @@ import { ClassNames } from '@emotion/react';
 
 let APIHOST = "https://alumni-api.iiitkota.ac.in"
 
-// let APIHOST = "http://localhost:5000";
+// let APIHOST = "http://localhost:7034";
 
 function WordEditor({ value, onChange, className }) {
   const editorRef = useRef();
@@ -769,7 +769,7 @@ export function AdminEvents() {
                   {event.images.map(img => (
                     <div key={img.uid} className="relative">
                       <img
-                        src={`http://localhost:5000${img.path}`}
+                        src={`${APIHOST}${img.path}`}
                         alt={img.filename}
                         className="w-24 h-24 object-cover rounded-md"
                       />
@@ -847,7 +847,7 @@ export function AdminEvents() {
                     {event.images.map((img, idx) => (
                       <img
                         key={idx}
-                        src={`http://localhost:5000${img.path}`}
+                        src={`${APIHOST}${img.path}`}
                         alt={img.filename}
                         className="rounded-md h-32 object-cover"
                       />

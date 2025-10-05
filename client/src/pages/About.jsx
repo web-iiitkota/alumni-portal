@@ -45,7 +45,7 @@ const profiles = [
 
   {
     name:"Arijit Ajay Kumar",
-    occupation: "3rd Year",
+    occupation: "3rd Year CSE",
     image: Arijit,
     linkedin:"https://www.linkedin.com/in/arijitajaykumar/",
     github:"https://github.com/techAkki-CMD",
