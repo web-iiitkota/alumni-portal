@@ -6,7 +6,7 @@ import { AlumniList } from "./AdminAlumni";
 axios.defaults.withCredentials = true;
 import axios from "axios";
 
-// let APIHOST = "http://localhost:5000";
+// let APIHOST = "http://localhost:7034";
 let APIHOST = "https://alumni-api.iiitkota.ac.in"
 
 

@@ -9,6 +9,10 @@ import AnalyticsIcon from "@mui/icons-material/Analytics";
 import CloseIcon from "@mui/icons-material/Close";
 import Loader from "../components/Loader";
 
+// let APIHOST = "http://localhost:7034";
+let APIHOST = "https://alumni-api.iiitkota.ac.in"
+
+
 // Shared Modal for image preview
 const ImageModal = ({ isOpen, onClose, imageSrc }) => {
 	const modalRef = useRef(null);
@@ -87,8 +91,7 @@ const Directory = () => {
 			try {
 				setLoading(true);
 				const response = await axios.get(
-					"https://alumni-api.iiitkota.ac.in/api/alumni",
-					// "http://localhost:5000/api/alumni",
+					`${APIHOST}/api/alumni`, 
 					{
 						params: {
 							page: currentPage,
@@ -432,13 +435,15 @@ const Directory = () => {
 								</div>
 							</div>
 						)}
-						<div className="w-full h-full overflow-y-scroll scrollbar-hide flex flex-wrap gap-4 justify-center">
+						<div className="w-full h-full overflow-y-scroll scrollbar-hide flex  flex-wrap gap-4 justify-center">
 							{loading ? (
 								<Loader />
 							) : alumni.length === 0 ? (
-								<div className="h-full w-full flex justify-center items-center bg-white rounded-tr-md rounded-tl-md">
-								<Loader />									
-									<p>No alumni found</p>
+								<div className="h-full w-full gap-3 flex justify-center items-center bg-white rounded-tr-md rounded-tl-md">
+									<div className="h-[200px]" >
+										<Loader />	
+									</div>
+									<p></p>
 								</div>
 							) : (
 								<div className=  "grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-min">

@@ -8,7 +8,8 @@ import CarouselEvents from "../components/CarouselEvents";
 import axios from "axios";
 
 
-
+// let APIHOST = "http://localhost:7034";
+let APIHOST = "https://alumni-api.iiitkota.ac.in"
 
 const EventDetails = () => {
 	const { title } = useParams();
@@ -18,17 +19,16 @@ const EventDetails = () => {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-
 		const fetchEvent = async () => {
 			try {
-				const res = await axios.get("http://localhost:5000/api/admin/eventposts");
+				const res = await axios.get(`${APIHOST}/api/admin/eventposts`);
 				const rawEvents = res.data.events;
 
 				const transformed = rawEvents.map((event) => ({
 					code: event._id,
 					heading: event.title,
 					description: event.description,
-					eventImages: event.images.map((img) => `http://localhost:5000${img.path}`),
+					eventImages: event.images.map((img) => `${APIHOST}${img.path}`),
 					details: event.details,
 					date: new Date(event.date).toDateString(),
 				}));
@@ -68,7 +68,12 @@ const EventDetails = () => {
 	};
 
 	if (loading) {
-		return <Typography variant="h6">Event not found</Typography>;
+		return  (
+				<div className="flex h-[100vh] items-center justify-center" >
+					<Typography variant="h6">  <span className="text-white" >Loading Event Details... </span> </Typography>;
+
+				</div>)
+		
 	}
 
 	return (

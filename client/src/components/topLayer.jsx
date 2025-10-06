@@ -95,6 +95,15 @@ const TopLayer = () => {
 							>
 								<LogoutIcon style={{ fontSize: "1.2rem" }} />
 							</a>
+
+							<p className="text-white text-sm">
+								<a
+									href="/admin"
+									className="hover:underline flex justify-center items-center"
+								>
+									Admin
+								</a>
+							</p>
 						</div>
 					) : (
 						<div className="w-auto h-full flex gap-2">

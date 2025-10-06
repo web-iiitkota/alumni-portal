@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/Footer.jsx";
-import { Search as SearchIcon } from "@mui/icons-material";
+import { Search as SearchIcon, TrendingUp } from "@mui/icons-material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { TextField, InputAdornment, IconButton, Button, useMediaQuery } from "@mui/material";
 import Carousel from "../components/CarouselEvents.jsx"; // Import the Carousel component
@@ -10,7 +10,7 @@ import eventsData from "../data/EventData.json"; // Import the JSON data
 import axios from "axios"
 
 
-// let APIHOST = "http://localhost:5000";
+// let APIHOST = "http://localhost:7034";
 let APIHOST = "https://alumni-api.iiitkota.ac.in"
 
 
@@ -22,6 +22,7 @@ const Events = () => {
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [initialEvents, setInitialEvents] = useState([]);
   const [visibleRows, setVisibleRows] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const isMobile = useMediaQuery("(max-width: 768px)"); // Check if the view is mobile
 
@@ -48,8 +49,10 @@ const Events = () => {
       }));
       setFilteredEvents(transformed);
       setInitialEvents(transformed);
+      setLoading(false)
     } catch (error) {
       console.error("Error fetching events:", error);
+      setLoading(false)
     }
   };
 
@@ -111,7 +114,7 @@ const Events = () => {
   const navigate = useNavigate();
 
   const handleEventCardClick = (event) => {
-    navigate(`/events/${event.code}`, { state: { event } });
+    navigate(`/events/${event.code}`, { state: {event} });
   };
 
   return (
@@ -186,9 +189,17 @@ const Events = () => {
         </div>
 
         {/* Event Cards Section */}
+
+        
+
         {filteredEvents.length === 0 ? (
           <div className="w-full h-[20rem] flex justify-center items-center">
-            <p className="text-xl text-gray-500">No events found</p>
+
+            {
+              loading == true ? <p> Loading Events... </p> : <p className="text-xl text-gray-500">No events found</p>
+            }
+
+            
           </div>
         ) : (
           filteredEvents.map((event, index) => (
