@@ -100,7 +100,7 @@ const SignUp = () => {
   const validateFormData = () => {
     const instituteIdRegex = /^\d{4}(kucp|kuec)\d{4}$/;
 
-    if (!instituteIdRegex.test(formData.instituteId)) {
+    if (!instituteIdRegex.test(formData.instituteId.toLowerCase())) {
       alert("Invalid institute ID format.");
       return false;
     }
@@ -242,7 +242,7 @@ const SignUp = () => {
           className="w-full md:w-4/5 px-4 py-3 border border-[#0E407C] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#0E407C]"
         />
       </div>
-      <div className="mb-6 w-full flex items-center max-md:justify-center">
+      <div className=" w-full flex   items-center max-md:justify-center">
         <LockIcon className="text-[#19194D] mr-2" />
         <input
           type="text"
@@ -254,7 +254,9 @@ const SignUp = () => {
           required
           className="w-full md:w-4/5 px-4 py-3 border border-[#0E407C] rounded-lg focus:outline-none focus:ring-1 focus:ring-[#0E407C]"
         />
+        
       </div>
+        <p className="ml-10 mt-1  text-sm mb-6">Please enter Student ID not Institute Email ID</p>
       <div className="mb-6 w-full flex items-center max-md:justify-center">
         <ComputerIcon className="text-[#19194D] mr-2" />
         <select
