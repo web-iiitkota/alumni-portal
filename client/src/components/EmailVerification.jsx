@@ -46,7 +46,7 @@ const EmailVerification = ({ instituteId, personalEmail, onVerificationComplete 
 
   return (
     <div className="w-full flex flex-col items-center">
-      <h2 className="text-2xl font-bold text-[#19194D] mb-6">Email Verification</h2>
+      {/* <h2 className="text-2xl font-bold text-[#19194D] mb-6">Email Verification</h2> */}
       
       {!codeSent ? (
         <button
