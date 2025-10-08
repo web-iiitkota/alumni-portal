@@ -507,7 +507,15 @@ const SignUp = () => {
     }
 
 
-    if(currentDiv == 2){
+    if (currentDiv == 1) {
+      if (!isEmailVerified) {
+        toast.error('Please verify your email before registration');
+        return;
+      }
+    }
+
+
+    if (currentDiv == 2) {
       if (!formData.personalEmail.trim()) {
         toast.error('Please enter your Personal Email');
         return;
@@ -534,7 +542,7 @@ const SignUp = () => {
         return;
       }
 
-      
+
     }
 
     if (currentDiv < divs.length - 1) {
